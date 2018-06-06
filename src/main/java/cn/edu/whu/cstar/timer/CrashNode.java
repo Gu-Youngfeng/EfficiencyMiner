@@ -129,10 +129,10 @@ public class CrashNode {
 	String getTopLine(List<String> crash){
 		String topLine = "";
 		
-		for(String line: crash){
-			if((line.startsWith("\tat org.") || line.startsWith("\tat com.j256")) 
-					&& !line.contains("Test.java")){
-				topLine = line;
+		for(int i=0; i<crash.size(); i++){
+			if((crash.get(i).startsWith("\tat org.") || crash.get(i).startsWith("\tat com.j256")) 
+					&& !crash.get(i).contains("Test.java") && !crash.get(i).contains("com.j256.ormlite.h2.H2DatabaseConnection.queryForOne")){
+				topLine = crash.get(i);
 				break;
 			}
 		}		
@@ -150,7 +150,7 @@ public class CrashNode {
 		
 		for(int i=0; i<crash.size(); i++){
 			if((crash.get(i).startsWith("\tat org.") || crash.get(i).startsWith("\tat com.j256")) 
-					&& crash.get(i).contains("Test.java")){
+					&& (crash.get(i).contains("Test.java") || crash.get(i).contains("com.j256.ormlite.h2.H2DatabaseConnection.queryForOne"))){
 				bottomLine = crash.get(i-1);
 				break;
 			}
