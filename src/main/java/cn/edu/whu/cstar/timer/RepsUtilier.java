@@ -10,8 +10,11 @@ public class RepsUtilier {
 
 	public static void main(String[] args) throws Exception {
 		
-		List<CrashNode> lsCrash = getSingleCrash("src/main/resources/crashrep/ormlite_mutants.txt");
+		List<CrashNode> lsCrash = getSingleCrash("src/main/resources/crashrep/joup_mutants.txt");
 		System.out.println("[crash size]: " + lsCrash.size());
+		for(CrashNode scrash: lsCrash){
+			scrash.getBasicInfo();
+		}
 				
 	}
 	
@@ -37,6 +40,10 @@ public class RepsUtilier {
 		String str = "";
 		List<String> singleCrash = new ArrayList<String>();
 		while((str=br.readLine())!=null){
+			
+			if(str.contains("(Unknown Source)")){ // we cannot solve the UNKONWN SOURCE in stack trace
+				continue;
+			}
 			
 			if(str.startsWith("MUTATIONID:<<")){ // end of single crash
 				singleCrash.add(str);
