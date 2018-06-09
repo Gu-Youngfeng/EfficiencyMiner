@@ -165,7 +165,7 @@ public class CrashNodeTest {
 	public void testgetExceptionName_0(){
 		String line = "java.lang.IllegalArgumentException: Negative initial size: 1024";
 		String eName = CrashNode.getExceptionName(line);
-		System.out.println(">> " + eName);
+//		System.out.println(">> " + eName);
 		Assert.assertEquals("IllegalArgumentException", eName);
 	}
 	
@@ -179,7 +179,7 @@ public class CrashNodeTest {
 	public void testgetExceptionName_1(){
 		String line = "java.lang.ArrayIndexOutOfBoundsException: 3";
 		String eName = CrashNode.getExceptionName(line);
-		System.out.println(">> " + eName);
+//		System.out.println(">> " + eName);
 		Assert.assertEquals("ArrayIndexOutOfBoundsException", eName);
 	}
 	
@@ -193,7 +193,7 @@ public class CrashNodeTest {
 	public void testgetExceptionName_2(){
 		String line = "java.io.IOException: File 'E:\\Datasets\\Commons-io-2.5_mutant\\Commons-io-2.5_mutant_FileUtils_18\\test\\io\\lines.txt' cannot be read";
 		String eName = CrashNode.getExceptionName(line);
-		System.out.println(">> " + eName);
+//		System.out.println(">> " + eName);
 		Assert.assertEquals("IOException", eName);
 	}
 	
@@ -207,7 +207,7 @@ public class CrashNodeTest {
 	public void testgetExceptionName_3(){
 		String line = "java.lang.NullPointerException";
 		String eName = CrashNode.getExceptionName(line);
-		System.out.println(">> " + eName);
+//		System.out.println(">> " + eName);
 		Assert.assertEquals("NullPointerException", eName);
 	}
 	
@@ -215,5 +215,51 @@ public class CrashNodeTest {
 	public void testgetExceptionType_3(){
 		int type = CrashNode.getExceptionType("NullPointerException");
 		Assert.assertEquals(6, type);		
+	}
+	
+	@Test
+	public void testgetClassNum_0(){
+		List<String> lines = initilizeSingleCrash();
+		CrashNode cn = new CrashNode(lines);
+		int numCls = cn.getClassNum(lines);
+		Assert.assertEquals(2, numCls);
+	}
+	
+	@Test
+	public void testgetClassNum_2(){
+		List<String> lines = initilizeSingleCrash_2();
+		CrashNode cn = new CrashNode(lines);
+		int numCls = cn.getClassNum(lines);
+		Assert.assertEquals(3, numCls);
+	}
+	
+	@Test
+	public void testgetMethodNum_0(){
+		List<String> lines = initilizeSingleCrash();
+		CrashNode cn = new CrashNode(lines);
+		int numMed = cn.getMethodNum(lines);
+		Assert.assertEquals(2, numMed);
+	}
+	
+	@Test
+	public void testgetMethodNum_2(){
+		List<String> lines = initilizeSingleCrash_2();
+		CrashNode cn = new CrashNode(lines);
+		int numMed = cn.getMethodNum(lines);
+		Assert.assertEquals(4, numMed);
+	}
+	
+	@Test
+	public void testisOverLoaded_0(){
+		List<String> lines = initilizeSingleCrash();
+		CrashNode cn = new CrashNode(lines);
+		Assert.assertTrue(cn.isOverLoaded(lines));
+	}
+	
+	@Test
+	public void testisOverLoaded_2(){
+		List<String> lines = initilizeSingleCrash_2();
+		CrashNode cn = new CrashNode(lines);
+		Assert.assertFalse(cn.isOverLoaded(lines));
 	}
 }

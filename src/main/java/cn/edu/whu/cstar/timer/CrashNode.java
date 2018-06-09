@@ -1,6 +1,8 @@
 package cn.edu.whu.cstar.timer;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +20,12 @@ public class CrashNode {
 	private int exceptionType;
 	/**stack trace size*/
 	private int loc;
+	/**number of classes in the stack trace*/
+	private int classNum;
+	/**number of methods in the stack trace*/
+	private int methodNum;
+	/**whether an overloaded method exists in the stack trace*/
+	private boolean isOverLoaded;
 	
 	/**top class name*/
 	private String topClassName;
@@ -45,11 +53,6 @@ public class CrashNode {
 	 */
 	CrashNode(List<String> crash){
 		
-//		for(String line: crash){
-//			System.out.println(">> " + line);
-//		}
-//		System.out.println("++++++++++");
-		
 		String topLine = getTopLine(crash);
 		String bottomLine = getBottomLine(crash);
 		
@@ -64,7 +67,10 @@ public class CrashNode {
 		String exceptName = getExceptionName(crash.get(1));
 //		System.out.println("exception type: " + exceptName);
 		exceptionType = getExceptionType(exceptName);
-		loc = crash.size()-2;
+		loc = crash.size()-3;
+		classNum = getClassNum(crash);
+		methodNum = getMethodNum(crash);
+		isOverLoaded = isOverLoaded(crash);
 	}
 	
 	/**
@@ -283,9 +289,61 @@ public class CrashNode {
 		return bottomLine;
 	}
 	
+	/**
+	 * <p>To find the unique classes reside in stack trace.</p>
+	 * @param crash crash crash lines list
+	 * @return
+	 */
 	int getClassNum(List<String> crash){
 		int count=0;
+		Set<String> setCls = new HashSet<String>();
+		for(String line: crash){
+			if(isMethodLine(line)){
+				setCls.add(getClassName(line));
+			}
+		}
+		count = setCls.size();
+//		for(String cls: setCls){System.out.println("-- " + cls);}
 		return count;
+	}
+	
+	/**
+	 * <p>To find the unique method reside in stack trace.</p>
+	 * @param crash crash crash lines list
+	 * @return
+	 */
+	int getMethodNum(List<String> crash){
+		int count=0;
+		Set<String> setMel = new HashSet<String>();
+		for(String line: crash){
+			if(isMethodLine(line)){
+				String fullMethodName = getClassName(line) + "." + getMethodName(line);
+				setMel.add(fullMethodName);
+			}
+		}
+		count = setMel.size();
+//		for(String cls: setMel){System.out.println("-- " + cls);}
+		return count;
+	}
+	
+	/**
+	 * <p>To find the overloaded  reside in stack trace.</p>
+	 * @param crash crash crash lines list
+	 * @return
+	 */
+	boolean isOverLoaded(List<String> crash){
+		
+		Set<String> setMel = new HashSet<String>();
+		int count = 0;
+		for(String line: crash){
+			if(isMethodLine(line)){
+				count ++;
+				String fullMethodName = getClassName(line) + "." + getMethodName(line);
+				setMel.add(fullMethodName);
+			}
+		}
+		
+		return count > setMel.size();
 	}
 	
 	// getter of private variables //////////////////////////////////////////
@@ -322,12 +380,35 @@ public class CrashNode {
 		return exceptionType;
 	}
 	
-	public void getBasicInfo(){
-		System.out.println("## CRASH ##");
+	public int getClassNum(){
+		return classNum;
+	}
+	
+	public int getMethodNum(){
+		return methodNum;
+	}
+	
+	public boolean getisOverLoaded(){
+		return isOverLoaded;
+	}
+	
+	public void showBasicInfo(){
+		System.out.println("------------------## CRASH ##------------------");
 		System.out.println("[TYP]: " + getType());
 		System.out.println("[LOC]: " + loc);
+		System.out.println("[CLS]: " + getClassNum());
+		System.out.println("[MED]: " + getMethodNum());
+		System.out.println("[OLD]: " + getisOverLoaded());
 		System.out.println("[TOP]: " + getTopClassName() + ", " + getTopMethodName() + ", " + getTopMethodLine());
 		System.out.println("[BOT]: " + getBottomClassName() + ", " + getBottomMethodName() + ", " + getBottomMethodLine());
+		System.out.println("------------------------------------------------\n");
+	}
+	
+	public void showStackTrace(List<String> lines){
+		for(String line: lines){
+			System.out.println(">> " + line);
+		}
+		System.out.println("++++++++++");
 	}
 	
 	
