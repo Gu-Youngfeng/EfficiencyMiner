@@ -40,6 +40,7 @@ public class SRCAnalyzer {
 				
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void getAllClassUnderDir(String proj){
 		Launcher launcher = new Launcher();
 		launcher.addInputResource(proj);

@@ -26,12 +26,14 @@ public class RepsUtilier {
 		List<CrashNode> lsCrash = getSingleCrash(path);
 //		System.out.println("[crash size]: " + lsCrash.size());
 		for(CrashNode scrash: lsCrash){ // for each crash node
-//			
-			showSTFeatures(scrash); // feature from stack trace: ST01~ST09
-			SRCAnalyzer srcAzer = new SRCAnalyzer(proj);
-			srcAzer.showSRCFeatures(); //feature from project: ST10~ST11
+			
+//			showSTFeatures(scrash); // features from stack trace: ST01~ST09
+//			SRCAnalyzer srcAzer = new SRCAnalyzer(proj);
+//			srcAzer.showSRCFeatures(); //features from project: ST10~ST11
 			
 			String topClsName = scrash.getTopClassName(); // top class name
+			CLSAnalyzer clsAzer1 = new CLSAnalyzer(proj, topClsName);
+			clsAzer1.showCLSFeatures(); //features from top class: CT01~CT06
 			String topMedName = scrash.getTopMethodName(); // top method name
 			
 			String botClsName = scrash.getBottomClassName(); // top class name

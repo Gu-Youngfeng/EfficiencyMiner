@@ -20,6 +20,16 @@
 	    <artifactId>spoon-core</artifactId>
 	    <version>6.2.0</version>
 	</dependency>
+	
+	<dependency>  
+    	<groupId>apapche.commons</groupId>  
+    	<artifactId>codec</artifactId>  
+    	<version>1.10</version>  
+    	<scope>system</scope>  
+   		<systemPath>${project.basedir}/libs/commons-codec-1.10.jar</systemPath>  
+	</dependency> 
   	
   </dependencies>
+  
+
 </project>
