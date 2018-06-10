@@ -1,31 +1,26 @@
 package cn.edu.whu.cstar.timer;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.List;
 
 import spoon.Launcher;
 import spoon.reflect.CtModel;
 import spoon.reflect.code.CtLocalVariable;
+import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtField;
-import spoon.reflect.declaration.CtImport;
 import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.visitor.filter.TypeFilter;
 
 public class CLSAnalyzer {
 
 	public static void main(String[] args) {
-//		CLSAnalyzer any1 = new CLSAnalyzer("src/main/resources/projs/Codec_parent/","org.apache.commons.codec.binary.Base32");
-//		any1.showCLSFeatures();
-		
-		String fullClass = "E:/workspaceee/EffciencyMinner/src/main/resources/projs/Codec_parent/src/main/java/org/apache/commons/codec/binary/Base32.java";
-		Launcher launcher = new Launcher();
-		launcher.addInputResource(fullClass);
-		launcher.getEnvironment().setAutoImports(true);
-		CtModel metaModel = launcher.buildModel();
-		List<CtImport> lsLV = metaModel.getElements(new TypeFilter(CtImport.class));
-		for(CtImport lv: lsLV){
-			System.out.println("[LV]: " + lv.toString());
-		}
+
+		CLSAnalyzer clsr = new CLSAnalyzer("E:/workspaceee/EffciencyMinner/src/main/resources/projs/Codec_parent/", "org.apache.commons.codec.net.BCodec");		
+		clsr.showCLSFeatures();
 	}
+	
 	/**meta model of spoon*/
 	private CtModel metaModel;
 	
@@ -43,28 +38,187 @@ public class CLSAnalyzer {
 	int commenTs;
 	
 	CLSAnalyzer(String proj, String clsName){
+		
+		/** Building the meta model */
 		String fullClass = proj + "src/main/java/" + clsName.replaceAll("\\.", "/") + ".java";
 		Launcher launcher = new Launcher();
 		launcher.addInputResource(fullClass);
-		launcher.getEnvironment().setAutoImports(true);
-		launcher.buildModel();
-		metaModel = launcher.getModel();
+		metaModel = launcher.buildModel();
 		
-		/**extraction*/
-		List<CtLocalVariable> lsLV = metaModel.getElements(new TypeFilter(CtLocalVariable.class));
-		localVariables = lsLV.size();
-		
-		List<CtField> lsFL = metaModel.getElements(new TypeFilter(CtField.class));
-		fielDs = lsFL.size();
-		
-		List<CtMethod> lsMD = metaModel.getElements(new TypeFilter(CtMethod.class));
-		methoDs = lsMD.size();
-		
-		List<CtImport> lsIP = metaModel.getElements(new TypeFilter(CtImport.class));
-		packagEs = lsIP.size();
+		/** extract the features */
+		extractFeatures(fullClass);
 	}
 	
 	public void showCLSFeatures(){
+		System.out.print(localVariables + "," + fielDs + "," + methoDs + "," + packagEs + "," + inheriTs + "," + commenTs + ",");
+	}
+	
+	public void extractFeatures(String fullpath){
+		localVariables = this.getLocalVariables();
+		fielDs = this.getFields();
+		methoDs = this.getMethods();
+		try {
+			packagEs = this.getImports(fullpath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		inheriTs = this.getInherited();
+		try {
+			commenTs = this.getComments(fullpath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/***
+	 * <pre>To get extends or implements class of from class</pre>
+	 * @param path
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getInherited(){
+		int count = 0;
+		List<CtClass> lsCls = metaModel.getElements(new TypeFilter(CtClass.class));
+		
+		if(lsCls.size() == 0) return -1;
+		
+		if(lsCls.get(0).getSuperclass()==null && lsCls.get(0).getSuperInterfaces().size()==0){
+			count = 1;
+		}else{
+			count = 0;
+		}	
+//		System.out.println("[is inherited]: " + count);
+		
+		return count;
+	}
+	
+	/***
+	 * <pre>To get fields of from class</pre>
+	 * @param path
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getFields(){
+		int count=0;
+		
+		List<CtField> lsFL = metaModel.getElements(new TypeFilter(CtField.class));
+//		System.out.println("[field size]: " + lsFL.size());
+//		for(int i=0;i<lsFL.size();i++){
+//			System.out.println("[field name]: " + lsFL.get(i).getSimpleName());
+//		}
+		count = lsFL.size();
+		
+		return count;
+	}
+	
+	/***
+	 * <pre>To get local variables of from class</pre>
+	 * @param path
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getLocalVariables(){
+		int count = 0;
+		
+		List<CtLocalVariable> lsLV = metaModel.getElements(new TypeFilter(CtLocalVariable.class));
+//		System.out.println("[local variable size]: " + lsLV.size());
+//		for(int i=0;i<lsLV.size();i++){
+//			System.out.println("[local variable name]: " + lsLV.get(i).toString());
+//		}
+		count = lsLV.size();
+		
+		return count;
+	}
+	
+	/***
+	 * <pre>To get methods of from class</pre>
+	 * @param path
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getMethods(){
+		int count = 0;
+		
+		List<CtMethod> lsMD = metaModel.getElements(new TypeFilter(CtMethod.class));
+//		System.out.println("[method size]: " + lsMD.size());
+//		for(int i=0;i<lsMD.size();i++){
+//			System.out.println("[method name]: " + lsMD.get(i).getSignature());
+//		}
+		count = lsMD.size();
+		
+		return count;
+	}
+	
+	/***
+	 * <pre>To get comments from class. ATTENTION!</pre>
+	 * @param path class full path
+	 * @return
+	 * @throws Exception
+	 */
+	public int getComments(String path) throws Exception{
+		int count = 0;
+		/** WAY-1 */
+		File file = new File(path);
+		if(!file.exists())
+			return 0;
+		BufferedReader fr = new BufferedReader(new FileReader(file));
+		String str = "";
+		while((str = fr.readLine()) != null){
+			if(str.trim().contains("//") || str.trim().startsWith("/*") || str.trim().startsWith("*")){
+//				lsComment.add(str);
+//				System.out.println(">> " + str);
+				count++;
+			}
+		}
+		fr.close();
+		
+		/** WAY-2 */
+//		List<CtComment> lsIP = metaModel.getElements(new TypeFilter(CtComment.class)); // No Import
+//		System.out.println("[comments size]: " + lsIP.size());
+//		for(int i=0;i<lsIP.size();i++){
+//			System.out.println("[comments name]: " + lsIP.get(i).toString());
+//		}
+//		count = lsIP.size();
+		
+		return count;
+	}
+	
+	/***
+	 * <pre>To get number of "import" statements from class. ATTENTION!</pre>
+	 * @param path class full path
+	 * @return
+	 * @throws Exception
+	 */
+	public int getImports(String path) throws Exception{	
+		int count = 0;
+		/** WAY-1 */
+		File file = new File(path);
+		if(!file.exists())
+			return 0;
+		BufferedReader fr = new BufferedReader(new FileReader(file));
+		String str = "";
+		while((str = fr.readLine()) != null){
+			if(str.startsWith("import")){
+//				System.out.println(">> " + str);
+				count++;
+			}
+		}
+		fr.close();
+		
+		/** WAY-2 */
+//		List<CtImport> lsIP = metaModel.getElements(new TypeFilter(CtImport.class)); // No Import
+//		System.out.println("[import size]: " + lsIP.size());
+//		for(int i=0;i<lsIP.size();i++){
+//			System.out.println("[import name]: " + lsIP.get(i).toString());
+//		}
+//		count = lsIP.size();
+		
+		return count;	
 		
 	}
 
