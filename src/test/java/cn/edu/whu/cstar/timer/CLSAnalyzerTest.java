@@ -94,15 +94,15 @@ public class CLSAnalyzerTest {
 	public void testgetComments_0() throws Exception{
 		alser = new CLSAnalyzer("src/main/resources/projs/Codec_parent/", "org.apache.commons.codec.net.BCodec");
 		String fullpath = "src/main/resources/projs/Codec_parent/src/main/java/org/apache/commons/codec/net/BCodec.java";
-		int fields = alser.getComments(fullpath);
-		Assert.assertEquals(130, fields);
+		int fields = alser.getComments();
+		Assert.assertEquals(128, fields);
 	} 
 	
 	@Test
 	public void testgetComments_1() throws Exception{
 		alser = new CLSAnalyzer("src/main/resources/projs/Codec_parent/", "org.apache.commons.codec.digest.B64");
 		String fullpath = "src/main/resources/projs/Codec_parent/src/main/java/org/apache/commons/codec/digest/B64.java";
-		int fields = alser.getComments(fullpath);
+		int fields = alser.getComments();
 		Assert.assertEquals(53, fields);
 	} 
 	
@@ -110,7 +110,7 @@ public class CLSAnalyzerTest {
 	public void testgetComments_2() throws Exception{
 		alser = new CLSAnalyzer("src/main/resources/projs/Codec_parent/", "org.apache.commons.codec.digest.DigestUtils");
 		String fullpath = "src/main/resources/projs/Codec_parent/src/main/java/org/apache/commons/codec/digest/DigestUtils.java";
-		int fields = alser.getComments(fullpath);
+		int fields = alser.getComments();
 		Assert.assertEquals(567, fields);
 	}
 	
