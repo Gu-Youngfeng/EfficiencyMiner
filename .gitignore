@@ -2,3 +2,4 @@
 /target/*
 # byte codes are end with .class
 *.class
+/target/
