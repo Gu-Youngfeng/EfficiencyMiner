@@ -1,2 +1,4 @@
-# bytecodes in target folder
-/target/
+# byte codes are under target folder
+/target/*
+# byte codes are end with .class
+*.class
