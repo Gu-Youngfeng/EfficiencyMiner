@@ -35,9 +35,13 @@ public class RepsUtilier {
 			CLSAnalyzer clsAzer1 = new CLSAnalyzer(proj, topClsName);
 			clsAzer1.showCLSFeatures(); //features from top class: CT01~CT06
 			String topMedName = scrash.getTopMethodName(); // top method name
+			int topMedLine = scrash.getBottomMethodLine();
+			MEDAnalyzer medAzer1 = new MEDAnalyzer(proj, topClsName, topMedName, topMedLine);
+			medAzer1.showMEDFeatures();//features from top class: CT07~CT23
 			
-			String botClsName = scrash.getBottomClassName(); // top class name
-			String botMedName = scrash.getBottomMethodName(); // top method name
+			String botClsName = scrash.getBottomClassName(); // bottom class name
+			CLSAnalyzer clsAzer2 = new CLSAnalyzer(proj, topClsName);
+			String botMedName = scrash.getBottomMethodName(); // bottom method name
 			
 			System.out.println(""); // break line for next crash
 		}

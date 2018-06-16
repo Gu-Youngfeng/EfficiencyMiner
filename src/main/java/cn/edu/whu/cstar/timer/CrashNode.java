@@ -102,6 +102,7 @@ public class CrashNode {
 	/**
 	 * <p>to extract method name from the line, we can get <b>setChartAt</b> from the following example,</p>
 	 * <pre>at java.lang.StringBuilder.setCharAt(StringBuilder.java:76)</pre>
+	 * <p>Note that the &lt;init&gt; will be replaced with the true class name.</p>
 	 * @param line frame line in stack trace
 	 * @return
 	 */

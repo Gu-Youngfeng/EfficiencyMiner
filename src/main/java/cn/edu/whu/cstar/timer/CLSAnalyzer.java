@@ -153,7 +153,7 @@ public class CLSAnalyzer {
 	}
 	
 	/***
-	 * <pre>To get comments from class. ATTENTION!</pre>
+	 * <pre>To get comments from class.</pre>
 	 * @param path class full path
 	 * @return
 	 * @throws Exception
