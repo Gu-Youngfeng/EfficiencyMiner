@@ -7,6 +7,7 @@ import java.util.List;
 
 import spoon.Launcher;
 import spoon.reflect.CtModel;
+import spoon.reflect.code.CtComment;
 import spoon.reflect.code.CtLocalVariable;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtField;
@@ -17,7 +18,7 @@ public class CLSAnalyzer {
 
 	public static void main(String[] args) {
 
-		CLSAnalyzer clsr = new CLSAnalyzer("E:/workspaceee/EffciencyMinner/src/main/resources/projs/Codec_parent/", "org.apache.commons.codec.net.BCodec");		
+		CLSAnalyzer clsr = new CLSAnalyzer("src/main/resources/projs/Codec_parent/", "org.apache.commons.codec.net.BCodec");		
 		clsr.showCLSFeatures();
 	}
 	
@@ -43,6 +44,7 @@ public class CLSAnalyzer {
 		String fullClass = proj + "src/main/java/" + clsName.replaceAll("\\.", "/") + ".java";
 		Launcher launcher = new Launcher();
 		launcher.addInputResource(fullClass);
+		launcher.getEnvironment().setCommentEnabled(true);
 		metaModel = launcher.buildModel();
 		
 		/** extract the features */
@@ -63,11 +65,7 @@ public class CLSAnalyzer {
 			e.printStackTrace();
 		}
 		inheriTs = this.getInherited();
-		try {
-			commenTs = this.getComments(fullpath);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		commenTs = this.getComments();
 		
 	}
 	
@@ -160,30 +158,35 @@ public class CLSAnalyzer {
 	 * @return
 	 * @throws Exception
 	 */
-	public int getComments(String path) throws Exception{
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+//	public int getComments(String path) throws Exception{
+	public int getComments(){
 		int count = 0;
 		/** WAY-1 */
-		File file = new File(path);
-		if(!file.exists())
-			return 0;
-		BufferedReader fr = new BufferedReader(new FileReader(file));
-		String str = "";
-		while((str = fr.readLine()) != null){
-			if(str.trim().contains("//") || str.trim().startsWith("/*") || str.trim().startsWith("*")){
-//				lsComment.add(str);
-//				System.out.println(">> " + str);
-				count++;
-			}
-		}
-		fr.close();
+//		File file = new File(path);
+//		if(!file.exists())
+//			return 0;
+//		BufferedReader fr = new BufferedReader(new FileReader(file));
+//		String str = "";
+//		while((str = fr.readLine()) != null){
+//			if(str.trim().contains("//") || str.trim().startsWith("/*") || str.trim().startsWith("*")){
+////				lsComment.add(str);
+////				System.out.println(">> " + str);
+//				count++;
+//			}
+//		}
+//		fr.close();
 		
 		/** WAY-2 */
-//		List<CtComment> lsIP = metaModel.getElements(new TypeFilter(CtComment.class)); // No Import
+		List<CtComment> lsIP = metaModel.getElements(new TypeFilter(CtComment.class)); // No Import
 //		System.out.println("[comments size]: " + lsIP.size());
-//		for(int i=0;i<lsIP.size();i++){
-//			System.out.println("[comments name]: " + lsIP.get(i).toString());
-//		}
-//		count = lsIP.size();
+		for(int i=0;i<lsIP.size();i++){
+			int loc = lsIP.get(i).toString().split("\n").length<=1?1:lsIP.get(i).toString().split("\n").length;
+//			System.out.println(lsIP.get(i).toString().split("\n").length);
+//			System.out.println("[comments loc]: " + loc);
+//			System.out.println(lsIP.get(i).toString());
+			count += loc;
+		}
 		
 		return count;
 	}
