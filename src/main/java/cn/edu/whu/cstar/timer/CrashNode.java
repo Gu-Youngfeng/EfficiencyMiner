@@ -76,6 +76,7 @@ public class CrashNode {
 	/**
 	 * <p>to extract class name from the line, we can get <b>java.lang.StringBuilder</b> from the following example,</p>
 	 * <pre>at java.lang.StringBuilder.setCharAt(StringBuilder.java:76)</pre>
+	 * <p>note that you ignore the inner class, and use the outer class name.</p>
 	 * @param line frame line in stack trace
 	 * @return
 	 */
@@ -92,9 +93,12 @@ public class CrashNode {
 			System.out.println("[ERROR]: Mismatched! " + line);
 		}
 		
-//		if(tcn.contains("$")){ // inner class
-//			tcn = tcn.split("$")[0];
-//		}
+//		System.out.println(">> " + tcn);
+		
+		if(tcn.contains("$")){ // inner class
+			tcn = tcn.split("\\$")[0];
+//			System.out.println(tcn.split("\\$")[0]);
+		}
 		
 		return tcn;
 	}
@@ -247,7 +251,9 @@ public class CrashNode {
 		boolean flag = false;
 		
 		if ( (line.startsWith("\tat org.") || line.startsWith("\tat com.j256"))
-				&&  !line.contains("Test.java") && !line.contains("com.j256.ormlite.h2.H2DatabaseConnection.queryForOne") && !line.contains("TestCase.java") && !line.contains("TestUtils.java")){
+				&& !line.contains("Test.java") && !line.contains("com.j256.ormlite.h2.H2DatabaseConnection.queryForOne") 
+				&& !line.contains("TestCase.java") && !line.contains("TestUtils.java")
+				&& !line.contains("TestData.java")){
 			flag = true;
 		}
 		
@@ -258,7 +264,9 @@ public class CrashNode {
 		boolean flag = false;
 		
 		if ( (line.startsWith("\tat org.") || line.startsWith("\tat com.j256")) 
-				&& (line.contains("Test.java") || line.contains("com.j256.ormlite.h2.H2DatabaseConnection.queryForOne") || line.contains("TestCase.java") || line.contains("TestUtils.java")) ){
+				&& (line.contains("Test.java") || line.contains("com.j256.ormlite.h2.H2DatabaseConnection.queryForOne") 
+						|| line.contains("TestCase.java") || line.contains("TestUtils.java")
+						|| line.contains("TestData.java")) ){
 			flag = true;
 		}
 		
@@ -282,7 +290,12 @@ public class CrashNode {
 		
 		for(int i=k; i<crash.size(); i++){
 			if(isTestLine(crash.get(i))){
-				bottomLine = crash.get(i-1);
+//				bottomLine = crash.get(i-1);
+				int m = i-1;
+				while(!isMethodLine(crash.get(m))){
+					m--;
+				}
+				bottomLine = crash.get(m);
 				break;
 			}
 		}		
