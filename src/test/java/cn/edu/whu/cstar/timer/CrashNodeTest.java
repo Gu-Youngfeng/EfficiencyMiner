@@ -111,7 +111,8 @@ public class CrashNodeTest {
 	public void testgetClassName_3(){
 		String line = lines[3];
 		String className = CrashNode.getClassName(line);
-		Assert.assertEquals("java.security.MessageDigest$Delegate", className);
+//		System.out.println(className);
+		Assert.assertEquals("java.security.MessageDigest", className);
 	}
 	
 	@Test

@@ -19,6 +19,7 @@ import spoon.reflect.code.CtStatement;
 import spoon.reflect.code.CtTry;
 import spoon.reflect.code.CtUnaryOperator;
 import spoon.reflect.code.CtWhile;
+import spoon.reflect.declaration.CtAnonymousExecutable;
 import spoon.reflect.declaration.CtConstructor;
 import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.declaration.CtParameter;
@@ -27,7 +28,7 @@ import spoon.reflect.visitor.filter.TypeFilter;
 public class MEDAnalyzer {
 
 	public static void main(String[] args) {
-		MEDAnalyzer iii = new MEDAnalyzer("src/main/resources/projs/Codec_parent/", "org.apache.commons.codec.digest.Sha2Crypt", "sha256Crypt", 105);
+		MEDAnalyzer iii = new MEDAnalyzer("src/main/resources/projs/Codec_parent/", "org.apache.commons.codec.net.URLCodec", "<clinit>", 83);
 		iii.showMEDFeatures();
 	}
 	
@@ -51,7 +52,7 @@ public class MEDAnalyzer {
 	int do_whiles;
 	/** CT16/CB16: Number of try blocks in the top/bottom function */
 	int try_blocks;
-	/** CT17/CT17: Number of catch blocks in the top/bottom function */
+	/** CT17/CB17: Number of catch blocks in the top/bottom function */
 	int catchs;
 	/** CT18:CB18: Number of finally blocks in the top/bottom function */
 	int finally_blocks;
@@ -66,22 +67,82 @@ public class MEDAnalyzer {
 	/** CT23:CB23: Number of binary operators in the top/bottom function */
 	int binary_operators;
 	
+	/** AT01/AB01: CT08/CT07*/
+	float at01;
+	/** AT02/AB02: CT09/CT07*/
+	float at02;
+	/** AT03/AB03: CT10/CT07*/
+	float at03;
+	/** AT04/AB04: CT11/CT07*/
+	float at04;
+	/** AT05/AB05: CT12/CT07*/
+	float at05;
+	/** AT06/AB06: CT13/CT07*/
+	float at06;
+	/** AT07/AB07: CT14/CT07*/
+	float at07;
+	/** AT08/AB08: CT15/CT07*/
+	float at08;
+	/** AT09/AB09: CT16/CT07*/
+	float at09;
+	/** AT10/AB10: CT17/CT07*/
+	float at10;
+	/** AT11/AB11: CT18/CT07*/
+	float at11;
+	/** AT12/AB12: CT19/CT07*/
+	float at12;
+	/** AT13/AB13: CT20/CT07*/
+	float at13;
+	/** AT14/AB14: CT21/CT07*/
+	float at14;
+	/** AT15/AB15: CT22/CT07*/
+	float at15;
+	/** AT16/AB16: CT23/CT07*/
+	float at16;
+	
 	@SuppressWarnings("rawtypes")
 	public int getLoc(CtMethod method){
 		int count=0;
-		int startLine = method.getBody().getPosition().getLine();
-		int endLine = method.getBody().getPosition().getEndLine();
+		int startLine;
+		int endLine;
+		if(method.getBody() == null){
+			return 1;
+		}else{
+			startLine = method.getBody().getPosition().getLine();
+			endLine = method.getBody().getPosition().getEndLine();
+		}
 		count = endLine - startLine;
-		System.out.println("[start]: " + startLine + ", [end]: " + endLine);
+//		System.out.println("[start]: " + startLine + ", [end]: " + endLine);
 		return count;
 	}
 	@SuppressWarnings("rawtypes")
 	public int getLoc(CtConstructor method){
 		int count=0;
-		int startLine = method.getBody().getPosition().getLine();
-		int endLine = method.getBody().getPosition().getEndLine();
+		int startLine;
+		int endLine;
+		if(method.getBody() == null){
+			return 1;
+		}else{
+			startLine = method.getBody().getPosition().getLine();
+			endLine = method.getBody().getPosition().getEndLine();
+		}
 		count = endLine - startLine;
-		System.out.println("[start]: " + startLine + ", [end]: " + endLine);
+//		System.out.println("[start]: " + startLine + ", [end]: " + endLine);
+		return count;
+	}
+	@SuppressWarnings("rawtypes")
+	public int getLoc(CtAnonymousExecutable method){
+		int count=0;
+		int startLine;
+		int endLine;
+		if(method.getBody() == null){
+			return 1;
+		}else{
+			startLine = method.getBody().getPosition().getLine();
+			endLine = method.getBody().getPosition().getEndLine();
+		}
+		count = endLine - startLine;
+//		System.out.println("[start]: " + startLine + ", [end]: " + endLine);
 		return count;
 	}
 	
@@ -89,9 +150,9 @@ public class MEDAnalyzer {
 	public int getParams(CtMethod method){
 		int count=0;
 		List<CtParameter> lsParams = method.getElements(new TypeFilter(CtParameter.class));
-		for(CtParameter param: lsParams){
-			System.out.println("[param]: " + param.getSimpleName());
-		}
+//		for(CtParameter param: lsParams){
+//			System.out.println("[param]: " + param.getSimpleName());
+//		}
 		count = lsParams.size();
 		return count;
 	}
@@ -99,9 +160,19 @@ public class MEDAnalyzer {
 	public int getParams(CtConstructor method){
 		int count=0;
 		List<CtParameter> lsParams = method.getElements(new TypeFilter(CtParameter.class));
-		for(CtParameter param: lsParams){
-			System.out.println("[param]: " + param.getSimpleName());
-		}
+//		for(CtParameter param: lsParams){
+//			System.out.println("[param]: " + param.getSimpleName());
+//		}
+		count = lsParams.size();
+		return count;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getParams(CtAnonymousExecutable method){
+		int count=0;
+		List<CtParameter> lsParams = method.getElements(new TypeFilter(CtParameter.class));
+//		for(CtParameter param: lsParams){
+//			System.out.println("[param]: " + param.getSimpleName());
+//		}
 		count = lsParams.size();
 		return count;
 	}
@@ -110,9 +181,9 @@ public class MEDAnalyzer {
 	public int getLocals(CtMethod method){
 		int count=0;
 		List<CtLocalVariable> lsLocals = method.getElements(new TypeFilter(CtLocalVariable.class));
-		for(CtLocalVariable param: lsLocals){
-			System.out.println("[local variable]: " + param.getSimpleName());
-		}
+//		for(CtLocalVariable param: lsLocals){
+//			System.out.println("[local variable]: " + param.getSimpleName());
+//		}
 		count = lsLocals.size();
 		return count;
 	}
@@ -120,9 +191,19 @@ public class MEDAnalyzer {
 	public int getLocals(CtConstructor method){
 		int count=0;
 		List<CtLocalVariable> lsLocals = method.getElements(new TypeFilter(CtLocalVariable.class));
-		for(CtLocalVariable param: lsLocals){
-			System.out.println("[local variable]: " + param.getSimpleName());
-		}
+//		for(CtLocalVariable param: lsLocals){
+//			System.out.println("[local variable]: " + param.getSimpleName());
+//		}
+		count = lsLocals.size();
+		return count;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getLocals(CtAnonymousExecutable method){
+		int count=0;
+		List<CtLocalVariable> lsLocals = method.getElements(new TypeFilter(CtLocalVariable.class));
+//		for(CtLocalVariable param: lsLocals){
+//			System.out.println("[local variable]: " + param.getSimpleName());
+//		}
 		count = lsLocals.size();
 		return count;
 	}
@@ -131,9 +212,9 @@ public class MEDAnalyzer {
 	public int getIfs(CtMethod method){
 		int count=0;
 		List<CtIf> lsIfs = method.getElements(new TypeFilter(CtIf.class));
-		for(CtIf param: lsIfs){
-			System.out.println("[if]: " + param.toString());
-		}
+//		for(CtIf param: lsIfs){
+//			System.out.println("[if]: " + param.toString());
+//		}
 		count = lsIfs.size();
 		return count;
 	}
@@ -141,9 +222,19 @@ public class MEDAnalyzer {
 	public int getIfs(CtConstructor method){
 		int count=0;
 		List<CtIf> lsIfs = method.getElements(new TypeFilter(CtIf.class));
-		for(CtIf param: lsIfs){
-			System.out.println("[if]: " + param.toString());
-		}
+//		for(CtIf param: lsIfs){
+//			System.out.println("[if]: " + param.toString());
+//		}
+		count = lsIfs.size();
+		return count;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getIfs(CtAnonymousExecutable method){
+		int count=0;
+		List<CtIf> lsIfs = method.getElements(new TypeFilter(CtIf.class));
+//		for(CtIf param: lsIfs){
+//			System.out.println("[if]: " + param.toString());
+//		}
 		count = lsIfs.size();
 		return count;
 	}
@@ -152,9 +243,9 @@ public class MEDAnalyzer {
 	public int getLoops(CtMethod method){
 		int count=0;
 		List<CtLoop> lsLoops = method.getElements(new TypeFilter(CtLoop.class));
-		for(CtLoop param: lsLoops){
-			System.out.println("[loop]: " + param.toString());
-		}
+//		for(CtLoop param: lsLoops){
+//			System.out.println("[loop]: " + param.toString());
+//		}
 		count = lsLoops.size();
 		return count;
 	}
@@ -162,9 +253,19 @@ public class MEDAnalyzer {
 	public int getLoops(CtConstructor method){
 		int count=0;
 		List<CtLoop> lsLoops = method.getElements(new TypeFilter(CtLoop.class));
-		for(CtLoop param: lsLoops){
-			System.out.println("[loop]: " + param.toString());
-		}
+//		for(CtLoop param: lsLoops){
+//			System.out.println("[loop]: " + param.toString());
+//		}
+		count = lsLoops.size();
+		return count;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getLoops(CtAnonymousExecutable method){
+		int count=0;
+		List<CtLoop> lsLoops = method.getElements(new TypeFilter(CtLoop.class));
+//		for(CtLoop param: lsLoops){
+//			System.out.println("[loop]: " + param.toString());
+//		}
 		count = lsLoops.size();
 		return count;
 	}
@@ -173,9 +274,9 @@ public class MEDAnalyzer {
 	public int getFors(CtMethod method){
 		int count=0;
 		List<CtFor> lsFors = method.getElements(new TypeFilter(CtFor.class));
-		for(CtFor param: lsFors){
-			System.out.println("[for]: " + param.toString());
-		}
+//		for(CtFor param: lsFors){
+//			System.out.println("[for]: " + param.toString());
+//		}
 		count = lsFors.size();
 		return count;
 	}
@@ -183,9 +284,19 @@ public class MEDAnalyzer {
 	public int getFors(CtConstructor method){
 		int count=0;
 		List<CtFor> lsFors = method.getElements(new TypeFilter(CtFor.class));
-		for(CtFor param: lsFors){
-			System.out.println("[for]: " + param.toString());
-		}
+//		for(CtFor param: lsFors){
+//			System.out.println("[for]: " + param.toString());
+//		}
+		count = lsFors.size();
+		return count;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getFors(CtAnonymousExecutable method){
+		int count=0;
+		List<CtFor> lsFors = method.getElements(new TypeFilter(CtFor.class));
+//		for(CtFor param: lsFors){
+//			System.out.println("[for]: " + param.toString());
+//		}
 		count = lsFors.size();
 		return count;
 	}
@@ -194,9 +305,9 @@ public class MEDAnalyzer {
 	public int getForEachs(CtMethod method){
 		int count=0;
 		List<CtForEach> lsForEachs = method.getElements(new TypeFilter(CtForEach.class));
-		for(CtForEach param: lsForEachs){
-			System.out.println("[for each]: " + param.toString());
-		}
+//		for(CtForEach param: lsForEachs){
+//			System.out.println("[for each]: " + param.toString());
+//		}
 		count = lsForEachs.size();
 		return count;
 	}
@@ -204,9 +315,19 @@ public class MEDAnalyzer {
 	public int getForEachs(CtConstructor method){
 		int count=0;
 		List<CtForEach> lsForEachs = method.getElements(new TypeFilter(CtForEach.class));
-		for(CtForEach param: lsForEachs){
-			System.out.println("[for each]: " + param.toString());
-		}
+//		for(CtForEach param: lsForEachs){
+//			System.out.println("[for each]: " + param.toString());
+//		}
+		count = lsForEachs.size();
+		return count;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getForEachs(CtAnonymousExecutable method){
+		int count=0;
+		List<CtForEach> lsForEachs = method.getElements(new TypeFilter(CtForEach.class));
+//		for(CtForEach param: lsForEachs){
+//			System.out.println("[for each]: " + param.toString());
+//		}
 		count = lsForEachs.size();
 		return count;
 	}
@@ -215,9 +336,9 @@ public class MEDAnalyzer {
 	public int getWhiles(CtMethod method){
 		int count=0;
 		List<CtWhile> lsWhiles = method.getElements(new TypeFilter(CtWhile.class));
-		for(CtWhile param: lsWhiles){
-			System.out.println("[while]: " + param.toString());
-		}
+//		for(CtWhile param: lsWhiles){
+//			System.out.println("[while]: " + param.toString());
+//		}
 		count = lsWhiles.size();
 		return count;
 	}
@@ -225,9 +346,19 @@ public class MEDAnalyzer {
 	public int getWhiles(CtConstructor method){
 		int count=0;
 		List<CtWhile> lsWhiles = method.getElements(new TypeFilter(CtWhile.class));
-		for(CtWhile param: lsWhiles){
-			System.out.println("[while]: " + param.toString());
-		}
+//		for(CtWhile param: lsWhiles){
+//			System.out.println("[while]: " + param.toString());
+//		}
+		count = lsWhiles.size();
+		return count;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getWhiles(CtAnonymousExecutable method){
+		int count=0;
+		List<CtWhile> lsWhiles = method.getElements(new TypeFilter(CtWhile.class));
+//		for(CtWhile param: lsWhiles){
+//			System.out.println("[while]: " + param.toString());
+//		}
 		count = lsWhiles.size();
 		return count;
 	}
@@ -236,9 +367,9 @@ public class MEDAnalyzer {
 	public int getDoWhiles(CtMethod method){
 		int count=0;
 		List<CtDo> lsDoWhiles = method.getElements(new TypeFilter(CtDo.class));
-		for(CtDo param: lsDoWhiles){
-			System.out.println("[do while]: " + param.toString());
-		}
+//		for(CtDo param: lsDoWhiles){
+//			System.out.println("[do while]: " + param.toString());
+//		}
 		count = lsDoWhiles.size();
 		return count;
 	}
@@ -246,9 +377,19 @@ public class MEDAnalyzer {
 	public int getDoWhiles(CtConstructor method){
 		int count=0;
 		List<CtDo> lsDoWhiles = method.getElements(new TypeFilter(CtDo.class));
-		for(CtDo param: lsDoWhiles){
-			System.out.println("[do while]: " + param.toString());
-		}
+//		for(CtDo param: lsDoWhiles){
+//			System.out.println("[do while]: " + param.toString());
+//		}
+		count = lsDoWhiles.size();
+		return count;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getDoWhiles(CtAnonymousExecutable method){
+		int count=0;
+		List<CtDo> lsDoWhiles = method.getElements(new TypeFilter(CtDo.class));
+//		for(CtDo param: lsDoWhiles){
+//			System.out.println("[do while]: " + param.toString());
+//		}
 		count = lsDoWhiles.size();
 		return count;
 	}
@@ -257,9 +398,9 @@ public class MEDAnalyzer {
 	public int getTryBlocks(CtMethod method){
 		int count=0;
 		List<CtTry> lsTryBlocks = method.getElements(new TypeFilter(CtTry.class));
-		for(CtTry param: lsTryBlocks){
-			System.out.println("[try block]: " + param.toString());
-		}
+//		for(CtTry param: lsTryBlocks){
+//			System.out.println("[try block]: " + param.toString());
+//		}
 		count = lsTryBlocks.size();
 		return count;
 	}
@@ -267,9 +408,19 @@ public class MEDAnalyzer {
 	public int getTryBlocks(CtConstructor method){
 		int count=0;
 		List<CtTry> lsTryBlocks = method.getElements(new TypeFilter(CtTry.class));
-		for(CtTry param: lsTryBlocks){
-			System.out.println("[try block]: " + param.toString());
-		}
+//		for(CtTry param: lsTryBlocks){
+//			System.out.println("[try block]: " + param.toString());
+//		}
+		count = lsTryBlocks.size();
+		return count;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getTryBlocks(CtAnonymousExecutable method){
+		int count=0;
+		List<CtTry> lsTryBlocks = method.getElements(new TypeFilter(CtTry.class));
+//		for(CtTry param: lsTryBlocks){
+//			System.out.println("[try block]: " + param.toString());
+//		}
 		count = lsTryBlocks.size();
 		return count;
 	}
@@ -278,9 +429,9 @@ public class MEDAnalyzer {
 	public int getCatchs(CtMethod method){
 		int count=0;
 		List<CtCatch> lsCatchs = method.getElements(new TypeFilter(CtCatch.class));
-		for(CtCatch param: lsCatchs){
-			System.out.println("[catch]: " + param.toString());
-		}
+//		for(CtCatch param: lsCatchs){
+//			System.out.println("[catch]: " + param.toString());
+//		}
 		count = lsCatchs.size();
 		return count;
 	}
@@ -288,9 +439,19 @@ public class MEDAnalyzer {
 	public int getCatchs(CtConstructor method){
 		int count=0;
 		List<CtCatch> lsCatchs = method.getElements(new TypeFilter(CtCatch.class));
-		for(CtCatch param: lsCatchs){
-			System.out.println("[catch]: " + param.toString());
-		}
+//		for(CtCatch param: lsCatchs){
+//			System.out.println("[catch]: " + param.toString());
+//		}
+		count = lsCatchs.size();
+		return count;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public int getCatchs(CtAnonymousExecutable method){
+		int count=0;
+		List<CtCatch> lsCatchs = method.getElements(new TypeFilter(CtCatch.class));
+//		for(CtCatch param: lsCatchs){
+//			System.out.println("[catch]: " + param.toString());
+//		}
 		count = lsCatchs.size();
 		return count;
 	}
@@ -298,9 +459,12 @@ public class MEDAnalyzer {
 	@SuppressWarnings({ "rawtypes" })
 	public int getFinallys(CtMethod method){
 		int count=0;
+		if(method.getBody() == null){
+			return 0;
+		}
 		for(CtStatement state: method.getBody().getStatements()){
 			if(state.toString().contains("finally")){
-				System.out.println("[fianlly block]: " + state.toString());
+//				System.out.println("[fianlly block]: " + state.toString());
 				count++;
 			}
 		}
@@ -309,9 +473,26 @@ public class MEDAnalyzer {
 	@SuppressWarnings({ "rawtypes" })
 	public int getFinallys(CtConstructor method){
 		int count=0;
+		if(method.getBody() == null){
+			return 0;
+		}
 		for(CtStatement state: method.getBody().getStatements()){
 			if(state.toString().contains("finally")){
-				System.out.println("[fianlly block]: " + state.toString());
+//				System.out.println("[fianlly block]: " + state.toString());
+				count++;
+			}
+		}
+		return count;
+	}
+	@SuppressWarnings({ "rawtypes" })
+	public int getFinallys(CtAnonymousExecutable method){
+		int count=0;
+		if(method.getBody() == null){
+			return 0;
+		}
+		for(CtStatement state: method.getBody().getStatements()){
+			if(state.toString().contains("finally")){
+//				System.out.println("[fianlly block]: " + state.toString());
 				count++;
 			}
 		}
@@ -322,9 +503,9 @@ public class MEDAnalyzer {
 	public int getAssignments(CtMethod method){
 		int count=0;
 		List<CtAssignment> lsAssignments = method.getElements(new TypeFilter(CtAssignment.class));
-		for(CtAssignment param: lsAssignments){
-			System.out.println("[assignment]: " + param.toString());
-		}
+//		for(CtAssignment param: lsAssignments){
+//			System.out.println("[assignment]: " + param.toString());
+//		}
 		count = lsAssignments.size();
 		return count;
 	}
@@ -332,9 +513,19 @@ public class MEDAnalyzer {
 	public int getAssignments(CtConstructor method){
 		int count=0;
 		List<CtAssignment> lsAssignments = method.getElements(new TypeFilter(CtAssignment.class));
-		for(CtAssignment param: lsAssignments){
-			System.out.println("[assignment]: " + param.toString());
-		}
+//		for(CtAssignment param: lsAssignments){
+//			System.out.println("[assignment]: " + param.toString());
+//		}
+		count = lsAssignments.size();
+		return count;
+	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public int getAssignments(CtAnonymousExecutable method){
+		int count=0;
+		List<CtAssignment> lsAssignments = method.getElements(new TypeFilter(CtAssignment.class));
+//		for(CtAssignment param: lsAssignments){
+//			System.out.println("[assignment]: " + param.toString());
+//		}
 		count = lsAssignments.size();
 		return count;
 	}
@@ -343,9 +534,9 @@ public class MEDAnalyzer {
 	public int getInvocations(CtMethod method){
 		int count=0;
 		List<CtInvocation> lsInvocations = method.getElements(new TypeFilter(CtInvocation.class));
-		for(CtInvocation param: lsInvocations){
-			System.out.println("[invocation]: " + param.toString());
-		}
+//		for(CtInvocation param: lsInvocations){
+//			System.out.println("[invocation]: " + param.toString());
+//		}
 		count = lsInvocations.size();
 		return count;
 	}
@@ -353,9 +544,19 @@ public class MEDAnalyzer {
 	public int getInvocations(CtConstructor method){
 		int count=0;
 		List<CtInvocation> lsInvocations = method.getElements(new TypeFilter(CtInvocation.class));
-		for(CtInvocation param: lsInvocations){
-			System.out.println("[invocation]: " + param.toString());
-		}
+//		for(CtInvocation param: lsInvocations){
+//			System.out.println("[invocation]: " + param.toString());
+//		}
+		count = lsInvocations.size();
+		return count;
+	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public int getInvocations(CtAnonymousExecutable method){
+		int count=0;
+		List<CtInvocation> lsInvocations = method.getElements(new TypeFilter(CtInvocation.class));
+//		for(CtInvocation param: lsInvocations){
+//			System.out.println("[invocation]: " + param.toString());
+//		}
 		count = lsInvocations.size();
 		return count;
 	}
@@ -364,9 +565,9 @@ public class MEDAnalyzer {
 	public int getReturns(CtMethod method){
 		int count=0;
 		List<CtReturn> lsReturns = method.getElements(new TypeFilter(CtReturn.class));
-		for(CtReturn param: lsReturns){
-			System.out.println("[return]: " + param.toString());
-		}
+//		for(CtReturn param: lsReturns){
+//			System.out.println("[return]: " + param.toString());
+//		}
 		count = lsReturns.size();
 		return count;
 	}
@@ -374,9 +575,19 @@ public class MEDAnalyzer {
 	public int getReturns(CtConstructor method){
 		int count=0;
 		List<CtReturn> lsReturns = method.getElements(new TypeFilter(CtReturn.class));
-		for(CtReturn param: lsReturns){
-			System.out.println("[return]: " + param.toString());
-		}
+//		for(CtReturn param: lsReturns){
+//			System.out.println("[return]: " + param.toString());
+//		}
+		count = lsReturns.size();
+		return count;
+	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public int getReturns(CtAnonymousExecutable method){
+		int count=0;
+		List<CtReturn> lsReturns = method.getElements(new TypeFilter(CtReturn.class));
+//		for(CtReturn param: lsReturns){
+//			System.out.println("[return]: " + param.toString());
+//		}
 		count = lsReturns.size();
 		return count;
 	}
@@ -385,9 +596,9 @@ public class MEDAnalyzer {
 	public int getUnaryOperators(CtMethod method){
 		int count=0;
 		List<CtUnaryOperator> lsuops = method.getElements(new TypeFilter(CtUnaryOperator.class));
-		for(CtUnaryOperator param: lsuops){
-			System.out.println("[unary operator]: " + param.toString());
-		}
+//		for(CtUnaryOperator param: lsuops){
+//			System.out.println("[unary operator]: " + param.toString());
+//		}
 		count = lsuops.size();
 		return count;
 	}
@@ -395,9 +606,19 @@ public class MEDAnalyzer {
 	public int getUnaryOperators(CtConstructor method){
 		int count=0;
 		List<CtUnaryOperator> lsuops = method.getElements(new TypeFilter(CtUnaryOperator.class));
-		for(CtUnaryOperator param: lsuops){
-			System.out.println("[unary operator]: " + param.toString());
-		}
+//		for(CtUnaryOperator param: lsuops){
+//			System.out.println("[unary operator]: " + param.toString());
+//		}
+		count = lsuops.size();
+		return count;
+	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public int getUnaryOperators(CtAnonymousExecutable method){
+		int count=0;
+		List<CtUnaryOperator> lsuops = method.getElements(new TypeFilter(CtUnaryOperator.class));
+//		for(CtUnaryOperator param: lsuops){
+//			System.out.println("[unary operator]: " + param.toString());
+//		}
 		count = lsuops.size();
 		return count;
 	}
@@ -406,9 +627,9 @@ public class MEDAnalyzer {
 	public int getBinaryOperators(CtMethod method){
 		int count=0;
 		List<CtBinaryOperator> lsbops = method.getElements(new TypeFilter(CtBinaryOperator.class));
-		for(CtBinaryOperator param: lsbops){
-			System.out.println("[binary operator]: " + param.toString());
-		}
+//		for(CtBinaryOperator param: lsbops){
+//			System.out.println("[binary operator]: " + param.toString());
+//		}
 		count = lsbops.size();
 		return count;
 	}
@@ -416,15 +637,27 @@ public class MEDAnalyzer {
 	public int getBinaryOperators(CtConstructor method){
 		int count=0;
 		List<CtBinaryOperator> lsbops = method.getElements(new TypeFilter(CtBinaryOperator.class));
-		for(CtBinaryOperator param: lsbops){
-			System.out.println("[binary operator]: " + param.toString());
-		}
+//		for(CtBinaryOperator param: lsbops){
+//			System.out.println("[binary operator]: " + param.toString());
+//		}
+		count = lsbops.size();
+		return count;
+	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public int getBinaryOperators(CtAnonymousExecutable method){
+		int count=0;
+		List<CtBinaryOperator> lsbops = method.getElements(new TypeFilter(CtBinaryOperator.class));
+//		for(CtBinaryOperator param: lsbops){
+//			System.out.println("[binary operator]: " + param.toString());
+//		}
 		count = lsbops.size();
 		return count;
 	}
 	
 	@SuppressWarnings("rawtypes")
 	MEDAnalyzer(String proj, String clsName, String medName, int medLine){
+		
+//		System.out.println(clsName + "," + medName + "," + medLine);
 		/** Building the meta model */
 		String fullClass = proj + "src/main/java/" + clsName.replaceAll("\\.", "/") + ".java";		
 		Launcher launcher = new Launcher();
@@ -434,17 +667,57 @@ public class MEDAnalyzer {
 		
 		/** Building the CtMethod */	
 		String simpleClsName = clsName.split("\\.")[clsName.split("\\.").length-1];
-		if(!simpleClsName.equals(medName)){ //CtMethod
-			CtMethod method = getCtMethod(metaModel, clsName, medName, medLine);
-			/** extract the features from method */
-			extractFeatures(method);
-		}else{
+		if(simpleClsName.equals(medName)){ // Constructor
 			CtConstructor constructor = getCtConstructor(metaModel, clsName, "<init>", medLine);
 			/** extract the features from constructor */
 			extractFeatures(constructor);
+			
+		}else if(medName.equals("<clinit>")){ // static block
+			CtAnonymousExecutable staticc = getCtStatic(metaModel, clsName, "<clinit>", medLine);
+			extractFeatures(staticc);
+		}else{ // method
+			CtMethod method = getCtMethod(metaModel, clsName, medName, medLine);
+			/** extract the features from method */
+			extractFeatures(method);
 		}
 		
+		extractArtifactFeatures();		
 		
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public CtAnonymousExecutable getCtStatic(CtModel metaModel, String clsName, String medName, int medLine){
+		
+		List<CtAnonymousExecutable> lsMethods = metaModel.getElements(new TypeFilter(CtAnonymousExecutable.class));
+		CtAnonymousExecutable methodModel = null; // the unique founded method
+		
+		for(CtAnonymousExecutable method: lsMethods){
+			int startLine;
+			int endLine;
+			if(method.getBody() == null) {
+				startLine = medLine;
+				endLine = medLine;
+			}else{
+				startLine = method.getBody().getPosition().getLine();
+				endLine = method.getBody().getPosition().getEndLine();
+			}
+			
+			String simpleName = method.getSimpleName();
+			
+			if(medLine >= startLine && medLine <= endLine){
+				
+				methodModel = method;
+//				System.out.println("method: " + method.getSignature());				
+//				System.out.println("range : " + startLine + "," + endLine);
+				break;
+			}
+		}
+		
+		if(methodModel == null){
+			System.out.println("we cannot find method named " + medName + " at line " + medLine);
+		}
+		
+		return methodModel;
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -454,11 +727,20 @@ public class MEDAnalyzer {
 		CtMethod methodModel = null; // the unique founded method
 		
 		for(CtMethod method: lsMethods){
-			int startLine = method.getBody().getPosition().getLine();
-			int endLine = method.getBody().getPosition().getEndLine();
+			int startLine;
+			int endLine;
+			if(method.getBody() == null) {
+				startLine = medLine;
+				endLine = medLine;
+			}else{
+				startLine = method.getBody().getPosition().getLine();
+				endLine = method.getBody().getPosition().getEndLine();
+			}
+			
 			String simpleName = method.getSimpleName();
 			
 			if(simpleName.equals(medName) && (medLine >= startLine && medLine <= endLine)){
+				
 				methodModel = method;
 //				System.out.println("method: " + method.getSignature());				
 //				System.out.println("range : " + startLine + "," + endLine);
@@ -502,12 +784,16 @@ public class MEDAnalyzer {
 		System.out.println(loc + "," + params + "," + locals + "," + ifs + "," + loops + "," + fors
 				+ "," + for_eachs + "," + whiles + "," + do_whiles + "," + try_blocks + "," + catchs
 				+ "," + finally_blocks + "," + assignments + "," + method_calls + "," + returns
-				+ "," + unary_operators + "," + binary_operators + ",");
+				+ "," + unary_operators + "," + binary_operators
+				
+				+ "," + at01 + "," + at02 + "," + at03 + "," + at04 + "," + at05 + "," + at06
+				+ "," + at07 + "," + at08 + "," + at09 + "," + at10 + "," + at11 + "," + at12
+				+ "," + at13 + "," + at14 + "," + at15 + "," + at16 + ",");
 		
 	}
 	
 	/** extract the features from method */
-	public void extractFeatures(CtMethod<?> method){
+	public void extractFeatures(CtMethod method){
 		loc = getLoc(method);
 		params = getParams(method);
 		locals = getLocals(method);
@@ -528,7 +814,7 @@ public class MEDAnalyzer {
 	}
 	
 	/** extract the features from constructor */
-	public void extractFeatures(CtConstructor<?> method){
+	public void extractFeatures(CtConstructor method){
 		loc = getLoc(method);
 		params = getParams(method);
 		locals = getLocals(method);
@@ -546,6 +832,46 @@ public class MEDAnalyzer {
 		returns = getReturns(method);
 		unary_operators = getUnaryOperators(method);
 		binary_operators = getBinaryOperators(method);
+	}
+	
+	/** extract the features from static blocks */
+	public void extractFeatures(CtAnonymousExecutable method){
+		loc = getLoc(method);
+		params = getParams(method);
+		locals = getLocals(method);
+		ifs = getIfs(method);
+		loops = getLoops(method);
+		fors = getFors(method);
+		for_eachs = getForEachs(method);
+		whiles = getWhiles(method);
+		do_whiles = getDoWhiles(method);
+		try_blocks = getTryBlocks(method);
+		catchs = getCatchs(method);
+		finally_blocks = getFinallys(method);
+		assignments = getAssignments(method);
+		method_calls = getInvocations(method);
+		returns = getReturns(method);
+		unary_operators = getUnaryOperators(method);
+		binary_operators = getBinaryOperators(method);
+	}
+	
+	public void extractArtifactFeatures(){
+		at01 = (float) (params*1.0/loc*1.0);
+		at02 = (float) (locals*1.0/loc*1.0);
+		at03 = (float) (ifs*1.0/loc*1.0);
+		at04 = (float) (loops*1.0/loc*1.0);
+		at05 = (float) (fors*1.0/loc*1.0);
+		at06 = (float) (for_eachs*1.0/loc*1.0);
+		at07 = (float) (whiles*1.0/loc*1.0);
+		at08 = (float) (do_whiles*1.0/loc*1.0);
+		at09 = (float) (try_blocks*1.0/loc*1.0);
+		at10 = (float) (catchs*1.0/loc*1.0);
+		at11 = (float) (finally_blocks*1.0/loc*1.0);
+		at12 = (float) (assignments*1.0/loc*1.0);
+		at13 = (float) (method_calls*1.0/loc*1.0);
+		at14 = (float) (returns*1.0/loc*1.0);
+		at15 = (float) (unary_operators*1.0/loc*1.0);
+		at16 = (float) (binary_operators*1.0/loc*1.0);
 	}
 
 }

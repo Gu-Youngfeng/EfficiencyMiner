@@ -9,7 +9,10 @@ import java.util.List;
 public class RepsUtilier {
 	
 	public static void main(String[] args) throws Exception {
-		
+//		List<CrashNode> lsCrash = getSingleCrash("src/main/resources/crashrep/codec_mutants.txt");
+//		for(CrashNode crash: lsCrash){
+//			crash.showBasicInfo();
+//		}
 		getFeatures("src/main/resources/crashrep/codec_mutants.txt", "src/main/resources/projs/Codec_parent/");
 						
 	}
@@ -27,21 +30,27 @@ public class RepsUtilier {
 //		System.out.println("[crash size]: " + lsCrash.size());
 		for(CrashNode scrash: lsCrash){ // for each crash node
 			
-//			showSTFeatures(scrash); // features from stack trace: ST01~ST09
-//			SRCAnalyzer srcAzer = new SRCAnalyzer(proj);
-//			srcAzer.showSRCFeatures(); //features from project: ST10~ST11
+			showSTFeatures(scrash); // features from stack trace: ST01~ST09
+			SRCAnalyzer srcAzer = new SRCAnalyzer(proj);
+			srcAzer.showSRCFeatures(); //features from project: ST10~ST11
 			
 			String topClsName = scrash.getTopClassName(); // top class name
 			CLSAnalyzer clsAzer1 = new CLSAnalyzer(proj, topClsName);
 			clsAzer1.showCLSFeatures(); //features from top class: CT01~CT06
+			
 			String topMedName = scrash.getTopMethodName(); // top method name
-			int topMedLine = scrash.getBottomMethodLine();
+			int topMedLine = scrash.getTopMethodLine();
 			MEDAnalyzer medAzer1 = new MEDAnalyzer(proj, topClsName, topMedName, topMedLine);
-			medAzer1.showMEDFeatures();//features from top class: CT07~CT23
+			medAzer1.showMEDFeatures();//features from top method: CT07~CT23, AT01~AT16
 			
 			String botClsName = scrash.getBottomClassName(); // bottom class name
 			CLSAnalyzer clsAzer2 = new CLSAnalyzer(proj, topClsName);
+			clsAzer2.showCLSFeatures(); //features from bottom class: CB01~CB06
+			
 			String botMedName = scrash.getBottomMethodName(); // bottom method name
+			int botMedLine = scrash.getBottomMethodLine();
+			MEDAnalyzer medAzer2 = new MEDAnalyzer(proj, botClsName, botMedName, botMedLine);
+			medAzer2.showMEDFeatures();//features from bottom method: BT07~CB23, AB01~AB16
 			
 			System.out.println(""); // break line for next crash
 		}
