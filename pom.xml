@@ -21,12 +21,67 @@
 	    <version>6.2.0</version>
 	</dependency>
 	
+	<!-- local project jars: Apache Commons Codec -->
 	<dependency>  
     	<groupId>apapche.commons</groupId>  
     	<artifactId>codec</artifactId>  
     	<version>1.10</version>  
     	<scope>system</scope>  
    		<systemPath>${project.basedir}/libs/commons-codec-1.10.jar</systemPath>  
+	</dependency> 
+	
+	<!-- local project jars: Apache Commons Collections -->
+	<dependency>  
+    	<groupId>apapche.commons</groupId>  
+    	<artifactId>collections</artifactId>  
+    	<version>4.1</version>  
+    	<scope>system</scope>  
+   		<systemPath>${project.basedir}/libs/commons-collections4-4.1.jar</systemPath>  
+	</dependency> 
+	
+	<!-- local project jars: Apache Commons IO -->
+	<dependency>  
+    	<groupId>apapche.commons</groupId>  
+    	<artifactId>io</artifactId>  
+    	<version>2.5</version>  
+    	<scope>system</scope>  
+   		<systemPath>${project.basedir}/libs/commons-io-2.5.jar</systemPath>  
+	</dependency> 
+	
+	<!-- local project jars: Jsoup -->
+	<dependency>  
+    	<groupId>jsoup</groupId>  
+    	<artifactId>jsoup</artifactId>  
+    	<version>1.11.1</version>  
+    	<scope>system</scope>  
+   		<systemPath>${project.basedir}/libs/jsoup-1.11.1-SNAPSHOT.jar</systemPath>  
+	</dependency> 
+	
+	<!-- local project jars: JSqlParser -->
+	<dependency>  
+    	<groupId>net.sf</groupId>  
+    	<artifactId>jsqlparser</artifactId>  
+    	<version>0.9.7</version>  
+    	<scope>system</scope>  
+   		<systemPath>${project.basedir}/libs/jsqlparser-0.9.7-SNAPSHOT-jar-with-dependencies.jar</systemPath>  
+	</dependency> 
+	
+	<!-- local project jars: Mango -->
+	<dependency>  
+    	<groupId>jfaster</groupId>  
+    	<artifactId>mango</artifactId>  
+    	<version>1.5.4</version>  
+    	<scope>system</scope>  
+   		<systemPath>${project.basedir}/libs/mango-1.5.4-SNAPSHOT-jar-with-dependencies.jar</systemPath>  
+	</dependency> 
+	
+	<!-- local project jars: Ormlite -->
+	<dependency>  
+    	<groupId>com.j256.ormlite</groupId>  
+    	<artifactId>ormlite</artifactId>  
+    	<version>5.1</version>  
+    	<scope>system</scope>  
+   		<systemPath>${project.basedir}/libs/ormlite-core-jar-with-dependencies.jar</systemPath>  
 	</dependency> 
   	
   </dependencies>

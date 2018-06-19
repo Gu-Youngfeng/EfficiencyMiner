@@ -28,8 +28,17 @@ import spoon.reflect.visitor.filter.TypeFilter;
 public class MEDAnalyzer {
 
 	public static void main(String[] args) {
-		MEDAnalyzer iii = new MEDAnalyzer("src/main/resources/projs/Codec_parent/", "org.apache.commons.codec.net.URLCodec", "<clinit>", 83);
-		iii.showMEDFeatures();
+		MEDAnalyzer iii;
+		try {
+			iii = new MEDAnalyzer("src/main/resources/projs/Commons-io-2.5_parent/", "org.apache.commons.io.comparator.CompositeFileComparator", "sort", 45);
+			iii.showMEDFeatures();
+		} catch (Exception e) {
+			System.out.println("[NONE METHOD]");
+//			e.printStackTrace();
+		}	
+				
+//		String fullClass = "src/main/resources/projs/Commons-io-2.5_parent/src/main/java/org/apache/commons/io/comparator/CompositeFileComparator.java";
+		
 	}
 	
 	/** CT07/CB07: LoC of the top/bottom function */
@@ -130,7 +139,7 @@ public class MEDAnalyzer {
 //		System.out.println("[start]: " + startLine + ", [end]: " + endLine);
 		return count;
 	}
-	@SuppressWarnings("rawtypes")
+	
 	public int getLoc(CtAnonymousExecutable method){
 		int count=0;
 		int startLine;
@@ -484,7 +493,7 @@ public class MEDAnalyzer {
 		}
 		return count;
 	}
-	@SuppressWarnings({ "rawtypes" })
+
 	public int getFinallys(CtAnonymousExecutable method){
 		int count=0;
 		if(method.getBody() == null){
@@ -655,7 +664,7 @@ public class MEDAnalyzer {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	MEDAnalyzer(String proj, String clsName, String medName, int medLine){
+	MEDAnalyzer(String proj, String clsName, String medName, int medLine) throws Exception {
 		
 //		System.out.println(clsName + "," + medName + "," + medLine);
 		/** Building the meta model */
@@ -677,14 +686,26 @@ public class MEDAnalyzer {
 			extractFeatures(staticc);
 		}else{ // method
 			CtMethod method = getCtMethod(metaModel, clsName, medName, medLine);
+			if(method == null){ // inherited method appear
+//				System.out.println("NONE METHOD");
+				throw new Exception();
+			}
 			/** extract the features from method */
 			extractFeatures(method);
 		}
 		
-		extractArtifactFeatures();		
+		extractArtifactFeatures();	
 		
 	}
 	
+	/**
+	 * To get static block from given metaModel, class name, method name, line number. 
+	 * @param metaModel
+	 * @param clsName class name
+	 * @param medName method name
+	 * @param medLine line number
+	 * @return
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CtAnonymousExecutable getCtStatic(CtModel metaModel, String clsName, String medName, int medLine){
 		
@@ -701,12 +722,11 @@ public class MEDAnalyzer {
 				startLine = method.getBody().getPosition().getLine();
 				endLine = method.getBody().getPosition().getEndLine();
 			}
-			
-			String simpleName = method.getSimpleName();
-			
+						
 			if(medLine >= startLine && medLine <= endLine){
 				
 				methodModel = method;
+//				String simpleName = method.getSimpleName();
 //				System.out.println("method: " + method.getSignature());				
 //				System.out.println("range : " + startLine + "," + endLine);
 				break;
@@ -714,14 +734,23 @@ public class MEDAnalyzer {
 		}
 		
 		if(methodModel == null){
-			System.out.println("we cannot find method named " + medName + " at line " + medLine);
+			System.out.println("[MEDAnalyzer Error]: We cannot find static at [" + clsName + "." + medName + ":" + medLine + "]");
 		}
 		
 		return methodModel;
 	}
 	
+	/**
+	 * To get method from given metaModel, class name, method name, line number. 
+	 * @param metaModel
+	 * @param clsName class name
+	 * @param medName method name
+	 * @param medLine line number
+	 * @return
+	 * @throws SuperClassException 
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public CtMethod getCtMethod(CtModel metaModel, String clsName, String medName, int medLine){
+	public CtMethod getCtMethod(CtModel metaModel, String clsName, String medName, int medLine) {
 		
 		List<CtMethod> lsMethods = metaModel.getElements(new TypeFilter(CtMethod.class));
 		CtMethod methodModel = null; // the unique founded method
@@ -748,13 +777,22 @@ public class MEDAnalyzer {
 			}
 		}
 		
-		if(methodModel == null){
-			System.out.println("we cannot find method named " + medName + " at line " + medLine);
+		if(methodModel == null){ // we can not find method at this location
+//			System.out.println("[MEDAnalyzer Error]: We cannot find method at [" + clsName + "." + medName + ":" + medLine + "]");
+
 		}
 		
 		return methodModel;
 	}
 	
+	/**
+	 * To get constructor from given metaModel, class name, method name, line number. 
+	 * @param metaModel
+	 * @param clsName class name
+	 * @param medName method name
+	 * @param medLine line number
+	 * @return
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CtConstructor getCtConstructor(CtModel metaModel, String clsName, String medName, int medLine){
 		List<CtConstructor> lsConstructors = metaModel.getElements(new TypeFilter(CtConstructor.class));
@@ -774,7 +812,7 @@ public class MEDAnalyzer {
 		}
 		
 		if(constructorModel == null){
-			System.out.println("we cannot find constructor named " + medName + " at line " + medLine);
+			System.out.println("[MEDAnalyzer Error]: We cannot find constructor at [" + clsName + "." + medName + ":" + medLine + "]");
 		}
 		
 		return constructorModel;

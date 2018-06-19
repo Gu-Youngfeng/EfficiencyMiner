@@ -1,5 +1,6 @@
 package cn.edu.whu.cstar.timer;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +28,8 @@ public class CrashNode {
 	/**whether an overloaded method exists in the stack trace*/
 	private boolean isOverLoaded;
 	
+	private List<String> stackTraces = new ArrayList<String>();
+	
 	/**top class name*/
 	private String topClassName;
 	/**top method name*/
@@ -41,6 +44,10 @@ public class CrashNode {
 	/**bottom number in top method*/
 	private int bottomMethodLine;
 	
+	private String bottom2ClassName;
+	private String bottom2MethodName;
+	private int bottom2MethodLine;
+	
 	/**
 	 * <p>to initialize a crash node object from crash, the crash is a single crash in the following format,</p>
 	 * <pre>
@@ -53,8 +60,11 @@ public class CrashNode {
 	 */
 	CrashNode(List<String> crash){
 		
+		stackTraces = getStackTraces(crash);
+		
 		String topLine = getTopLine(crash);
 		String bottomLine = getBottomLine(crash);
+		String bottom2Line = getBottom2Line(crash);
 		
 		topClassName = getClassName(topLine);
 		topMethodName = getMethodName(topLine);
@@ -64,6 +74,10 @@ public class CrashNode {
 		bottomMethodName = getMethodName(bottomLine);
 		bottomMethodLine = getMethodLine(bottomLine);
 		
+		bottom2ClassName = getClassName(bottom2Line);
+		bottom2MethodName = getMethodName(bottom2Line);
+		bottom2MethodLine = getMethodLine(bottom2Line);		
+		
 		String exceptName = getExceptionName(crash.get(1));
 //		System.out.println("exception type: " + exceptName);
 		exceptionType = getExceptionType(exceptName);
@@ -71,6 +85,18 @@ public class CrashNode {
 		classNum = getClassNum(crash);
 		methodNum = getMethodNum(crash);
 		isOverLoaded = isOverLoaded(crash);
+	}
+	
+	public List<String> getStackTraces(List<String> crash){
+		List<String> avaTrace = new ArrayList<String>();
+		
+		for(String line: crash){
+			if(isMethodLine(line)){
+				avaTrace.add(line);
+			}
+		}
+		
+		return avaTrace;
 	}
 	
 	/**
@@ -127,6 +153,8 @@ public class CrashNode {
 			String cls = getClassName(line);
 			String[] clss = cls.split("\\.");
 			tmn = clss[clss.length-1];
+//			int inn = cls.indexOf("\\.");
+//			tmn = cls.substring(inn, cls.length());
 		}
 		
 		return tmn;
@@ -150,7 +178,7 @@ public class CrashNode {
 		}else{
 			System.out.println("[ERROR]: Mismatched! " + line);
 		}
-		
+//		System.out.println(">> " + tml);
 		loc = Integer.valueOf(tml); // NumberFormatException
 			
 		return loc;
@@ -237,12 +265,8 @@ public class CrashNode {
 	String getTopLine(List<String> crash){
 		String topLine = "";
 		
-		for(int i=0; i<crash.size(); i++){
-			if(isMethodLine(crash.get(i))){
-				topLine = crash.get(i);
-				break;
-			}
-		}		
+		topLine = stackTraces.get(0);
+		
 //		System.out.println("[TOP]: " + topLine);
 		return topLine;
 	}
@@ -250,7 +274,7 @@ public class CrashNode {
 	boolean isMethodLine(String line){
 		boolean flag = false;
 		
-		if ( (line.startsWith("\tat org.") || line.startsWith("\tat com.j256"))
+		if ( (line.startsWith("\tat org.") || line.startsWith("\tat com.j256") || line.startsWith("\tat net.sf"))
 				&& !line.contains("Test.java") && !line.contains("com.j256.ormlite.h2.H2DatabaseConnection.queryForOne") 
 				&& !line.contains("TestCase.java") && !line.contains("TestUtils.java")
 				&& !line.contains("TestData.java")){
@@ -263,7 +287,7 @@ public class CrashNode {
 	boolean isTestLine(String line){
 		boolean flag = false;
 		
-		if ( (line.startsWith("\tat org.") || line.startsWith("\tat com.j256")) 
+		if ( (line.startsWith("\tat org.") || line.startsWith("\tat com.j256") || line.startsWith("\tat net.sf")) 
 				&& (line.contains("Test.java") || line.contains("com.j256.ormlite.h2.H2DatabaseConnection.queryForOne") 
 						|| line.contains("TestCase.java") || line.contains("TestUtils.java")
 						|| line.contains("TestData.java")) ){
@@ -280,27 +304,28 @@ public class CrashNode {
 	 */
 	String getBottomLine(List<String> crash){
 		String bottomLine = "";
+		int index = stackTraces.size()-1;
+		bottomLine = stackTraces.get(index);
 		
-		int k = 0;
-		for(k=0; k<crash.size(); k++){
-			if(isMethodLine(crash.get(k))){
-				break;
-			}
-		}
-		
-		for(int i=k; i<crash.size(); i++){
-			if(isTestLine(crash.get(i))){
-//				bottomLine = crash.get(i-1);
-				int m = i-1;
-				while(!isMethodLine(crash.get(m))){
-					m--;
-				}
-				bottomLine = crash.get(m);
-				break;
-			}
-		}		
 //		System.out.println("[BOT]: " + bottomLine);
 		return bottomLine;
+	}
+	
+	/**
+	 * <p>To find the last 2nd bottom method line of stack trace.</p>
+	 * @param crash crash crash lines list
+	 * @return
+	 */
+	String getBottom2Line(List<String> crash){
+		String bottom2Line = "";
+		int index = stackTraces.size()-2;
+		if(index<0){
+			index = 0;
+		}
+		bottom2Line = stackTraces.get(index);
+		
+//		System.out.println("[BOT-2]: " + bottom2Line);
+		return bottom2Line;
 	}
 	
 	/**
@@ -362,6 +387,18 @@ public class CrashNode {
 	
 	// getter of private variables //////////////////////////////////////////
 
+	public int getBottom2MethodLine(){
+		return bottom2MethodLine;
+	}
+	
+	public String getBottom2MethodName(){
+		return bottom2MethodName;
+	}
+	
+	public String getBottom2ClassName(){
+		return bottom2ClassName;
+	}
+	
 	public int getBottomMethodLine(){
 		return bottomMethodLine;
 	}
@@ -408,13 +445,14 @@ public class CrashNode {
 	
 	public void showBasicInfo(){
 		System.out.println("------------------## CRASH ##------------------");
-		System.out.println("[TYP]: " + getType());
-		System.out.println("[LOC]: " + loc);
-		System.out.println("[CLS]: " + getClassNum());
-		System.out.println("[MED]: " + getMethodNum());
-		System.out.println("[OLD]: " + getisOverLoaded());
-		System.out.println("[TOP]: " + getTopClassName() + ", " + getTopMethodName() + ", " + getTopMethodLine());
-		System.out.println("[BOT]: " + getBottomClassName() + ", " + getBottomMethodName() + ", " + getBottomMethodLine());
+//		System.out.println("[TYP]: " + getType());
+//		System.out.println("[LOC]: " + loc);
+//		System.out.println("[CLS]: " + getClassNum());
+//		System.out.println("[MED]: " + getMethodNum());
+//		System.out.println("[OLD]: " + getisOverLoaded());
+		System.out.println("[TOP  ]: " + getTopClassName() + ", " + getTopMethodName() + ", " + getTopMethodLine());
+		System.out.println("[BOT  ]: " + getBottomClassName() + ", " + getBottomMethodName() + ", " + getBottomMethodLine());
+		System.out.println("[BOT-2]: " + getBottom2ClassName() + ", " + getBottom2MethodName() + ", " + getBottom2MethodLine());
 		System.out.println("------------------------------------------------\n");
 	}
 	
