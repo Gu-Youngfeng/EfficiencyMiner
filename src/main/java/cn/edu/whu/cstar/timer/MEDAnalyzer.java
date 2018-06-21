@@ -146,7 +146,7 @@ public class MEDAnalyzer {
 			startLine = method.getBody().getPosition().getLine();
 			endLine = method.getBody().getPosition().getEndLine();
 		}
-		count = endLine - startLine;
+		count = endLine - startLine + 1;
 //		System.out.println("[start]: " + startLine + ", [end]: " + endLine);
 		return count;
 	}
@@ -161,7 +161,7 @@ public class MEDAnalyzer {
 			startLine = method.getBody().getPosition().getLine();
 			endLine = method.getBody().getPosition().getEndLine();
 		}
-		count = endLine - startLine;
+		count = endLine - startLine + 1;
 //		System.out.println("[start]: " + startLine + ", [end]: " + endLine);
 		return count;
 	}
@@ -176,7 +176,7 @@ public class MEDAnalyzer {
 			startLine = method.getBody().getPosition().getLine();
 			endLine = method.getBody().getPosition().getEndLine();
 		}
-		count = endLine - startLine;
+		count = endLine - startLine + 1;
 //		System.out.println("[start]: " + startLine + ", [end]: " + endLine);
 		return count;
 	}

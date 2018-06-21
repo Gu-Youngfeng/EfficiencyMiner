@@ -153,17 +153,32 @@ public class RepsUtilier {
 		/**ST05: Whether an overloaded method exists in the stack trace*/
 		int isOverLoaded = crash.getisOverLoaded()?0:1;
 		/**ST06: Length of the name in the top class*/
-		int lenTopClassName = crash.getTopClassName().length();
+		int lenTopClassName = getSimpleClassName(crash.getTopClassName()).length();
 		/**ST07: Length of the name in the top function*/
 		int lenTopMethodName = crash.getTopMethodName().length();
 		/**ST08: Length of the name in the bottom class*/
-		int lenBottomClassName = crash.getBottomClassName().length();
+		int lenBottomClassName = getSimpleClassName(crash.getBottomClassName()).length();
 		/**ST09: Length of the name in the bottom function*/
 		int lenBottomMethodName = crash.getBottomMethodName().length();
 			
 		System.out.print(exceptName + "," + loc + "," + classNum + "," + methodNum + "," + isOverLoaded
 				+ "," + lenTopClassName + "," + lenTopMethodName + "," + lenBottomClassName + "," + lenBottomMethodName + ",");
 			
+	}
+	
+	public static String getSimpleClassName(String qualifiedName){
+		String simpleName = "";
+		
+		if(qualifiedName.contains(".")){
+			int index = qualifiedName.lastIndexOf(".");
+			simpleName = qualifiedName.substring(index+1);
+		}else{
+			simpleName = qualifiedName;
+		}
+		
+		System.out.println(simpleName);
+		
+		return simpleName;
 	}
 
 }

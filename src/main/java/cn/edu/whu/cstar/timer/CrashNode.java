@@ -213,48 +213,69 @@ public class CrashNode {
 	public static int getExceptionType(String ExType){
 		int num = -1;
 		switch(ExType){
-		case "NumberFormatException":
-			num = 1;
-			break;
-		case "IllegalArgumentException":
-			num = 2;
-			break;
-		case "StringIndexOutOfBoundsException":
-			num = 3;
-			break;	
-		case "ArrayIndexOutOfBoundsException":
-			num = 4;
-			break;	
-		case "SerializationException":
-			num = 5;
-			break;
-		case "NullPointerException":
-			num = 6;
-			break;
-		case "ClassCastException":
-			num = 7;
-			break;	
-		case "ArrayStoreException":
-			num = 8;
-			break;
-		case "OutOfMemoryError":
-			num = 9;
-			break;	
-		case "UnsupportedOperationException":
-			num = 10;
-			break;
-		case "IllegalFieldValueException":
-			num = 11;
-			break;
-		case "IndexOutOfBoundsException":
-			num = 12;
-			break;
-		case "UnknownKeyException":
-			num = 13;
-			break;
-		default:
-			num = 14;
-			break;
+			case "CloneNotSupportedException":
+				num = 1;
+				break;
+			case "InterruptedException":
+				num = 2;
+				break;
+			case "ClassNotFoundException":
+				num = 3;
+				break;	
+			case "IllegalAccessException":
+				num = 4;
+				break;	
+			case "InstantiationException":
+				num = 5;
+				break;
+			case "NoSuchFieldException":
+				num = 6;
+				break;
+			case "NoSuchMethodException":
+				num = 7;
+				break;	
+			case "ArithmeticException":
+				num = 8;
+				break;
+			case "ArrayStoreException":
+				num = 9;
+				break;	
+			case "ClassCastException":
+				num = 10;
+				break;
+			case "IllegalArgumentException":
+				num = 11;
+				break;
+			case "IllegalStateException":
+				num = 12;
+				break;
+			case "IndexOutOfBoundsException":
+				num = 13;
+				break;
+			case "ArrayIndexOutOfBoundsException":
+				num = 14;
+				break;
+			case "StringIndexOutOfBoundsException":
+				num = 15;
+				break;
+			case "NullPointerException":
+				num = 16;
+				break;
+			case "IllegalThreadStateException":
+				num = 17;
+				break;
+			case "NumberFormatException":
+				num = 18;
+				break;
+			case "UnsupportedOperationException":
+				num = 19;
+				break;
+			case "RuntimeException":
+				num = 20;
+				break;
+			default:
+				num = 21;
+				break;
 		}
 		return num;
 	}
@@ -380,14 +401,13 @@ public class CrashNode {
 	 */
 	int getMethodNum(List<String> crash){
 		int count=0;
-		Set<String> setMel = new HashSet<String>();
+
 		for(String line: crash){
 			if(isMethodLine(line)){
-				String fullMethodName = getClassName(line) + "." + getMethodName(line);
-				setMel.add(fullMethodName);
+				count++;
 			}
 		}
-		count = setMel.size();
+		
 //		for(String cls: setMel){System.out.println("-- " + cls);}
 		return count;
 	}
