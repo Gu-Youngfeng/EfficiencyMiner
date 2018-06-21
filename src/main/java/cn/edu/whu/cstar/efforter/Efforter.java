@@ -5,10 +5,16 @@ import java.util.List;
 import cn.edu.whu.cstar.timer.CrashNode;
 import cn.edu.whu.cstar.timer.RepsUtilier;
 
+/***
+ * <p>Main entry of package <b>efforter</b>. Running {@link#main} method can give 
+ * the whole line efforts of each CrashNode in each project.</p>
+ * @author yongfeng
+ *
+ */
 public class Efforter {
 
 	public static void main(String[] args) {
-		System.out.println("-------  Effort Counter  -------");
+		System.out.println("-------  Line Effort for Each Crash in Each Project  -------");
 		// Counting Process
 		for(int i=1; i<=7; i++){
 

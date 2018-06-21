@@ -1,9 +1,15 @@
 package cn.edu.whu.cstar.timer;
 
+/***
+ * <p>Main entry of package <b>timer</b>. Running {@link#main} method can give 
+ * the whole analysis time (in million second) of each project.</p>
+ * @author yongfeng
+ *
+ */
 public class Timer {
 	
 	public static void main(String[] args){
-		System.out.println("-------  Time Counter  -------");	
+		System.out.println("-------  Time Consuming of each Project  -------");	
 		
 		// Analysis Process
 		for(int i=7; i<=7; i++){

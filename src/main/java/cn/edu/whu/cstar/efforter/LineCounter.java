@@ -5,11 +5,22 @@ import java.util.List;
 import cn.edu.whu.cstar.timer.CrashNode;
 import cn.edu.whu.cstar.timer.MEDAnalyzer;
 
+/***
+ * <p><b>LineCounter</b> is a utilize class, which provides four kinds of line effort calculation modes. 
+ * Given a CrashNode object, following static methods will calculate the line effort developers should spend.</p>
+ * <li>MODE 1: {@link#countingAllMethodLine}</li>
+ * <li>MODE 2: {@link#countingAllStackTraceLine}</li>
+ * <li>MODE 3: {@link#countingExpStackTraceLine}</li>
+ * <li>MODE 4: {@link#countingExpMethodLine}</li>
+ * @author yongfeng
+ *
+ */
 public class LineCounter {
 	
 	/***
 	 * <p><b>[Mode I]:</b> to count total lines in all methods, which appear in stack trace, in single crash node.</p>
 	 * @param crash CrashNode
+	 * @param proj project path
 	 * @return
 	 */
 	public static int countingAllMethodLine(String proj, CrashNode crash){
@@ -81,6 +92,7 @@ public class LineCounter {
 	/***
 	 * <p><b>[Mode IV]:</b> to count total lines of stack trace (till the mutation position) in single crash node.</p>
 	 * @param crash CrashNode
+	 * @param proj project path
 	 * @return
 	 */
 	public static int countingExpMethodLine(String proj, CrashNode crash){

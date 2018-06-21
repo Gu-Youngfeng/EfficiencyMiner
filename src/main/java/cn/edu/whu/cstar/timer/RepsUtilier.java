@@ -32,7 +32,7 @@ public class RepsUtilier {
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}
-		System.out.println("[project]: " + path);
+		System.out.println("[project]: " + proj);
 		System.out.println("[size   ]: " + lsCrash.size());
 		for(CrashNode scrash: lsCrash){ // for each crash node
 			
