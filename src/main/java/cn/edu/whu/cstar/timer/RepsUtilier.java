@@ -8,14 +8,14 @@ import java.util.List;
 
 public class RepsUtilier {
 	
-	public static void main(String[] args) throws Exception {
+//	public static void main(String[] args) throws Exception {
 //		List<CrashNode> lsCrash = getSingleCrash("src/main/resources/crashrep/io_mutants.txt");
 //		for(CrashNode crash: lsCrash){
 //			crash.showBasicInfo();
 //		}
-		getFeatures("src/main/resources/crashrep/io_mutants.txt", "src/main/resources/projs/Commons-io-2.5_parent/");
-						
-	}
+//		getFeatures("src/main/resources/crashrep/io_mutants.txt", "src/main/resources/projs/Commons-io-2.5_parent/");
+//						
+//	}
 	
 	/**
 	 * <p>To extract features from <b>Stack Trace</b> (xx_mutants.txt) and <b>Buggy Source Code</b> (xx_parent/). Note that,</p>
@@ -32,7 +32,8 @@ public class RepsUtilier {
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}
-//		System.out.println("[crash size]: " + lsCrash.size());
+		System.out.println("[project]: " + path);
+		System.out.println("[size   ]: " + lsCrash.size());
 		for(CrashNode scrash: lsCrash){ // for each crash node
 			
 			/** Features from Stack Trace **/
@@ -89,8 +90,7 @@ public class RepsUtilier {
 				}
 				
 			}
-			
-			
+						
 			System.out.println(""); // break line for next crash
 		}
 	}

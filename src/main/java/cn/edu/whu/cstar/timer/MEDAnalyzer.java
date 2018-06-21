@@ -27,54 +27,56 @@ import spoon.reflect.visitor.filter.TypeFilter;
 
 public class MEDAnalyzer {
 
-	public static void main(String[] args) {
-		MEDAnalyzer iii;
-		try {
-			iii = new MEDAnalyzer("src/main/resources/projs/Commons-io-2.5_parent/", "org.apache.commons.io.comparator.CompositeFileComparator", "sort", 45);
-			iii.showMEDFeatures();
-		} catch (Exception e) {
-			System.out.println("[NONE METHOD]");
+//	public static void main(String[] args) {
+//		MEDAnalyzer iii;
+//		try {
+//			iii = new MEDAnalyzer("src/main/resources/projs/Commons-io-2.5_parent/", "org.apache.commons.io.comparator.CompositeFileComparator", "sort", 45);
+//			iii.showMEDFeatures();
+//		} catch (Exception e) {
+//			System.out.println("[NONE METHOD]");
 //			e.printStackTrace();
-		}	
-				
+//		}	
+//				
 //		String fullClass = "src/main/resources/projs/Commons-io-2.5_parent/src/main/java/org/apache/commons/io/comparator/CompositeFileComparator.java";
-		
-	}
+//		
+//	}
 	
 	/** CT07/CB07: LoC of the top/bottom function */
-	int loc;
+	private int loc;
 	/** CT08/CB08: Number of parameters in the top/bottom function */
-	int params;
+	private int params;
 	/** CT09/CT09: Number of local variables in the top/bottom function */
-	int locals;
+	private int locals;
 	/** CT10:CB10: Number of if-statements in the top/bottom function */
-	int ifs;
+	private int ifs;
 	/** CT11:CB11: Number of loops in the top/bottom function */
-	int loops;
+	private int loops;
 	/** CT12:CB12: Number of for statements in the top/bottom function */
-	int fors;
+	private int fors;
 	/** CT13:CB13: Number of for-each statements in the top/bottom function */
-	int for_eachs;
+	private int for_eachs;
 	/** CT14:CB14: Number of while statements in the top/bottom function */
-	int whiles;
+	private int whiles;
 	/** CT15/CB15: Number of do-while statements in the top/bottom function */
-	int do_whiles;
+	private int do_whiles;
 	/** CT16/CB16: Number of try blocks in the top/bottom function */
-	int try_blocks;
+	private int try_blocks;
 	/** CT17/CB17: Number of catch blocks in the top/bottom function */
-	int catchs;
+	private int catchs;
 	/** CT18:CB18: Number of finally blocks in the top/bottom function */
-	int finally_blocks;
+	private int finally_blocks;
 	/** CT19:CB19: Number of assignment statements in the top/bottom function */
-	int assignments;
+	private int assignments;
 	/** CT20:CB20: Number of method calls in the top/bottom function */
-	int method_calls;
+	private int method_calls;
 	/** CT21:CB21: Number of return statements in the top/bottom function */
-	int returns;
+	private int returns;
 	/** CT22:CB22: Number of unary operators in the top/bottom function */
-	int unary_operators;
+	private int unary_operators;
 	/** CT23:CB23: Number of binary operators in the top/bottom function */
-	int binary_operators;
+	private int binary_operators;
+	
+	public int startLine;
 	
 	/** AT01/AB01: CT08/CT07*/
 	float at01;
@@ -108,6 +110,30 @@ public class MEDAnalyzer {
 	float at15;
 	/** AT16/AB16: CT23/CT07*/
 	float at16;
+	
+	@SuppressWarnings("rawtypes")
+	public int getStartLine(CtMethod method){
+		if(method.getBody() == null){
+			return 1;
+		}else{
+			return method.getBody().getPosition().getLine();
+		}
+	}
+	@SuppressWarnings("rawtypes")
+	public int getStartLine(CtConstructor method){
+		if(method.getBody() == null){
+			return 1;
+		}else{
+			return method.getBody().getPosition().getLine();
+		}
+	}
+	public int getStartLine(CtAnonymousExecutable method){
+		if(method.getBody() == null){
+			return 1;
+		}else{
+			return method.getBody().getPosition().getLine();
+		}
+	}
 	
 	@SuppressWarnings("rawtypes")
 	public int getLoc(CtMethod method){
@@ -664,7 +690,7 @@ public class MEDAnalyzer {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	MEDAnalyzer(String proj, String clsName, String medName, int medLine) throws Exception {
+	public MEDAnalyzer(String proj, String clsName, String medName, int medLine) throws Exception {
 		
 //		System.out.println(clsName + "," + medName + "," + medLine);
 		/** Building the meta model */
@@ -831,6 +857,7 @@ public class MEDAnalyzer {
 	}
 	
 	/** extract the features from method */
+	@SuppressWarnings("rawtypes")
 	public void extractFeatures(CtMethod method){
 		loc = getLoc(method);
 		params = getParams(method);
@@ -849,9 +876,12 @@ public class MEDAnalyzer {
 		returns = getReturns(method);
 		unary_operators = getUnaryOperators(method);
 		binary_operators = getBinaryOperators(method);
+		
+		startLine = getStartLine(method);
 	}
 	
 	/** extract the features from constructor */
+	@SuppressWarnings("rawtypes")
 	public void extractFeatures(CtConstructor method){
 		loc = getLoc(method);
 		params = getParams(method);
@@ -870,6 +900,8 @@ public class MEDAnalyzer {
 		returns = getReturns(method);
 		unary_operators = getUnaryOperators(method);
 		binary_operators = getBinaryOperators(method);
+		
+		startLine = getStartLine(method);
 	}
 	
 	/** extract the features from static blocks */
@@ -891,6 +923,8 @@ public class MEDAnalyzer {
 		returns = getReturns(method);
 		unary_operators = getUnaryOperators(method);
 		binary_operators = getBinaryOperators(method);
+		
+		startLine = getStartLine(method);
 	}
 	
 	public void extractArtifactFeatures(){
@@ -912,4 +946,7 @@ public class MEDAnalyzer {
 		at16 = (float) (binary_operators*1.0/loc*1.0);
 	}
 
+	public int returnLOC(){
+		return loc;
+	}
 }

@@ -3,16 +3,18 @@ package cn.edu.whu.cstar.timer;
 public class Timer {
 	
 	public static void main(String[] args){
-		System.out.println("-------  Time Counter  -------");
-		long startTime = 0l;
-		long endTime = 0l;		
-		startTime = System.currentTimeMillis();
+		System.out.println("-------  Time Counter  -------");	
 		
 		// Analysis Process
-		analyzing(7);
+		for(int i=7; i<=7; i++){
+			long startTime = 0l;
+			long endTime = 0l;		
+			startTime = System.currentTimeMillis();
+			analyzing(i);
+			endTime = System.currentTimeMillis();
+			System.out.println("[time   ]: " + (endTime-startTime) + "\n");
+		}
 		
-		endTime = System.currentTimeMillis();
-		System.out.println("[Time Duration]: " + (endTime-startTime));
 	}
 	
 	public static void analyzing(int projId){

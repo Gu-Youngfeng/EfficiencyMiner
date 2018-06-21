@@ -16,11 +16,11 @@ import spoon.reflect.visitor.filter.TypeFilter;
 
 public class CLSAnalyzer {
 
-	public static void main(String[] args) {
-
-		CLSAnalyzer clsr = new CLSAnalyzer("src/main/resources/projs/Codec_parent/", "org.apache.commons.codec.language.ColognePhonetic");		
-		clsr.showCLSFeatures();
-	}
+//	public static void main(String[] args) {
+//
+//		CLSAnalyzer clsr = new CLSAnalyzer("src/main/resources/projs/Codec_parent/", "org.apache.commons.codec.language.ColognePhonetic");		
+//		clsr.showCLSFeatures();
+//	}
 	
 	/**meta model of spoon*/
 	private CtModel metaModel;

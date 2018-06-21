@@ -28,7 +28,8 @@ public class CrashNode {
 	/**whether an overloaded method exists in the stack trace*/
 	private boolean isOverLoaded;
 	
-	private List<String> stackTraces = new ArrayList<String>();
+	public List<String> stackTraces = new ArrayList<String>();
+	public int InTrace;
 	
 	/**top class name*/
 	private String topClassName;
@@ -61,6 +62,7 @@ public class CrashNode {
 	CrashNode(List<String> crash){
 		
 		stackTraces = getStackTraces(crash);
+		InTrace = getMutationLine(crash);
 		
 		String topLine = getTopLine(crash);
 		String bottomLine = getBottomLine(crash);
@@ -326,6 +328,31 @@ public class CrashNode {
 		
 //		System.out.println("[BOT-2]: " + bottom2Line);
 		return bottom2Line;
+	}
+	
+	int getMutationLine(List<String> crash){
+		String mut = crash.get(crash.size()-1);
+		int mutLine = -1;
+		String reg = "MUTATIONID:<<(.*),(.*),(\\d*)>>";
+		Pattern pattern = Pattern.compile(reg);
+		Matcher matcher = pattern.matcher(mut);
+		if(matcher.find()){
+			String cls = matcher.group(1).trim();
+			String med = matcher.group(2).trim();
+			String lin = matcher.group(3).trim();
+			
+			for(int i=0; i<stackTraces.size(); i++){
+				if(stackTraces.get(i).contains(cls) && stackTraces.get(i).contains(med) && stackTraces.get(i).contains(lin)){
+					// mutation line inTrace
+					mutLine = i;
+					break;
+				}
+			}
+//			mutLine = "\tat " + cls + "." + med +
+		}
+		
+		return mutLine;
+		
 	}
 	
 	/**
