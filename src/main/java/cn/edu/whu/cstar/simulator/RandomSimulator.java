@@ -53,7 +53,8 @@ public class RandomSimulator {
 //		List<Integer> lsRandom = new ArrayList<Integer>();
 		int len = lsOrigin.size();
 		for(int j = len-1; j>0; j--){
-			int changeIndex = (new Random(seed)).nextInt(len-1);
+			int changeIndex = (new Random(seed)).nextInt(j+1);
+			System.out.println(" change with : " + changeIndex);
 			
 			int temp = lsOrigin.get(j);
 			lsOrigin.set(j, lsOrigin.get(changeIndex));
