@@ -21,6 +21,21 @@
 	    <version>6.2.0</version>
 	</dependency>
 	
+	<!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-dev -->
+	<dependency>
+    	<groupId>nz.ac.waikato.cms.weka</groupId>
+    	<artifactId>weka-dev</artifactId>
+   		<version>3.9.2</version>
+	</dependency>
+
+	
+	<!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/SMOTE -->
+	<dependency>
+    	<groupId>nz.ac.waikato.cms.weka</groupId>
+    	<artifactId>SMOTE</artifactId>
+    	<version>1.0.3</version>
+	</dependency>
+	
 	<!-- local project jars: Apache Commons Codec -->
 	<dependency>  
     	<groupId>apapche.commons</groupId>  
