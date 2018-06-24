@@ -1,118 +1,175 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>cn.edu.whu.cstar</groupId>
-  <artifactId>effciency-minner</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>EffcientMinner</name>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cn.edu.whu.cstar</groupId>
+	<artifactId>effciency-minner</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>EffcientMinner</name>
   
-  <dependencies>
-  	<!-- https://mvnrepository.com/artifact/junit/junit -->
-	<dependency>
-	    <groupId>junit</groupId>
-	    <artifactId>junit</artifactId>
-	    <version>4.12</version>
-	    <scope>test</scope>
-	</dependency>
+	<properties>	
+		<!-- external test package versions -->
+		<persistence-api-version>1.0</persistence-api-version>
+		<easymock-version>2.3</easymock-version>
+		<h2-version>1.2.128</h2-version>
+		<junit-version>4.8.1</junit-version>
+		<commons-lang-version>2.1</commons-lang-version>
+		<slf4j-version>1.7.2</slf4j-version>
+	</properties>
+  
+	<dependencies>
+	  	<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.12</version>
+		    <scope>test</scope>
+		</dependency>
+	  	
+	  	<!-- https://mvnrepository.com/artifact/fr.inria.gforge.spoon/spoon-core -->
+		<dependency>
+		    <groupId>fr.inria.gforge.spoon</groupId>
+		    <artifactId>spoon-core</artifactId>
+		    <version>6.2.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-dev -->
+		<dependency>
+	    	<groupId>nz.ac.waikato.cms.weka</groupId>
+	    	<artifactId>weka-dev</artifactId>
+	   		<version>3.9.2</version>
+		</dependency>	
+		
+		<!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/SMOTE -->
+		<dependency>
+	    	<groupId>nz.ac.waikato.cms.weka</groupId>
+	    	<artifactId>SMOTE</artifactId>
+	    	<version>1.0.3</version>
+		</dependency>
+		
+		<!-- local project jars: Apache Commons Codec -->
+		<dependency>  
+	    	<groupId>apapche.commons</groupId>  
+	    	<artifactId>codec</artifactId>  
+	    	<version>1.10</version>  
+	    	<scope>system</scope>  
+	   		<systemPath>${project.basedir}/libs/commons-codec-1.10.jar</systemPath>  
+		</dependency> 
+		
+		<!-- local project jars: Apache Commons Collections -->
+		<dependency>  
+	    	<groupId>apapche.commons</groupId>  
+	    	<artifactId>collections</artifactId>  
+	    	<version>4.1</version>  
+	    	<scope>system</scope>  
+	   		<systemPath>${project.basedir}/libs/commons-collections4-4.1.jar</systemPath>  
+		</dependency> 
+		
+		<!-- local project jars: Apache Commons IO -->
+		<dependency>  
+	    	<groupId>apapche.commons</groupId>  
+	    	<artifactId>io</artifactId>  
+	    	<version>2.5</version>  
+	    	<scope>system</scope>  
+	   		<systemPath>${project.basedir}/libs/commons-io-2.5.jar</systemPath>  
+		</dependency> 
+		
+		<!-- local project jars: Jsoup -->
+		<dependency>  
+	    	<groupId>jsoup</groupId>  
+	    	<artifactId>jsoup</artifactId>  
+	    	<version>1.11.1</version>  
+	    	<scope>system</scope>  
+	   		<systemPath>${project.basedir}/libs/jsoup-1.11.1-SNAPSHOT.jar</systemPath>  
+		</dependency> 
+		
+		<!-- local project jars: JSqlParser -->
+		<dependency>  
+	    	<groupId>net.sf</groupId>  
+	    	<artifactId>jsqlparser</artifactId>  
+	    	<version>0.9.7</version>  
+	    	<scope>system</scope>  
+	   		<systemPath>${project.basedir}/libs/jsqlparser-0.9.7-SNAPSHOT-jar-with-dependencies.jar</systemPath>  
+		</dependency> 
+		
+		<!-- local project jars: Mango -->
+		<dependency>  
+	    	<groupId>jfaster</groupId>  
+	    	<artifactId>mango</artifactId>  
+	    	<version>1.5.4</version>  
+	    	<scope>system</scope>  
+	   		<systemPath>${project.basedir}/libs/mango-1.5.4-SNAPSHOT-jar-with-dependencies.jar</systemPath>  
+		</dependency> 
+		
+		<!-- local project jars: Ormlite -->
+		<dependency>  
+	    	<groupId>com.j256.ormlite</groupId>  
+	    	<artifactId>ormlite</artifactId>  
+	    	<version>5.1</version>  
+	    	<scope>system</scope>  
+	   		<systemPath>${project.basedir}/libs/ormlite-core-jar-with-dependencies.jar</systemPath>
+		</dependency> 
+		
+		<!-- dependencies for Ormlite -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>${persistence-api-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit-version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>${easymock-version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2-version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons-lang-version}</version>
+			<scope>test</scope>
+		</dependency>
   	
-  	<!-- https://mvnrepository.com/artifact/fr.inria.gforge.spoon/spoon-core -->
-	<dependency>
-	    <groupId>fr.inria.gforge.spoon</groupId>
-	    <artifactId>spoon-core</artifactId>
-	    <version>6.2.0</version>
-	</dependency>
-	
-	<!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-dev -->
-	<dependency>
-    	<groupId>nz.ac.waikato.cms.weka</groupId>
-    	<artifactId>weka-dev</artifactId>
-   		<version>3.9.2</version>
-	</dependency>
+	</dependencies>
 
-	
-	<!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/SMOTE -->
-	<dependency>
-    	<groupId>nz.ac.waikato.cms.weka</groupId>
-    	<artifactId>SMOTE</artifactId>
-    	<version>1.0.3</version>
-	</dependency>
-	
-	<!-- local project jars: Apache Commons Codec -->
-	<dependency>  
-    	<groupId>apapche.commons</groupId>  
-    	<artifactId>codec</artifactId>  
-    	<version>1.10</version>  
-    	<scope>system</scope>  
-   		<systemPath>${project.basedir}/libs/commons-codec-1.10.jar</systemPath>  
-	</dependency> 
-	
-	<!-- local project jars: Apache Commons Collections -->
-	<dependency>  
-    	<groupId>apapche.commons</groupId>  
-    	<artifactId>collections</artifactId>  
-    	<version>4.1</version>  
-    	<scope>system</scope>  
-   		<systemPath>${project.basedir}/libs/commons-collections4-4.1.jar</systemPath>  
-	</dependency> 
-	
-	<!-- local project jars: Apache Commons IO -->
-	<dependency>  
-    	<groupId>apapche.commons</groupId>  
-    	<artifactId>io</artifactId>  
-    	<version>2.5</version>  
-    	<scope>system</scope>  
-   		<systemPath>${project.basedir}/libs/commons-io-2.5.jar</systemPath>  
-	</dependency> 
-	
-	<!-- local project jars: Jsoup -->
-	<dependency>  
-    	<groupId>jsoup</groupId>  
-    	<artifactId>jsoup</artifactId>  
-    	<version>1.11.1</version>  
-    	<scope>system</scope>  
-   		<systemPath>${project.basedir}/libs/jsoup-1.11.1-SNAPSHOT.jar</systemPath>  
-	</dependency> 
-	
-	<!-- local project jars: JSqlParser -->
-	<dependency>  
-    	<groupId>net.sf</groupId>  
-    	<artifactId>jsqlparser</artifactId>  
-    	<version>0.9.7</version>  
-    	<scope>system</scope>  
-   		<systemPath>${project.basedir}/libs/jsqlparser-0.9.7-SNAPSHOT-jar-with-dependencies.jar</systemPath>  
-	</dependency> 
-	
-	<!-- local project jars: Mango -->
-	<dependency>  
-    	<groupId>jfaster</groupId>  
-    	<artifactId>mango</artifactId>  
-    	<version>1.5.4</version>  
-    	<scope>system</scope>  
-   		<systemPath>${project.basedir}/libs/mango-1.5.4-SNAPSHOT-jar-with-dependencies.jar</systemPath>  
-	</dependency> 
-	
-	<!-- local project jars: Ormlite -->
-	<dependency>  
-    	<groupId>com.j256.ormlite</groupId>  
-    	<artifactId>ormlite</artifactId>  
-    	<version>5.1</version>  
-    	<scope>system</scope>  
-   		<systemPath>${project.basedir}/libs/ormlite-core-jar-with-dependencies.jar</systemPath>  
-	</dependency> 
-  	
-  </dependencies>
-
-  <build>  
-     <plugins>  
-         <plugin>  
-            <groupId>org.apache.maven.plugins</groupId>  
-            <artifactId>maven-compiler-plugin</artifactId>  
-            <version>3.1</version>  
-            <configuration>  
-                <source>1.8</source>  
-                <target>1.8</target>  
-            </configuration>  
-         </plugin>  
-     </plugins>  
-  </build> 
+	<build>  
+		<plugins>  
+		    <plugin>  
+		       <groupId>org.apache.maven.plugins</groupId>  
+		       <artifactId>maven-compiler-plugin</artifactId>  
+		       <version>3.1</version>  
+		       <configuration>  
+		           <source>1.8</source>  
+		           <target>1.8</target>  
+		       </configuration>  
+		    </plugin>  
+		</plugins>  
+	</build> 
 
 </project>
