@@ -8,14 +8,14 @@ import java.util.List;
 
 public class RepsUtilier {
 	
-//	public static void main(String[] args) throws Exception {
-//		List<CrashNode> lsCrash = getSingleCrash("src/main/resources/crashrep/io_mutants.txt");
-//		for(CrashNode crash: lsCrash){
-//			crash.showBasicInfo();
-//		}
+	public static void main(String[] args) throws Exception {
+		List<CrashNode> lsCrash = getSingleCrash("src/main/resources/crashrep/io_mutants.txt");
+		for(CrashNode crash: lsCrash){
+			crash.showBasicInfo();
+		}
 //		getFeatures("src/main/resources/crashrep/io_mutants.txt", "src/main/resources/projs/Commons-io-2.5_parent/");
 //						
-//	}
+	}
 	
 	/**
 	 * <p>To extract features from <b>Stack Trace</b> (xx_mutants.txt) and <b>Buggy Source Code</b> (xx_parent/). Note that,</p>
@@ -56,7 +56,7 @@ public class RepsUtilier {
 				medAzer1 = new MEDAnalyzer(proj, topClsName, topMedName, topMedLine);
 				medAzer1.showMEDFeatures();//features from top method: CT07~CT23, AT01~AT16
 			} catch (Exception e) {
-				System.out.println("[TOP METHOD NOT FOUND!]");
+				System.out.println("[TOP METHOD NOT FOUND!]" + topClsName + "::" + topMedName + ": " + topMedLine);
 				e.printStackTrace();
 			}			
 			
@@ -86,7 +86,8 @@ public class RepsUtilier {
 					medAzer2 = new MEDAnalyzer(proj, bot2ClsName, bot2MedName, bot2MedLine);
 					medAzer2.showMEDFeatures();//features from bottom method: BT07~CB23, AB01~AB16
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					System.out.println("[BOTTOM-2 METHOD NOT FOUND!]" + bot2ClsName + "::" + bot2MedName + ": " + bot2MedLine);
+					e.printStackTrace();
 				}
 				
 			}

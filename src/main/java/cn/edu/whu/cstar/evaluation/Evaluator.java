@@ -18,44 +18,43 @@ public class Evaluator {
 
 	public static void main(String[] args) throws Exception {
 		
-		for(int seed = 1; seed <= 10; seed++){
-			/** crash index list in codec1.arff */
-			CrashIndex[] lsOriginCrashes = RandomSimulator.getDataset("src/main/resources/crashrep/codec_mutants.txt", 500, seed);		
-			RandomSimulator.RandomizeByRand(lsOriginCrashes, 1);
-			CrashIndex[] lsFinalCrashes = RandomSimulator.StratifyByFolds(lsOriginCrashes, 10);
-			int[] lsCrashIndex = new int[lsFinalCrashes.length];
-			
-			for(int i=0; i<lsFinalCrashes.length; i++){
-		//			System.out.printf("%-5d", lsFinalCrashes[i].getCrashID());
-				lsCrashIndex[i] = lsFinalCrashes[i].getCrashID();
-			}
-			
-		//		System.out.println("\n-----------");
-		//		
-		//		for(int i=0; i<lsCrashIndex.length; i++){
-		//			System.out.printf("%-5d", lsCrashIndex[i]);
-		//		}
-		//		
-		//		System.out.println("\n-----------");
-			
-			/** read instances from arff file*/
-			Evaluator evaluator = new Evaluator();
-			Instances ins = evaluator.getDataByArff("src/main/resources/crasharff/generated/codec" + seed +".arff");
-			
-			/** model setting and building */	
-		//		evaluator.evaluateByCrossWithJ48(ins);
-		//		evaluator.evaluateByFoldsWithJ48(ins);
-		//		evaluator.evaluateByCrossWithJ48SMOTE(ins);
-			evaluator.evaluateByFoldsWithJ48SMOTE(ins);
-			
-			/** get InTrace crash predicted as InTrace list*/
-//			List<ArrayList<Integer>> InTraceAsInTrace = evaluator.getITAsIT();
-		//		for(ArrayList<Integer> ls: InTraceAsInTrace)
-		//			RandomSimulator.showList(ls);
-			
-			List<Integer> finals = evaluator.getFinalCrashIndex(lsCrashIndex);
-			RandomSimulator.showList(finals);
+
+		/** crash index list in codec1.arff */
+		CrashIndex[] lsOriginCrashes = RandomSimulator.getDataset("src/main/resources/crashrep/codec_mutants.txt", 500, 1);		
+		RandomSimulator.RandomizeByRand(lsOriginCrashes, 1);
+		CrashIndex[] lsFinalCrashes = RandomSimulator.StratifyByFolds(lsOriginCrashes, 10);
+		int[] lsCrashIndex = new int[lsFinalCrashes.length];
+		
+		for(int i=0; i<lsFinalCrashes.length; i++){
+	//			System.out.printf("%-5d", lsFinalCrashes[i].getCrashID());
+			lsCrashIndex[i] = lsFinalCrashes[i].getCrashID();
 		}
+		
+	//		System.out.println("\n-----------");
+	//		
+	//		for(int i=0; i<lsCrashIndex.length; i++){
+	//			System.out.printf("%-5d", lsCrashIndex[i]);
+	//		}
+	//		
+	//		System.out.println("\n-----------");
+		
+		/** read instances from arff file*/
+		Evaluator evaluator = new Evaluator();
+		Instances ins = evaluator.getDataByArff("src/main/resources/crasharff/generated/codec1.arff");
+		
+		/** model setting and building */	
+//		evaluator.evaluateByCrossWithJ48(ins);
+		evaluator.evaluateByFoldsWithJ48(ins);
+	//	evaluator.evaluateByCrossWithJ48SMOTE(ins);
+//		evaluator.evaluateByFoldsWithJ48SMOTE(ins);
+		
+		/** get InTrace crash predicted as InTrace list*/
+//			List<ArrayList<Integer>> InTraceAsInTrace = evaluator.getITAsIT();
+	//		for(ArrayList<Integer> ls: InTraceAsInTrace)
+	//			RandomSimulator.showList(ls);
+		
+		List<Integer> finals = evaluator.getFinalCrashIndex(lsCrashIndex);
+		RandomSimulator.showList(finals);
 		
 	}
 	
@@ -214,40 +213,40 @@ public class Evaluator {
 	 */
 	public void evaluateByFoldsWithJ48(Instances ins) throws Exception{
 		
-//		double precision_0 = 0.0d;
-//		double precision_1 = 0.0d;
-//		double recall_0 = 0.0d;
-//		double recall_1 = 0.0d;
-//		double fMeasure_0 = 0.0d;
-//		double fMeasure_1 = 0.0d;
-//		double fpRate_0 = 0.0d;
-//		double fpRate_1 = 0.0d;
-//		int cout = 0;
-		
+		double precision_0 = 0.0d;
+		double precision_1 = 0.0d;
+		double recall_0 = 0.0d;
+		double recall_1 = 0.0d;
+		double fMeasure_0 = 0.0d;
+		double fMeasure_1 = 0.0d;
+		double fpRate_0 = 0.0d;
+		double fpRate_1 = 0.0d;
+		int cout = 0;
+				
 		ins.randomize(new Random(1));
 		ins.stratify(10);
-		
+						
 		for(int i=0; i<10; i++){
 			
 			ArrayList<Integer> lsITAsIT = new ArrayList<Integer>();
 
-			Instances testData = ins.testCV(10, i);
-			Instances trainData = ins.trainCV(10, i);			
+			Instances trainData = ins.trainCV(10, i, new Random(1));
+			Instances testData = ins.testCV(10, i);					
 			
 			J48 j48 = new J48();
 			j48.buildClassifier(trainData);
 			
 			Evaluation eval = new Evaluation(trainData);
-//			eval.evaluateModel(j48, testData);
-//			
-//			precision_0 += eval.precision(0);
-//			precision_1 += eval.precision(1);
-//			recall_0 += eval.recall(0);
-//			recall_1 += eval.recall(1);
-//			fMeasure_0 += eval.fMeasure(0);
-//			fMeasure_1 += eval.fMeasure(1);
-//			fpRate_0 += eval.falsePositiveRate(0);
-//			fpRate_1 += eval.falsePositiveRate(1);
+			eval.evaluateModel(j48, testData);
+			
+			precision_0 += eval.precision(0);
+			precision_1 += eval.precision(1);
+			recall_0 += eval.recall(0);
+			recall_1 += eval.recall(1);
+			fMeasure_0 += eval.fMeasure(0);
+			fMeasure_1 += eval.fMeasure(1);
+			fpRate_0 += eval.falsePositiveRate(0);
+			fpRate_1 += eval.falsePositiveRate(1);
 //			
 //			System.out.println("[correct]" + eval.correct());
 //			System.out.println(eval.toClassDetailsString());
@@ -268,9 +267,9 @@ public class Evaluator {
 			InTraceAsInTrace.add(lsITAsIT);
 		}
 		
-//		System.out.println("[correct]" + cout);
-//		System.out.printf("%4.3f | %4.3f %4.3f %4.3f\n", fpRate_0*1.0/10, precision_0*1.0/10, recall_0*1.0/10, fMeasure_0*1.0/10);
-//		System.out.printf("%4.3f | %4.3f %4.3f %4.3f\n", fpRate_1*1.0/10, precision_1*1.0/10, recall_1*1.0/10, fMeasure_1*1.0/10);
+		System.out.println("[correct]" + cout);
+		System.out.printf("%4.3f | %4.3f %4.3f %4.3f\n", fpRate_0*1.0/10, precision_0*1.0/10, recall_0*1.0/10, fMeasure_0*1.0/10);
+		System.out.printf("%4.3f | %4.3f %4.3f %4.3f\n", fpRate_1*1.0/10, precision_1*1.0/10, recall_1*1.0/10, fMeasure_1*1.0/10);
 	}
 
 	/***

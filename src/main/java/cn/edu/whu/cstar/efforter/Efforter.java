@@ -36,37 +36,47 @@ public class Efforter {
 	}
 	
 	public static void counter(int projId) throws Exception{
+		
+		/** STEP1: Set the path of stack trace, project, and arff. **/
 		String path = "";
 		String proj = "";
+		String arff = "";
 		
 		switch(projId){
 		case 1:
 			path = "src/main/resources/crashrep/codec_mutants.txt";
 			proj = "src/main/resources/projs/Codec_parent/";
+			arff = "src/main/resources/crasharff/generated/codec";
 			break;
 		case 2:
 			path = "src/main/resources/crashrep/collection_mutants.txt";
 			proj = "src/main/resources/projs/Collection_4.1_parent/";
+			arff = "src/main/resources/crasharff/generated/collections";
 			break;
 		case 3:
 			path = "src/main/resources/crashrep/io_mutants.txt";
 			proj = "src/main/resources/projs/Commons-io-2.5_parent/";
+			arff = "src/main/resources/crasharff/generated/io";
 			break;
 		case 4:
 			path = "src/main/resources/crashrep/jsoup_mutants.txt";
 			proj = "src/main/resources/projs/jsoup_parent/";
+			arff = "src/main/resources/crasharff/generated/jsoup";
 			break;
 		case 5:
 			path = "src/main/resources/crashrep/jsqlpraser_mutants.txt";
 			proj = "src/main/resources/projs/JSQL_parent/";
+			arff = "src/main/resources/crasharff/generated/jsqlparser";
 			break;
 		case 6:
 			path = "src/main/resources/crashrep/mango_mutants.txt";
 			proj = "src/main/resources/projs/mango_parent/";
+			arff = "src/main/resources/crasharff/generated/mango";
 			break;
 		case 7:
-			path = "src/main/resources/crashrep/ormlite_mutants.txt"; //need complete dependencies libs
+			path = "src/main/resources/crashrep/ormlite_mutants.txt"; 
 			proj = "src/main/resources/projs/ormlite_parent/";
+			arff = "src/main/resources/crasharff/generated/ormlite";
 			break;
 		default:
 			System.out.println("[ERROR]: No such project id <" + projId + ">");
@@ -75,6 +85,7 @@ public class Efforter {
 		
 		System.out.println("[project]: " + proj + "\n");
 		
+		/** STEP2: To calculate 4 kinds of line efforts of all stack traces in project **/
 		// crash nodes
 		List<CrashNode> lsCrash = RepsUtilier.getSingleCrash(path);
 		// crash efforts
@@ -84,56 +95,48 @@ public class Efforter {
 			int lineStackTraceLine = LineCounter.countingAllStackTraceLine(crash);
 			int lineExpStackTraceLine = LineCounter.countingExpStackTraceLine(crash);
 			int lineExpMethodLine = LineCounter.countingExpMethodLine(proj, crash);
-						
+					
+//			System.out.printf("| %-5d | %-5d | %-5d | %-5d |\n", lineAllMethodLine, lineStackTraceLine, lineExpStackTraceLine, lineExpMethodLine);
+
 			lsEfforts.add(new CrashEffort(lineAllMethodLine, lineStackTraceLine, lineExpStackTraceLine, lineExpMethodLine));
 		}
 		
-//		for(CrashEffort effort: lsEfforts){
-//			effort.showEfforts();
-//		}
-		
-		// each project, randomly generate 10 datasets using random seed from 1 to 10
+		/** STEP3: Simulate the Weka processes of data synthesize, randomization, stratify. 
+		 *         Get the crash, which is InTrace, is predicted as InTrace in each 500 dataset.
+		 * **/
 		for(int seed = 1; seed <= 10; seed++){
 			/** crash index list in codec1.arff */
-			CrashIndex[] lsOriginCrashes = RandomSimulator.getDataset("src/main/resources/crashrep/codec_mutants.txt", 500, seed);		
+			CrashIndex[] lsOriginCrashes = RandomSimulator.getDataset(path, 500, seed);		
 			RandomSimulator.RandomizeByRand(lsOriginCrashes, 1);
 			CrashIndex[] lsFinalCrashes = RandomSimulator.StratifyByFolds(lsOriginCrashes, 10);
 			int[] lsCrashIndex = new int[lsFinalCrashes.length];
 			
 			for(int i=0; i<lsFinalCrashes.length; i++){
-		//			System.out.printf("%-5d", lsFinalCrashes[i].getCrashID());
 				lsCrashIndex[i] = lsFinalCrashes[i].getCrashID();
 			}
 			
-		//		System.out.println("\n-----------");
-		//		
-		//		for(int i=0; i<lsCrashIndex.length; i++){
-		//			System.out.printf("%-5d", lsCrashIndex[i]);
-		//		}
-		//		
-		//		System.out.println("\n-----------");
-			
 			/** read instances from arff file*/
 			Evaluator evaluator = new Evaluator();
-			Instances ins = evaluator.getDataByArff("src/main/resources/crasharff/generated/codec" + seed +".arff");
+			Instances ins = evaluator.getDataByArff(arff + seed +".arff");
 			
 			/** model setting and building */	
-		//		evaluator.evaluateByCrossWithJ48(ins);
-		//		evaluator.evaluateByFoldsWithJ48(ins);
-		//		evaluator.evaluateByCrossWithJ48SMOTE(ins);
 			evaluator.evaluateByFoldsWithJ48SMOTE(ins);
+
+			/** get all crash indexes which is InTrace predicted as InTrace in arff seed in proj */
+			List<Integer> lsfinals = evaluator.getFinalCrashIndex(lsCrashIndex);
+//			RandomSimulator.showList(finals);
 			
-			/** get InTrace crash predicted as InTrace list*/
-//			List<ArrayList<Integer>> InTraceAsInTrace = evaluator.getITAsIT();
-		//		for(ArrayList<Integer> ls: InTraceAsInTrace)
-		//			RandomSimulator.showList(ls);
+			int lineAllMethodLine = 0, lineStackTraceLine = 0, lineExpStackTraceLine = 0, lineExpMethodLine = 0;
 			
-			List<Integer> finals = evaluator.getFinalCrashIndex(lsCrashIndex);
-			RandomSimulator.showList(finals);
-			
-			for(CrashEffort effort:lsEfforts){
-				
+			for(int index: lsfinals){
+				lineAllMethodLine += lsEfforts.get(index).lineAllMethodLine;
+				lineStackTraceLine += lsEfforts.get(index).lineStackTraceLine;
+				lineExpStackTraceLine += lsEfforts.get(index).lineExpStackTraceLine;
+				lineExpMethodLine += lsEfforts.get(index).lineExpMethodLine;
 			}
+			
+			System.out.printf("| %-10d | %-10d | %-10d | %-10d |\n", 
+					lineAllMethodLine, lineStackTraceLine, lineExpStackTraceLine, lineExpMethodLine);
 		}
 		
 		

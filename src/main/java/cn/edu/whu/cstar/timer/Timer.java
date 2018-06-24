@@ -9,10 +9,10 @@ package cn.edu.whu.cstar.timer;
 public class Timer {
 	
 	public static void main(String[] args){
-		System.out.println("-------  Time Consuming of each Project  -------");	
+		System.out.println("-------  Time Consuming in each Project  -------");	
 		
 		// Analysis Process
-		for(int i=1; i<=7; i++){
+		for(int i=3; i<=7; i++){
 			long startTime = 0l;
 			long endTime = 0l;		
 			startTime = System.currentTimeMillis();
@@ -54,7 +54,7 @@ public class Timer {
 			proj = "src/main/resources/projs/mango_parent/";
 			break;
 		case 7:
-			path = "src/main/resources/crashrep/ormlite_mutants.txt"; //need complete dependencies libs
+			path = "src/main/resources/crashrep/ormlite_mutants.txt"; 
 			proj = "src/main/resources/projs/ormlite_parent/";
 			break;
 		default:

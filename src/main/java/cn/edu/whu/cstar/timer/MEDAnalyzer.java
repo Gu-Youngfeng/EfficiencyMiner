@@ -845,7 +845,7 @@ public class MEDAnalyzer {
 	}
 	
 	public void showMEDFeatures(){
-		System.out.println(loc + "," + params + "," + locals + "," + ifs + "," + loops + "," + fors
+		System.out.print(loc + "," + params + "," + locals + "," + ifs + "," + loops + "," + fors
 				+ "," + for_eachs + "," + whiles + "," + do_whiles + "," + try_blocks + "," + catchs
 				+ "," + finally_blocks + "," + assignments + "," + method_calls + "," + returns
 				+ "," + unary_operators + "," + binary_operators
