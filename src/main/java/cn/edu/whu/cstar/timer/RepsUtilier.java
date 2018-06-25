@@ -9,7 +9,7 @@ import java.util.List;
 public class RepsUtilier {
 	
 	public static void main(String[] args) throws Exception {
-		List<CrashNode> lsCrash = getSingleCrash("src/main/resources/crashrep/io_mutants.txt");
+		List<CrashNode> lsCrash = getSingleCrash("src/main/resources/crashrep/collection_mutants.txt");
 		for(CrashNode crash: lsCrash){
 			crash.showBasicInfo();
 		}
@@ -34,19 +34,82 @@ public class RepsUtilier {
 		}
 		System.out.println("[project]: " + proj);
 		System.out.println("[size   ]: " + lsCrash.size());
-		for(CrashNode scrash: lsCrash){ // for each crash node
+//		for(CrashNode scrash: lsCrash){ // for each crash node
+//			
+//			/** Features from Stack Trace **/
+//			showSTFeatures(scrash); // features from stack trace: ST01~ST09
+//			SRCAnalyzer srcAzer = new SRCAnalyzer(proj);
+//			srcAzer.showSRCFeatures(); //features from project: ST10~ST11
+//			
+//			/** Features from Source Code 
+//			 *  1. top-class
+//			 * **/
+//			String topClsName = scrash.getTopClassName(); // top class name
+//			String topMedName = scrash.getTopMethodName(); // top method name
+//			int topMedLine = scrash.getTopMethodLine(); // top method line
+//			
+//			CLSAnalyzer clsAzer1 = new CLSAnalyzer(proj, topClsName);
+//			clsAzer1.showCLSFeatures(); //features from top class: CT01~CT06
+//
+//			MEDAnalyzer medAzer1;
+//			try {
+//				medAzer1 = new MEDAnalyzer(proj, topClsName, topMedName, topMedLine);
+//				medAzer1.showMEDFeatures();//features from top method: CT07~CT23, AT01~AT16
+//			} catch (Exception e) {
+//				System.out.println("[TOP METHOD NOT FOUND!]" + topClsName + "::" + topMedName + ": " + topMedLine);
+//				e.printStackTrace();
+//			}			
+//			
+//			/**
+//			 *  2. bottom-class
+//			 * **/
+//			String botClsName = scrash.getBottomClassName(); // bottom class name
+//			String botMedName = scrash.getBottomMethodName(); // bottom method name
+//			int botMedLine = scrash.getBottomMethodLine(); // bottom method line
+//			
+//			CLSAnalyzer clsAzer2 = new CLSAnalyzer(proj, topClsName);
+//			clsAzer2.showCLSFeatures(); //features from bottom class: CB01~CB06
+//			
+//			MEDAnalyzer medAzer2;
+//			try {
+//				medAzer2 = new MEDAnalyzer(proj, botClsName, botMedName, botMedLine);
+//				medAzer2.showMEDFeatures();//features from bottom method: BT07~CB23, AB01~AB16
+//			} catch (Exception e) { 
+//				/** If the method is not found in medAzer2 (medAzer2=null)
+//				 *  there is possible that the method is inherited, and no related source in medAzer2
+//				 * **/
+//				String bot2ClsName = scrash.getBottom2ClassName(); // last 2 bottom class name
+//				String bot2MedName = scrash.getBottom2MethodName(); // bottom method name
+//				int bot2MedLine = scrash.getBottom2MethodLine(); // bottom class name
+////				System.out.println("[BOTTOM METHOD NOT FOUND!]");
+//				try {
+//					medAzer2 = new MEDAnalyzer(proj, bot2ClsName, bot2MedName, bot2MedLine);
+//					medAzer2.showMEDFeatures();//features from bottom method: BT07~CB23, AB01~AB16
+//				} catch (Exception e1) {
+//					System.out.println("[BOTTOM-2 METHOD NOT FOUND!]" + bot2ClsName + "::" + bot2MedName + ": " + bot2MedLine);
+//					e.printStackTrace();
+//				}
+//				
+//			}
+//						
+//			System.out.println(""); // break line for next crash
+//		}
+		
+		for(int i=lsCrash.size()-1; i>=0; i--){ // for each crash node: start
+			
+			System.out.print("[ " + i + "]: ");
 			
 			/** Features from Stack Trace **/
-			showSTFeatures(scrash); // features from stack trace: ST01~ST09
+			showSTFeatures(lsCrash.get(i)); // features from stack trace: ST01~ST09
 			SRCAnalyzer srcAzer = new SRCAnalyzer(proj);
 			srcAzer.showSRCFeatures(); //features from project: ST10~ST11
 			
 			/** Features from Source Code 
 			 *  1. top-class
 			 * **/
-			String topClsName = scrash.getTopClassName(); // top class name
-			String topMedName = scrash.getTopMethodName(); // top method name
-			int topMedLine = scrash.getTopMethodLine(); // top method line
+			String topClsName = lsCrash.get(i).getTopClassName(); // top class name
+			String topMedName = lsCrash.get(i).getTopMethodName(); // top method name
+			int topMedLine = lsCrash.get(i).getTopMethodLine(); // top method line
 			
 			CLSAnalyzer clsAzer1 = new CLSAnalyzer(proj, topClsName);
 			clsAzer1.showCLSFeatures(); //features from top class: CT01~CT06
@@ -63,9 +126,9 @@ public class RepsUtilier {
 			/**
 			 *  2. bottom-class
 			 * **/
-			String botClsName = scrash.getBottomClassName(); // bottom class name
-			String botMedName = scrash.getBottomMethodName(); // bottom method name
-			int botMedLine = scrash.getBottomMethodLine(); // bottom method line
+			String botClsName = lsCrash.get(i).getBottomClassName(); // bottom class name
+			String botMedName = lsCrash.get(i).getBottomMethodName(); // bottom method name
+			int botMedLine = lsCrash.get(i).getBottomMethodLine(); // bottom method line
 			
 			CLSAnalyzer clsAzer2 = new CLSAnalyzer(proj, topClsName);
 			clsAzer2.showCLSFeatures(); //features from bottom class: CB01~CB06
@@ -78,9 +141,9 @@ public class RepsUtilier {
 				/** If the method is not found in medAzer2 (medAzer2=null)
 				 *  there is possible that the method is inherited, and no related source in medAzer2
 				 * **/
-				String bot2ClsName = scrash.getBottom2ClassName(); // last 2 bottom class name
-				String bot2MedName = scrash.getBottom2MethodName(); // bottom method name
-				int bot2MedLine = scrash.getBottom2MethodLine(); // bottom class name
+				String bot2ClsName = lsCrash.get(i).getBottom2ClassName(); // last 2 bottom class name
+				String bot2MedName = lsCrash.get(i).getBottom2MethodName(); // bottom method name
+				int bot2MedLine = lsCrash.get(i).getBottom2MethodLine(); // bottom class name
 //				System.out.println("[BOTTOM METHOD NOT FOUND!]");
 				try {
 					medAzer2 = new MEDAnalyzer(proj, bot2ClsName, bot2MedName, bot2MedLine);
@@ -93,7 +156,8 @@ public class RepsUtilier {
 			}
 						
 			System.out.println(""); // break line for next crash
-		}
+		}//end
+		
 	}
 	
 	/**

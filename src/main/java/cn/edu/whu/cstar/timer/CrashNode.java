@@ -104,7 +104,7 @@ public class CrashNode {
 	/**
 	 * <p>to extract class name from the line, we can get <b>java.lang.StringBuilder</b> from the following example,</p>
 	 * <pre>at java.lang.StringBuilder.setCharAt(StringBuilder.java:76)</pre>
-	 * <p>note that you ignore the inner class, and use the outer class name.</p>
+	 * <p>note that if CLass name contains $, then it will appear in class name either.</p>
 	 * @param line frame line in stack trace
 	 * @return
 	 */
@@ -123,10 +123,10 @@ public class CrashNode {
 		
 //		System.out.println(">> " + tcn);
 		
-		if(tcn.contains("$")){ // inner class
-			tcn = tcn.split("\\$")[0];
+//		if(tcn.contains("$")){ // inner class
+//			tcn = tcn.split("\\$")[0];
 //			System.out.println(tcn.split("\\$")[0]);
-		}
+//		}
 		
 		return tcn;
 	}
@@ -155,8 +155,13 @@ public class CrashNode {
 			String cls = getClassName(line);
 			String[] clss = cls.split("\\.");
 			tmn = clss[clss.length-1];
+			
 //			int inn = cls.indexOf("\\.");
 //			tmn = cls.substring(inn, cls.length());
+		}
+		
+		if(tmn.contains("$")){
+			tmn = tmn.substring(tmn.lastIndexOf("$")+1);
 		}
 		
 		return tmn;
@@ -300,7 +305,7 @@ public class CrashNode {
 		if ( (line.startsWith("\tat org.") || line.startsWith("\tat com.j256") || line.startsWith("\tat net.sf"))
 				&& !line.contains("Test.java") && !line.contains("com.j256.ormlite.h2.H2DatabaseConnection.queryForOne") 
 				&& !line.contains("TestCase.java") && !line.contains("TestUtils.java")
-				&& !line.contains("TestData.java")){
+				&& !line.contains("TestData.java") && !line.contains(".access$")){
 			flag = true;
 		}
 		

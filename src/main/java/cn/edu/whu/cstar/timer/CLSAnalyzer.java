@@ -16,14 +16,20 @@ import spoon.reflect.visitor.filter.TypeFilter;
 
 public class CLSAnalyzer {
 
-//	public static void main(String[] args) {
-//
-//		CLSAnalyzer clsr = new CLSAnalyzer("src/main/resources/projs/Codec_parent/", "org.apache.commons.codec.language.ColognePhonetic");		
-//		clsr.showCLSFeatures();
-//	}
+	public static void main(String[] args) {
+
+		CLSAnalyzer clsr = new CLSAnalyzer("src/main/resources/projs/Collection_4.1_parent/", "org.apache.commons.collections4.trie.AbstractPatriciaTrie$PrefixRangeEntrySet$EntryIterator");		
+		clsr.showCLSFeatures();
+	}
 	
 	/**meta model of spoon*/
 	private CtModel metaModel;
+	@SuppressWarnings("rawtypes")
+	private CtClass clas;
+	@SuppressWarnings("rawtypes")
+	public CtClass getCtClass(){
+		return clas;
+	}
 	
 	/** CT01/CB01: Number of local variables in the top/bottom class */
 	int localVariables;
@@ -38,23 +44,68 @@ public class CLSAnalyzer {
 	/** CT06/CB06: LoC of comments in the top/bottom class */
 	int commenTs;
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	CLSAnalyzer(String proj, String clsName){
 		
-		/** Building the meta model */
-		String fullClass = proj + "src/main/java/" + clsName.replaceAll("\\.", "/") + ".java";
-		Launcher launcher = new Launcher();
-		launcher.addInputResource(fullClass);
-		launcher.getEnvironment().setCommentEnabled(true);
-		metaModel = launcher.buildModel();
+		String OuterName = clsName;
 		
-		/** extract the features */
-		extractFeatures(fullClass);
+		if(clsName.contains("$")){ // inner class
+			
+			OuterName = clsName.substring(0, clsName.indexOf("$"));
+//			System.out.println("[outer class]: " + OuterName + " [inner class]: " + InnerName);
+			
+			/** Building the meta model */
+			String fullClass = proj + "src/main/java/" + OuterName.replaceAll("\\.", "/") + ".java";
+			Launcher launcher = new Launcher();
+			launcher.addInputResource(fullClass);
+			launcher.getEnvironment().setCommentEnabled(true);
+			metaModel = launcher.buildModel();
+			
+			List<CtClass> lscls = metaModel.getElements(new TypeFilter(CtClass.class));
+//			for(CtClass cls: lscls) {System.out.println(cls.getSimpleName());}
+			for(CtClass cls: lscls){
+
+				if(clsName.equals(cls.getQualifiedName())){
+					clas = cls;
+//					System.out.println(">> " + cls.getQualifiedName());
+					break;
+				}
+			}
+			
+			/** extract the features */
+			extractFeatures(fullClass);
+		}else{ // outer class
+			
+//			System.out.println("[outer class]: " + OuterName);
+			
+			/** Building the meta model */
+			String fullClass = proj + "src/main/java/" + OuterName.replaceAll("\\.", "/") + ".java";
+			Launcher launcher = new Launcher();
+			launcher.addInputResource(fullClass);
+			launcher.getEnvironment().setCommentEnabled(true);
+			metaModel = launcher.buildModel();
+			
+			List<CtClass> lscls = metaModel.getElements(new TypeFilter(CtClass.class));
+			for(CtClass cls: lscls){
+				if(OuterName.equals(cls.getQualifiedName())){
+					clas = cls;
+//					System.out.println(">> " + cls.getQualifiedName());
+					break;
+				}
+			}
+			
+			/** extract the features */
+			extractFeatures(fullClass);
+		}
+		
+		
 	}
 	
 	public void showCLSFeatures(){
 		System.out.print(localVariables + "," + fielDs + "," + methoDs + "," + packagEs + "," + inheriTs + "," + commenTs + ",");
 	}
 	
+
 	public void extractFeatures(String fullpath){
 		localVariables = this.getLocalVariables();
 		fielDs = this.getFields();
@@ -78,7 +129,7 @@ public class CLSAnalyzer {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public int getInherited(){
 		int count = 0;
-		List<CtClass> lsCls = metaModel.getElements(new TypeFilter(CtClass.class));
+		List<CtClass> lsCls = clas.getElements(new TypeFilter(CtClass.class));
 		
 		if(lsCls.size() == 0) return -1;
 		
@@ -102,7 +153,7 @@ public class CLSAnalyzer {
 	public int getFields(){
 		int count=0;
 		
-		List<CtField> lsFL = metaModel.getElements(new TypeFilter(CtField.class));
+		List<CtField> lsFL = clas.getElements(new TypeFilter(CtField.class));
 //		System.out.println("[field size]: " + lsFL.size());
 //		for(int i=0;i<lsFL.size();i++){
 //			System.out.println("[field name]: " + lsFL.get(i).getSimpleName());
@@ -122,7 +173,7 @@ public class CLSAnalyzer {
 	public int getLocalVariables(){
 		int count = 0;
 		
-		List<CtLocalVariable> lsLV = metaModel.getElements(new TypeFilter(CtLocalVariable.class));
+		List<CtLocalVariable> lsLV = clas.getElements(new TypeFilter(CtLocalVariable.class));
 //		System.out.println("[local variable size]: " + lsLV.size());
 //		for(int i=0;i<lsLV.size();i++){
 //			System.out.println("[local variable name]: " + lsLV.get(i).toString());
@@ -142,7 +193,7 @@ public class CLSAnalyzer {
 	public int getMethods(){
 		int count = 0;
 		
-		List<CtMethod> lsMD = metaModel.getElements(new TypeFilter(CtMethod.class));
+		List<CtMethod> lsMD = clas.getElements(new TypeFilter(CtMethod.class));
 //		System.out.println("[method size]: " + lsMD.size());
 //		for(int i=0;i<lsMD.size();i++){
 //			System.out.println("[method name]: " + lsMD.get(i).getSignature());
@@ -178,7 +229,7 @@ public class CLSAnalyzer {
 //		fr.close();
 		
 		/** WAY-2 */
-		List<CtComment> lsIP = metaModel.getElements(new TypeFilter(CtComment.class)); // No Import
+		List<CtComment> lsIP = clas.getElements(new TypeFilter(CtComment.class)); // No Import
 //		System.out.println("[comments size]: " + lsIP.size());
 		for(int i=0;i<lsIP.size();i++){
 			int loc = lsIP.get(i).toString().split("\n").length<=1?1:lsIP.get(i).toString().split("\n").length;

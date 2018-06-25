@@ -20,6 +20,7 @@ import spoon.reflect.code.CtTry;
 import spoon.reflect.code.CtUnaryOperator;
 import spoon.reflect.code.CtWhile;
 import spoon.reflect.declaration.CtAnonymousExecutable;
+import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtConstructor;
 import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.declaration.CtParameter;
@@ -27,19 +28,21 @@ import spoon.reflect.visitor.filter.TypeFilter;
 
 public class MEDAnalyzer {
 
-//	public static void main(String[] args) {
-//		MEDAnalyzer iii;
-//		try {
-//			iii = new MEDAnalyzer("src/main/resources/projs/Commons-io-2.5_parent/", "org.apache.commons.io.comparator.CompositeFileComparator", "sort", 45);
-//			iii.showMEDFeatures();
-//		} catch (Exception e) {
-//			System.out.println("[NONE METHOD]");
-//			e.printStackTrace();
-//		}	
+	public static void main(String[] args) {
+		MEDAnalyzer iii;
+		try {
+//			iii = new MEDAnalyzer("src/main/resources/projs/Collection_4.1_parent/", "org.apache.commons.collections4.IterableUtils$2$1", "nextIterator", 180);
+//			iii = new MEDAnalyzer("src/main/resources/projs/Collection_4.1_parent/", "org.apache.commons.collections4.trie.AbstractPatriciaTrie$PrefixRangeEntrySet$EntryIterator", "next", 2337);
+			iii = new MEDAnalyzer("src/main/resources/projs/Collection_4.1_parent/", "org.apache.commons.collections4.trie.AbstractPatriciaTrie$RangeEntrySet$EntryIterator", "next", 2056);
+			iii.showMEDFeatures();
+		} catch (Exception e) {
+			System.out.println("[NONE METHOD]");
+			e.printStackTrace();
+		}	
 //				
 //		String fullClass = "src/main/resources/projs/Commons-io-2.5_parent/src/main/java/org/apache/commons/io/comparator/CompositeFileComparator.java";
 //		
-//	}
+	}
 	
 	/** CT07/CB07: LoC of the top/bottom function */
 	private int loc;
@@ -692,33 +695,76 @@ public class MEDAnalyzer {
 	@SuppressWarnings("rawtypes")
 	public MEDAnalyzer(String proj, String clsName, String medName, int medLine) throws Exception {
 		
-//		System.out.println(clsName + "," + medName + "," + medLine);
-		/** Building the meta model */
-		String fullClass = proj + "src/main/java/" + clsName.replaceAll("\\.", "/") + ".java";		
-		Launcher launcher = new Launcher();
-		launcher.addInputResource(fullClass);
-		launcher.getEnvironment().setCommentEnabled(true);
-		CtModel metaModel = launcher.buildModel();
+//		System.out.printf("[class]:%s, [method]:%s, [line]:%d\n", clsName, medName, medLine);
 		
-		/** Building the CtMethod */	
-		String simpleClsName = clsName.split("\\.")[clsName.split("\\.").length-1];
-		if(simpleClsName.equals(medName)){ // Constructor
-			CtConstructor constructor = getCtConstructor(metaModel, clsName, "<init>", medLine);
-			/** extract the features from constructor */
-			extractFeatures(constructor);
-			
-		}else if(medName.equals("<clinit>")){ // static block
-			CtAnonymousExecutable staticc = getCtStatic(metaModel, clsName, "<clinit>", medLine);
-			extractFeatures(staticc);
-		}else{ // method
-			CtMethod method = getCtMethod(metaModel, clsName, medName, medLine);
-			if(method == null){ // inherited method appear
-//				System.out.println("NONE METHOD");
-				throw new Exception();
-			}
-			/** extract the features from method */
-			extractFeatures(method);
+		if(clsName.contains("$2$1")){ // patch for "org.apache.commons.collections4.IterableUtils$2$1"
+			clsName = clsName.substring(0, clsName.indexOf("$"));
 		}
+		
+		if(clsName.contains("$")){ // inner class
+			String innerClass = clsName.substring(clsName.lastIndexOf("$")+1);
+			clsName = clsName.substring(0, clsName.indexOf("$"));
+			
+//			System.out.println("[inner]:" + innerClass);
+			/** Building the meta model */
+			String fullClass = proj + "src/main/java/" + clsName.replaceAll("\\.", "/") + ".java";		
+			Launcher launcher = new Launcher();
+			launcher.addInputResource(fullClass);
+			launcher.getEnvironment().setCommentEnabled(true);
+			CtModel metaModel = launcher.buildModel();
+			
+			/** Building the CtMethod */	
+//			String simpleClsName = clsName.split("\\.")[clsName.split("\\.").length-1];
+//			System.out.println("[simpleClsName]: " + simpleClsName);
+			if(medName.equals(innerClass)){ // Constructor
+				CtConstructor constructor = getCtConstructor(metaModel, clsName, "<init>", medLine);
+				/** extract the features from constructor */
+				extractFeatures(constructor);
+				
+			}else if(medName.equals("<clinit>")){ // static block
+				CtAnonymousExecutable staticc = getCtStatic(metaModel, clsName, "<clinit>", medLine);
+				extractFeatures(staticc);
+			}else{ // method
+				CtMethod method = getCtMethod(metaModel, clsName, medName, medLine);
+				if(method == null){ // inherited method appear
+//					System.out.println("NONE METHOD");
+					throw new Exception();
+				}
+				/** extract the features from method */
+				extractFeatures(method);
+			}
+		}else{ // no inner class
+			/** Building the meta model */
+			String fullClass = proj + "src/main/java/" + clsName.replaceAll("\\.", "/") + ".java";		
+			Launcher launcher = new Launcher();
+			launcher.addInputResource(fullClass);
+			launcher.getEnvironment().setCommentEnabled(true);
+			CtModel metaModel = launcher.buildModel();
+			
+			/** Building the CtMethod */	
+			String simpleClsName = clsName.split("\\.")[clsName.split("\\.").length-1];
+//			System.out.println("[simpleClsName]: " + simpleClsName);
+			if(medName.equals(simpleClsName)){ // Constructor
+				CtConstructor constructor = getCtConstructor(metaModel, clsName, "<init>", medLine);
+				/** extract the features from constructor */
+				extractFeatures(constructor);
+				
+			}else if(medName.equals("<clinit>")){ // static block
+				CtAnonymousExecutable staticc = getCtStatic(metaModel, clsName, "<clinit>", medLine);
+				extractFeatures(staticc);
+			}else{ // method
+				CtMethod method = getCtMethod(metaModel, clsName, medName, medLine);
+				if(method == null){ // inherited method appear
+//					System.out.println("NONE METHOD");
+					throw new Exception();
+				}
+				/** extract the features from method */
+				extractFeatures(method);
+			}
+		}
+		
+//		System.out.println(clsName + "," + medName + "," + medLine);
+		
 		
 		extractArtifactFeatures();	
 		
@@ -735,7 +781,16 @@ public class MEDAnalyzer {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CtAnonymousExecutable getCtStatic(CtModel metaModel, String clsName, String medName, int medLine){
 		
-		List<CtAnonymousExecutable> lsMethods = metaModel.getElements(new TypeFilter(CtAnonymousExecutable.class));
+		List<CtClass> cls = metaModel.getElements(new TypeFilter(CtClass.class));
+		CtClass curCls = cls.get(0);
+		for(CtClass currentCls: cls){
+			if(currentCls.getQualifiedName().equals(clsName)){
+				curCls = currentCls;
+				break;
+			}
+		}
+		
+		List<CtAnonymousExecutable> lsMethods = curCls.getElements(new TypeFilter(CtAnonymousExecutable.class));
 		CtAnonymousExecutable methodModel = null; // the unique founded method
 		
 		for(CtAnonymousExecutable method: lsMethods){
@@ -759,9 +814,9 @@ public class MEDAnalyzer {
 			}
 		}
 		
-		if(methodModel == null){
-			System.out.println("[MEDAnalyzer Error]: We cannot find static at [" + clsName + "." + medName + ":" + medLine + "]");
-		}
+//		if(methodModel == null){
+//			System.out.println("[MEDAnalyzer Error]: We cannot find static at [" + clsName + "." + medName + ":" + medLine + "]");
+//		}
 		
 		return methodModel;
 	}
@@ -778,9 +833,19 @@ public class MEDAnalyzer {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CtMethod getCtMethod(CtModel metaModel, String clsName, String medName, int medLine) {
 		
-		List<CtMethod> lsMethods = metaModel.getElements(new TypeFilter(CtMethod.class));
-		CtMethod methodModel = null; // the unique founded method
+		List<CtClass> cls = metaModel.getElements(new TypeFilter(CtClass.class));
+		CtClass curCls = cls.get(0);
+		for(CtClass currentCls: cls){
+			if(currentCls.getQualifiedName().equals(clsName)){
+				curCls = currentCls;
+//				System.out.println("[qualified inner class]: " + curCls.getQualifiedName());
+				break;
+			}
+		}
 		
+		List<CtMethod> lsMethods = curCls.getElements(new TypeFilter(CtMethod.class));
+		CtMethod methodModel = null; // the unique founded method
+//		System.out.println("class: " + curCls.getSimpleName());	
 		for(CtMethod method: lsMethods){
 			int startLine;
 			int endLine;
@@ -793,7 +858,7 @@ public class MEDAnalyzer {
 			}
 			
 			String simpleName = method.getSimpleName();
-			
+//			System.out.println("method: " + method.getSignature() + ". [" + startLine + "," + endLine + "]");	
 			if(simpleName.equals(medName) && (medLine >= startLine && medLine <= endLine)){
 				
 				methodModel = method;
@@ -803,10 +868,9 @@ public class MEDAnalyzer {
 			}
 		}
 		
-		if(methodModel == null){ // we can not find method at this location
+//		if(methodModel == null){ // we can not find method at this location
 //			System.out.println("[MEDAnalyzer Error]: We cannot find method at [" + clsName + "." + medName + ":" + medLine + "]");
-
-		}
+//		}
 		
 		return methodModel;
 	}
@@ -821,7 +885,17 @@ public class MEDAnalyzer {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CtConstructor getCtConstructor(CtModel metaModel, String clsName, String medName, int medLine){
-		List<CtConstructor> lsConstructors = metaModel.getElements(new TypeFilter(CtConstructor.class));
+		
+		List<CtClass> cls = metaModel.getElements(new TypeFilter(CtClass.class));
+		CtClass curCls = cls.get(0);
+		for(CtClass currentCls: cls){
+			if(currentCls.getQualifiedName().equals(clsName)){
+				curCls = currentCls;
+				break;
+			}
+		}
+		
+		List<CtConstructor> lsConstructors = curCls.getElements(new TypeFilter(CtConstructor.class));
 		CtConstructor constructorModel = null; // the unique founded constructor
 
 		for(CtConstructor method: lsConstructors){
@@ -837,9 +911,9 @@ public class MEDAnalyzer {
 			}
 		}
 		
-		if(constructorModel == null){
-			System.out.println("[MEDAnalyzer Error]: We cannot find constructor at [" + clsName + "." + medName + ":" + medLine + "]");
-		}
+//		if(constructorModel == null){
+//			System.out.println("[MEDAnalyzer Error]: We cannot find constructor at [" + clsName + "." + medName + ":" + medLine + "]");
+//		}
 		
 		return constructorModel;
 	}

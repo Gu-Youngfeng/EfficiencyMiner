@@ -12,7 +12,7 @@ public class Timer {
 		System.out.println("-------  Time Consuming in each Project  -------");	
 		
 		// Analysis Process
-		for(int i=3; i<=7; i++){
+		for(int i=1; i<=7; i++){
 			long startTime = 0l;
 			long endTime = 0l;		
 			startTime = System.currentTimeMillis();
