@@ -53,8 +53,8 @@ public class Evaluator {
 	//		for(ArrayList<Integer> ls: InTraceAsInTrace)
 	//			RandomSimulator.showList(ls);
 		
-		List<Integer> finals = evaluator.getFinalCrashIndex(lsCrashIndex);
-		RandomSimulator.showList(finals);
+//		List<Integer> finals = evaluator.getFinalCrashIndex(lsCrashIndex);
+//		RandomSimulator.showList(finals);
 		
 	}
 	

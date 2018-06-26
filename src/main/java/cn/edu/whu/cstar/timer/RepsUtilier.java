@@ -95,14 +95,14 @@ public class RepsUtilier {
 //			System.out.println(""); // break line for next crash
 //		}
 		
-		for(int i=lsCrash.size()-1; i>=0; i--){ // for each crash node: start
+		for(int i=0; i<lsCrash.size(); i++){ // for each crash node: start
 			
-			System.out.print("[ " + i + "]: ");
+//			System.out.print("[ " + i + "]: ");
 			
 			/** Features from Stack Trace **/
 			showSTFeatures(lsCrash.get(i)); // features from stack trace: ST01~ST09
 			SRCAnalyzer srcAzer = new SRCAnalyzer(proj);
-			srcAzer.showSRCFeatures(); //features from project: ST10~ST11
+			srcAzer.showSRCFeatures(); //features from  project: ST10~ST11
 			
 			/** Features from Source Code 
 			 *  1. top-class

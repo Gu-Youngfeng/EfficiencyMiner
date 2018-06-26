@@ -18,7 +18,7 @@ public class CLSAnalyzer {
 
 	public static void main(String[] args) {
 
-		CLSAnalyzer clsr = new CLSAnalyzer("src/main/resources/projs/Collection_4.1_parent/", "org.apache.commons.collections4.trie.AbstractPatriciaTrie$PrefixRangeEntrySet$EntryIterator");		
+		CLSAnalyzer clsr = new CLSAnalyzer("src/main/resources/projs/JSQL_parent/", "net.sf.jsqlparser.statement.insert.InsertModifierPriority");		
 		clsr.showCLSFeatures();
 	}
 	

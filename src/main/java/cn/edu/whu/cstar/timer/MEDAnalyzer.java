@@ -33,7 +33,10 @@ public class MEDAnalyzer {
 		try {
 //			iii = new MEDAnalyzer("src/main/resources/projs/Collection_4.1_parent/", "org.apache.commons.collections4.IterableUtils$2$1", "nextIterator", 180);
 //			iii = new MEDAnalyzer("src/main/resources/projs/Collection_4.1_parent/", "org.apache.commons.collections4.trie.AbstractPatriciaTrie$PrefixRangeEntrySet$EntryIterator", "next", 2337);
-			iii = new MEDAnalyzer("src/main/resources/projs/Collection_4.1_parent/", "org.apache.commons.collections4.trie.AbstractPatriciaTrie$RangeEntrySet$EntryIterator", "next", 2056);
+//			iii = new MEDAnalyzer("src/main/resources/projs/Collection_4.1_parent/", "org.apache.commons.collections4.trie.AbstractPatriciaTrie$RangeEntrySet$EntryIterator", "next", 2056);
+//			iii = new MEDAnalyzer("src/main/resources/projs/JSQL_parent/", "net.sf.jsqlparser.parser.SimpleNode", "jjtAddChild", 39);
+//			iii = new MEDAnalyzer("src/main/resources/projs/JSQL_parent/", "net.sf.jsqlparser.parser.JJTCCJSqlParserState", "popNode", 53);
+			iii = new MEDAnalyzer("src/main/resources/projs/JSQL_parent/", "net.sf.jsqlparser.parser.CCJSqlParserDefaultVisitor", "visit", 10);
 			iii.showMEDFeatures();
 		} catch (Exception e) {
 			System.out.println("[NONE METHOD]");

@@ -30,6 +30,7 @@ public class CrashNode {
 	
 	public List<String> stackTraces = new ArrayList<String>();
 	public int InTrace;
+	public String MutationLine;
 	
 	/**top class name*/
 	private String topClassName;
@@ -358,6 +359,7 @@ public class CrashNode {
 	
 	int getMutationLine(List<String> crash){
 		String mut = crash.get(crash.size()-1);
+		MutationLine = mut;
 		int mutLine = -1;
 		String reg = "MUTATIONID:<<(.*),(.*),(\\d*)>>";
 		Pattern pattern = Pattern.compile(reg);

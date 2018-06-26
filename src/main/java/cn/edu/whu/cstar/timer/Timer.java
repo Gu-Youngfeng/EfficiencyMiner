@@ -16,14 +16,14 @@ public class Timer {
 			long startTime = 0l;
 			long endTime = 0l;		
 			startTime = System.currentTimeMillis();
-			analyzing(i);
+			timer(i);
 			endTime = System.currentTimeMillis();
 			System.out.println("[time   ]: " + (endTime-startTime) + "\n");
 		}
 		
 	}
 	
-	public static void analyzing(int projId){
+	public static void timer(int projId){
 		
 		String path = "";
 		String proj = "";

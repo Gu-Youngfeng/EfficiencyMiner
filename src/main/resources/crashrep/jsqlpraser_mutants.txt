@@ -1639,7 +1639,6 @@ MUTATIONID:<<net.sf.jsqlparser.parser.CCJSqlParserTokenManager,jjMoveStringLiter
 --- net.sf.jsqlparser.test.insert.InsertTest::testModifierPriority3
 net.sf.jsqlparser.JSQLParserException: null
 	at java.lang.Enum.valueOf(Enum.java:238)
-	at net.sf.jsqlparser.statement.insert.InsertModifierPriority.valueOf(InsertModifierPriority.java:28)
 	at net.sf.jsqlparser.parser.CCJSqlParser.Insert(CCJSqlParser.java:819)
 	at net.sf.jsqlparser.parser.CCJSqlParser.SingleStatement(CCJSqlParser.java:136)
 	at net.sf.jsqlparser.parser.CCJSqlParser.Statement(CCJSqlParser.java:79)
@@ -3281,7 +3280,6 @@ MUTATIONID:<<net.sf.jsqlparser.parser.CCJSqlParserTokenManager,jjMoveStringLiter
 --- net.sf.jsqlparser.test.insert.InsertTest::testModifierPriority2
 net.sf.jsqlparser.JSQLParserException: null
 	at java.lang.Enum.valueOf(Enum.java:238)
-	at net.sf.jsqlparser.statement.insert.InsertModifierPriority.valueOf(InsertModifierPriority.java:28)
 	at net.sf.jsqlparser.parser.CCJSqlParser.Insert(CCJSqlParser.java:819)
 	at net.sf.jsqlparser.parser.CCJSqlParser.SingleStatement(CCJSqlParser.java:136)
 	at net.sf.jsqlparser.parser.CCJSqlParser.Statement(CCJSqlParser.java:79)
