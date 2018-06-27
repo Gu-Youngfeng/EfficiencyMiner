@@ -86,9 +86,9 @@ public class Efforter {
 		System.out.println("[project]: " + proj + "\n");
 		
 		/** STEP2: To calculate 4 kinds of line efforts of all stack traces in project **/
-		// crash nodes
+		// crash nodes, record info of each crash
 		List<CrashNode> lsCrash = RepsUtilier.getSingleCrash(path);
-		// crash efforts
+		// crash efforts, record line efforts of each crash
 		List<CrashEffort> lsEfforts = new ArrayList<CrashEffort>();
 		for(CrashNode crash: lsCrash){
 			int lineAllMethodLine = LineCounter.countingAllMethodLine(proj, crash);
@@ -100,6 +100,8 @@ public class Efforter {
 
 			lsEfforts.add(new CrashEffort(lineAllMethodLine, lineStackTraceLine, lineExpStackTraceLine, lineExpMethodLine));
 		}
+		
+		int lineAllMethodLineSum = 0, lineStackTraceLineSum = 0, lineExpStackTraceLineSum = 0, lineExpMethodLineSum = 0;
 		
 		/** STEP3: Simulate the Weka processes of data synthesize, randomization, stratify. 
 		 *         Get the crash, which is InTrace, is predicted as InTrace in each 500 dataset.
@@ -135,12 +137,20 @@ public class Efforter {
 				lineExpMethodLine += lsEfforts.get(index).lineExpMethodLine;
 			}
 			
-			System.out.printf("| %-10d | %-10d | %-10d | %-10d |\n", 
+			System.out.printf("| " + seed +" | %-10d | %-10d | %-10d | %-10d |\n", 
 					lineAllMethodLine, lineStackTraceLine, lineExpStackTraceLine, lineExpMethodLine);
+			
+			lineAllMethodLineSum += lineAllMethodLine;
+			lineStackTraceLineSum += lineStackTraceLine;
+			lineExpStackTraceLineSum += lineExpStackTraceLine;
+			lineExpMethodLineSum += lineExpMethodLine;
 		}
 		
-		
-		
+		System.out.printf("| Sum | %-10d | %-10d | %-10d | %-10d |\n", 
+				lineAllMethodLineSum, lineStackTraceLineSum, lineExpStackTraceLineSum, lineExpMethodLineSum);
+		System.out.printf("| Ave | %-10f | %-10f | %-10f | %-10f |\n", 
+				lineAllMethodLineSum*1.0/10, lineStackTraceLineSum*1.0/10, lineExpStackTraceLineSum*1.0/10, lineExpMethodLineSum*1.0/10);
+		System.out.println("");
 	}
 
 }

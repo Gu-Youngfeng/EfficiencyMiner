@@ -44,17 +44,17 @@ public class Evaluator {
 		
 		/** model setting and building */	
 //		evaluator.evaluateByCrossWithJ48(ins);
-		evaluator.evaluateByFoldsWithJ48(ins);
+//		evaluator.evaluateByFoldsWithJ48(ins);
 	//	evaluator.evaluateByCrossWithJ48SMOTE(ins);
-//		evaluator.evaluateByFoldsWithJ48SMOTE(ins);
+		evaluator.evaluateByFoldsWithJ48SMOTE(ins);
 		
 		/** get InTrace crash predicted as InTrace list*/
 //			List<ArrayList<Integer>> InTraceAsInTrace = evaluator.getITAsIT();
 	//		for(ArrayList<Integer> ls: InTraceAsInTrace)
 	//			RandomSimulator.showList(ls);
 		
-//		List<Integer> finals = evaluator.getFinalCrashIndex(lsCrashIndex);
-//		RandomSimulator.showList(finals);
+		List<Integer> finals = evaluator.getFinalCrashIndex(lsCrashIndex);
+		RandomSimulator.showList(finals);
 		
 	}
 	
@@ -294,5 +294,50 @@ public class Evaluator {
 		}
 		
 		return lsFinals;
+	}
+	
+	/** purely count the time consumption in model building and prediction.*/
+	public double[] runningModel(Instances ins) throws Exception{
+		
+		ins.randomize(new Random(1));
+		ins.stratify(10);
+		
+		int buildTime = 0;
+		int predictTime = 0;
+						
+		for(int i=0; i<10; i++){
+
+			Instances trainData = ins.trainCV(10, i, new Random(1));
+			Instances testData = ins.testCV(10, i);		
+			
+			long startTime_1 = System.currentTimeMillis();
+			
+			SMOTE smote = new SMOTE();
+			smote.setInputFormat(trainData);
+			Filter.useFilter(trainData, smote);
+			
+			J48 j48 = new J48();
+			j48.buildClassifier(trainData);
+			
+			Evaluation eval = new Evaluation(trainData);
+			
+			long endTime_1 = System.currentTimeMillis();
+			
+			long startTime_2 = System.currentTimeMillis();
+			
+			for(int j=0; j<testData.numInstances(); j++){
+				eval.evaluateModelOnce(j48, testData.instance(j));
+			}
+			
+			long endTime_2 = System.currentTimeMillis();
+			
+			buildTime += (endTime_1-startTime_1);
+			predictTime += (endTime_2-startTime_2);
+			
+//			System.out.println("[model building]: " + (endTime_1-startTime_1) + "[prediction]: " + (endTime_2-startTime_2));
+		}
+//		System.out.println("[---]: " + buildTime*1.0/10 + "[---]: " + predictTime*1.0/10);
+		
+		return new double[]{buildTime*1.0/10, predictTime*1.0/10};
 	}
 }

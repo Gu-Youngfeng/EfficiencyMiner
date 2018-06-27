@@ -55,7 +55,7 @@ public class OperatorCollector {
 		br.close();
 		
 		for(Integer keyy: mapCollects.keySet()){
-			System.out.printf("[operator]: %-30s [mutants]: %d\n",keyy, mapCollects.get(keyy));
+			System.out.printf("| %-1s | %-5d |\n",keyy, mapCollects.get(keyy));
 		}
 	}
 	

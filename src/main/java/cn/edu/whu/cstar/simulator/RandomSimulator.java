@@ -71,7 +71,7 @@ public class RandomSimulator {
 		int crash_0_ShouldBe = (int) (selNum * (crash_0 *1.0/(crash_0 + crash_1)));
 		int crash_1_ShouldBe = selNum - crash_0_ShouldBe;
 		
-		RandomizeByRand(lsCrashIndexes, 1); //
+		RandomizeByRand(lsCrashIndexes, seed); //
 		CrashIndex[] lsSyn = synthesizeData(lsCrashIndexes, crash_0_ShouldBe, crash_1_ShouldBe); //
 		
 		return lsSyn;
