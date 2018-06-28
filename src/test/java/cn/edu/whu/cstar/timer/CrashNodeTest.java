@@ -112,7 +112,7 @@ public class CrashNodeTest {
 		String line = lines[3];
 		String className = CrashNode.getClassName(line);
 //		System.out.println(className);
-		Assert.assertEquals("java.security.MessageDigest", className);
+		Assert.assertEquals("java.security.MessageDigest$Delegate", className);
 	}
 	
 	@Test
@@ -173,7 +173,7 @@ public class CrashNodeTest {
 	@Test
 	public void testgetExceptionType_0(){
 		int type = CrashNode.getExceptionType("IllegalArgumentException");
-		Assert.assertEquals(2, type);		
+		Assert.assertEquals(11, type);		
 	}
 	
 	@Test
@@ -187,7 +187,7 @@ public class CrashNodeTest {
 	@Test
 	public void testgetExceptionType_1(){
 		int type = CrashNode.getExceptionType("ArrayIndexOutOfBoundsException");
-		Assert.assertEquals(4, type);		
+		Assert.assertEquals(14, type);		
 	}
 	
 	@Test
@@ -201,7 +201,7 @@ public class CrashNodeTest {
 	@Test
 	public void testgetExceptionType_2(){
 		int type = CrashNode.getExceptionType("IOException");
-		Assert.assertEquals(14, type);		
+		Assert.assertEquals(21, type);		
 	}
 	
 	@Test
@@ -215,7 +215,7 @@ public class CrashNodeTest {
 	@Test
 	public void testgetExceptionType_3(){
 		int type = CrashNode.getExceptionType("NullPointerException");
-		Assert.assertEquals(6, type);		
+		Assert.assertEquals(16, type);		
 	}
 	
 	@Test
@@ -239,7 +239,7 @@ public class CrashNodeTest {
 		List<String> lines = initilizeSingleCrash();
 		CrashNode cn = new CrashNode(lines);
 		int numMed = cn.getMethodNum(lines);
-		Assert.assertEquals(2, numMed);
+		Assert.assertEquals(3, numMed);
 	}
 	
 	@Test

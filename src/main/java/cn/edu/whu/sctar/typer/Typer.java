@@ -55,6 +55,11 @@ public class Typer {
 //				e.printStackTrace();
 //			}
 //		}
+		
+		
+		
+		
+		
 	}
 	
 	public static void typerInOpeators(int projId) throws Exception{
@@ -101,24 +106,28 @@ public class Typer {
 		File file = new File("src/main/resources/MutationInfo.txt");
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String str = "";
-		List<String> lsContent = new ArrayList<String>();
+		List<String> lsContent = new ArrayList<String>(); // content of MutationInfo.txt
 		while((str=br.readLine())!=null) { // for each line in MutationInfo.txt
 			if(str.trim().equals("")){ continue; }
 			lsContent.add(str);			
 		}
-		
 		br.close();
 		
 		/** Crash Node list in stack trace */
 		List<CrashNode> lsCrash = RepsUtilier.getSingleCrash(path);
 		
-		for(int i=1; i<=10; i++){
+		for(int i=1; i<=10; i++){ // 10 datasets for 1 project
 			/** simulate the generation to get crash indexes */
 			CrashIndex[] crashes = RandomSimulator.getDataset(path, 500, i);
 			RandomSimulator.RandomizeByRand(crashes, 1);
 			CrashIndex[] lsFinalCrashes = RandomSimulator.StratifyByFolds(crashes, 10);
 			
-			/** operator 1-7, each of which holds its exception type*/
+			/** lsOperatorCol can be in the following way, each sub-list(operator) holds its exception type
+			 * [0]: 12, 13, 11, 14 ,20, ...
+			 * [1]: 21, 19, 14, 11, ...
+			 * ...
+			 * [6]: 11, 14, 16, 17, ...
+			 */
 			List<ArrayList<Integer>> lsOperatorCol = new ArrayList<ArrayList<Integer>>();
 			for(int p=0; p<7; p++){
 				lsOperatorCol.add(new ArrayList<Integer>());
@@ -146,9 +155,9 @@ public class Typer {
 					}
 				}
 				
-//				System.out.printf(expType + ",");
 			}
-			
+			int[][] lsCount = new int[7][22];
+			int[] aveCount = new int[22];
 			for(int m = 0; m<lsOperatorCol.size(); m++){
 				System.out.print("[" + m + "]: ");
 				for(int exp: lsOperatorCol.get(m)){
@@ -157,15 +166,25 @@ public class Typer {
 				System.out.println("");
 				int[] count = FindingTop3(lsOperatorCol.get(m));
 				for(int mm=0; mm<count.length; mm++){
+					lsCount[m][mm] = count[mm];
 					if(count[mm] > 0){
 						System.out.print(mm + ":" + count[mm] + ", ");
-					}
-					
+					}	
 				}
 				System.out.println("");
 			}
+			for(int m=0; m<aveCount.length; m++){
+				for(int l=0; l<lsCount[m].length; l++){
+					aveCount[m] += lsCount[l][m];
+				}
+			}
 			
-			
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			for(int m=0; m<aveCount.length; m++){
+				if(aveCount[m]>0){
+					System.out.print(m + ":" + aveCount[m]);
+				}
+			}
 			
 			System.out.println("");
 			
@@ -414,6 +433,11 @@ public class Typer {
 		
 	}
 	
+	/**
+	 * <p>finding the exception type occurrences in give array list. </p>
+	 * @param lsOperatorCol array list
+	 * @return count int[22]
+	 */
 	public static int[] FindingTop3(ArrayList<Integer> lsOperatorCol){
 		int[] count = new int[22];
 		for(int j=0; j<lsOperatorCol.size(); j++){
@@ -425,6 +449,32 @@ public class Typer {
 //		System.out.println("");
 		
 		return count;
+	}
+	
+	public static int[][] ArrayListAdding(int[][] lst1, int[][] lst2){
+		
+		if(lst1 == null || lst2 == null ){
+			System.out.println("[Error]: lst1 or lst2 cannot be null!");
+			return null;
+		}
+		
+		if(lst1.length != lst2.length || lst1[0].length != lst2[0].length){
+			System.out.println("[Error]: lst1 and lst2 should have same dimension!");
+			return null;
+		}
+		
+		int lenRow = lst1.length;
+		int lenCol = lst1[0].length;
+		
+		int[][] sum = new int[lenRow][lenCol];
+		
+		for(int i=0; i<lenRow; i++){
+			for(int j=0; j< lenCol; j++){
+				sum[i][j] = lst1[i][j] + lst2[i][j];
+			}
+		}
+		
+		return sum;
 	}
 
 }
