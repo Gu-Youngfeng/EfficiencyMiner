@@ -113,6 +113,7 @@ public class Typer {
 		
 		/** Crash Node list in stack trace */
 		List<CrashNode> lsCrash = RepsUtilier.getSingleCrash(path);
+		List<int[][]> lsOPEX = new ArrayList<int[][]>();
 		
 		for(int i=1; i<=10; i++){ // 10 datasets for 1 project
 			/** simulate the generation to get crash indexes */
@@ -177,17 +178,34 @@ public class Typer {
 				}
 			}
 			
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			System.out.println("");
 			for(int m=0; m<aveCount.length; m++){
 				if(aveCount[m]>0){
 					System.out.print(m + ":" + aveCount[m] + ", ");
 				}
 			}
 			
+			lsOPEX.add(lsCount);
+			
 			System.out.println("");
 			
 		}
 		
+		System.out.println("----------------------------------");
+		int[][] sum = new int[7][22];
+		for(int i=0; i<lsOPEX.size()-1; i++){
+			sum = ArrayListAdding(lsOPEX.get(i), sum);
+		}
+		
+		for(int i=0; i<sum.length; i++){
+			System.out.print("[" + i + "]:   ");
+			for(int j=0; j<sum[i].length; j++){
+				if(sum[i][j] > 0){
+					System.out.print(j + ":" + sum[i][j] + ", ");
+				}
+			}
+			System.out.println("");
+		}
 		
 	}
 	

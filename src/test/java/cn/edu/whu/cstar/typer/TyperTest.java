@@ -40,4 +40,13 @@ public class TyperTest {
 		Assert.assertArrayEquals(orl, sum);	
 	}
 	
+	@Test
+	public void testArrayListAdding_4(){
+		int[][] a = {{1,2,3}, {4,5,6}, {7,8,9}};
+		int[][] b = new int[3][3];
+		int[][] sum = Typer.ArrayListAdding(a, b);
+		int[][] orl = {{1,2,3}, {4,5,6}, {7,8,9}};
+		Assert.assertArrayEquals(orl, sum);	
+	}
+	
 }
