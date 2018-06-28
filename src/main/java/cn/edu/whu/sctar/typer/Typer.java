@@ -27,6 +27,7 @@ public class Typer {
 
 	public static void main(String[] args) {
 		
+		//// Finding the exception types that each operator generated in each project (average on 10 datasets)
 		for(int i=1;i<=7;i++){
 			try {
 				typerInOpeators(i);
@@ -55,9 +56,6 @@ public class Typer {
 //				e.printStackTrace();
 //			}
 //		}
-		
-		
-		
 		
 		
 	}
@@ -173,8 +171,8 @@ public class Typer {
 				}
 				System.out.println("");
 			}
-			for(int m=0; m<aveCount.length; m++){
-				for(int l=0; l<lsCount[m].length; l++){
+			for(int m=0; m<aveCount.length; m++){ // 0-22
+				for(int l=0; l<lsCount.length; l++){ // 0-6
 					aveCount[m] += lsCount[l][m];
 				}
 			}
@@ -182,7 +180,7 @@ public class Typer {
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			for(int m=0; m<aveCount.length; m++){
 				if(aveCount[m]>0){
-					System.out.print(m + ":" + aveCount[m]);
+					System.out.print(m + ":" + aveCount[m] + ", ");
 				}
 			}
 			
