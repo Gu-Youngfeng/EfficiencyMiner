@@ -1,4 +1,4 @@
-# EffciencyMinner
+# EfficiencyMiner
 
 
 [![GitHub license](https://img.shields.io/github/license/Gu-Youngfeng/EffciencyMinner.svg)](https://github.com/Gu-Youngfeng/EffciencyMinner/blob/master/LICENSE) 
