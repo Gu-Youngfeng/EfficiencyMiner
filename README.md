@@ -9,9 +9,13 @@
 
 - **cn.edu.whu.cstar.timer** module calculates the average execution time of analysis and prediction of newly-submited crash. This process has the same results with my another prototype [CraTer](https://github.com/Gu-Youngfeng/CraTer) (note that CraTer uses spoon 5.X, while EffciencyMinner uses spoon 6.X).
 
-- **cn.edu.whu.cstar.efforter** module calculates the reduced efforts (in terms of lines of code) when apply analysis and prediction on a newly-submitted crash.
+- **cn.edu.whu.cstar.efforter** module calculates the line efforts when apply analysis and prediction on a newly-submitted crash, there are 4 kinds of line efforts calculation ways, including `Loc of all methods appear in Stack Trace`, `Size of frames in Stack Trace`, `Size of frames till the fault in Stack Trace`, `Loc of methods in Stack Trace till the fault`.
 
-- **cn.edu.whu.cstar.typer** module counts the different exception types that one mutator has generated, the default mutators are from pit tool.
+- **cn.edu.whu.cstar.typer** module counts the different exception types that one mutator has generated in each project, the default 7 mutators are from pit tool.
+
+- **cn.edu.whu.cstar.simulator** module simulates the process of dataset generation, randomization, and stratification. It can return the crashes' original index, which appears in generated dataset.
+
+- **cn.edu.whu.cstar.evaluation** module provides a way to conduct model building and class prediction.
 
 ### 2. Tools
 

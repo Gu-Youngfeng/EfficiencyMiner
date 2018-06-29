@@ -1,4 +1,4 @@
-package cn.edu.whu.sctar.typer;
+package cn.edu.whu.cstar.typer;
 
 import java.io.BufferedReader;
 import java.io.File;

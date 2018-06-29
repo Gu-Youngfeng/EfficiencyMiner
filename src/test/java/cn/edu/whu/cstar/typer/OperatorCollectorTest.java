@@ -2,7 +2,7 @@ package cn.edu.whu.cstar.typer;
 
 import org.junit.*;
 
-import cn.edu.whu.sctar.typer.OperatorCollector;
+import cn.edu.whu.cstar.typer.OperatorCollector;
 
 public class OperatorCollectorTest {
 

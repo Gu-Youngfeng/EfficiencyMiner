@@ -1,6 +1,6 @@
 import cn.edu.whu.cstar.efforter.Efforter;
 import cn.edu.whu.cstar.timer.Timer;
-import cn.edu.whu.sctar.typer.Typer;
+import cn.edu.whu.cstar.typer.Typer;
 
 /***
  * <pre>

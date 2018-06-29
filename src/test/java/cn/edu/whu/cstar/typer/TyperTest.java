@@ -1,7 +1,8 @@
 package cn.edu.whu.cstar.typer;
 
 import org.junit.*;
-import cn.edu.whu.sctar.typer.Typer;
+
+import cn.edu.whu.cstar.typer.Typer;
 
 public class TyperTest {
 
