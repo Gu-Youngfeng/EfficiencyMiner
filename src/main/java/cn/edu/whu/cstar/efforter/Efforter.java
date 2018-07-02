@@ -21,7 +21,7 @@ public class Efforter {
 	public static void main(String[] args) {
 		System.out.println("-------  Line Effort for Each Crash in Each Project  -------");
 		// Counting Process
-		for(int i=2; i<=7; i++){
+		for(int i=1; i<=7; i++){
 
 			try {
 				counter(i);
