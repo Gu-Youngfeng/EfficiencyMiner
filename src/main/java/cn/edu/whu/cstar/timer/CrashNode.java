@@ -27,8 +27,9 @@ public class CrashNode {
 	private int methodNum;
 	/**whether an overloaded method exists in the stack trace*/
 	private boolean isOverLoaded;
-	
+	/**stack trace contains analysis-available method*/
 	public List<String> stackTraces = new ArrayList<String>();
+	/**fault index in stack trace: <b>-1</b> indicates a OutTrace crash; <b>0,1,2</b> indicates a InTrace crash*/
 	public int InTrace;
 	public String MutationLine;
 	
@@ -357,10 +358,15 @@ public class CrashNode {
 		return bottom2Line;
 	}
 	
+	/**
+	 * <p>to return the fault index of crash, the negatives and positives indicate the OutTrace and InTrace crash respectively.</p>
+	 * @param crash
+	 * @return mutLine: fault index in stack trace
+	 */
 	int getMutationLine(List<String> crash){
 		String mut = crash.get(crash.size()-1);
 		MutationLine = mut;
-		int mutLine = -1;
+		int mutLine = -1; // default OutTrace
 		String reg = "MUTATIONID:<<(.*),(.*),(\\d*)>>";
 		Pattern pattern = Pattern.compile(reg);
 		Matcher matcher = pattern.matcher(mut);

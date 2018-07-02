@@ -21,14 +21,14 @@ public class Efforter {
 	public static void main(String[] args) {
 		System.out.println("-------  Line Effort for Each Crash in Each Project  -------");
 		// Counting Process
-		for(int i=1; i<=7; i++){
+		for(int i=2; i<=7; i++){
 
 			try {
 				counter(i);
 			} catch (Exception e) {
 				System.out.println("[Error]: exception is thrown when counting project [" + i  +"].");
 				e.printStackTrace();
-				return;
+				break;
 			}
 
 		}
@@ -91,6 +91,7 @@ public class Efforter {
 		// crash efforts, record line efforts of each crash
 		List<CrashEffort> lsEfforts = new ArrayList<CrashEffort>();
 		for(CrashNode crash: lsCrash){
+//			System.out.println("### Crash Node: " + crash.stackTraces);
 			int lineAllMethodLine = LineCounter.countingAllMethodLine(proj, crash);
 			int lineStackTraceLine = LineCounter.countingAllStackTraceLine(crash);
 			int lineExpStackTraceLine = LineCounter.countingExpStackTraceLine(crash);
@@ -138,7 +139,7 @@ public class Efforter {
 			}
 			
 			System.out.printf("| " + seed +" | %-10d | %-10d | %-10d | %-10d |\n", 
-					lineAllMethodLine, lineStackTraceLine, lineExpStackTraceLine, lineExpMethodLine);
+					lineAllMethodLine, lineExpMethodLine, lineStackTraceLine, lineExpStackTraceLine);
 			
 			lineAllMethodLineSum += lineAllMethodLine;
 			lineStackTraceLineSum += lineStackTraceLine;
@@ -147,9 +148,9 @@ public class Efforter {
 		}
 		
 		System.out.printf("| Sum | %-10d | %-10d | %-10d | %-10d |\n", 
-				lineAllMethodLineSum, lineStackTraceLineSum, lineExpStackTraceLineSum, lineExpMethodLineSum);
+				lineAllMethodLineSum, lineExpMethodLineSum, lineStackTraceLineSum, lineExpStackTraceLineSum);
 		System.out.printf("| Ave | %-10f | %-10f | %-10f | %-10f |\n", 
-				lineAllMethodLineSum*1.0/10, lineStackTraceLineSum*1.0/10, lineExpStackTraceLineSum*1.0/10, lineExpMethodLineSum*1.0/10);
+				lineAllMethodLineSum*1.0/10, lineExpMethodLineSum*1.0/10, lineStackTraceLineSum*1.0/10, lineExpStackTraceLineSum*1.0/10);
 		System.out.println("");
 	}
 

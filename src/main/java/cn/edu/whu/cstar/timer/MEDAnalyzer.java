@@ -731,6 +731,7 @@ public class MEDAnalyzer {
 				CtMethod method = getCtMethod(metaModel, clsName, medName, medLine);
 				if(method == null){ // inherited method appear
 //					System.out.println("NONE METHOD");
+//					System.out.println("######### Exception:" + clsName + " >> " + medName + " >> " + medLine);
 					throw new Exception();
 				}
 				/** extract the features from method */
@@ -759,6 +760,7 @@ public class MEDAnalyzer {
 				CtMethod method = getCtMethod(metaModel, clsName, medName, medLine);
 				if(method == null){ // inherited method appear
 //					System.out.println("NONE METHOD");
+//					System.out.println("######### Exception:" + clsName + " >> " + medName + " >> " + medLine);
 					throw new Exception();
 				}
 				/** extract the features from method */

@@ -34,13 +34,15 @@ public class LineCounter {
 			int medLine = CrashNode.getMethodLine(line);
 			
 			try {
+//				System.out.println("###### crash line: " + clsName + " - " + medName + " - " + medLine);
 				MEDAnalyzer analyzer = new MEDAnalyzer(proj, clsName, medName, medLine);
 				int cline = analyzer.returnLOC();
 				lines += cline;
 //				System.out.println("[add  ]: " + cline);
 			} catch (Exception e) {
+				// Do nothing about inherited method
 				
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 			
 		}
@@ -83,7 +85,7 @@ public class LineCounter {
 //			System.out.println("[InTrace]");
 			lines = crash.InTrace + 1;
 		}
-		lines = crash.InTrace>-1?crash.InTrace+1:stackTraces.size();
+//		lines = crash.InTrace>-1?crash.InTrace+1:stackTraces.size();
 //		System.out.println(">> ---------------- " + lines);
 		
 		return lines;
@@ -118,10 +120,10 @@ public class LineCounter {
 						analyzer = new MEDAnalyzer(proj, clsName, medName, medLine);
 						int startLine = analyzer.startLine;
 						lines += (medLine - startLine); // add lines till the crash line
-//						System.out.println("[start]: " + startLine);
+//						
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// do nothing about the inherited method
+//						e.printStackTrace();
 					}
 				}else{ // no-exception method position
 					try {
@@ -130,8 +132,8 @@ public class LineCounter {
 						lines += cline;
 //						System.out.println("[add  ]: " + cline);
 					} catch (Exception e) {
-						
-						e.printStackTrace();
+						//do nothing about the inherited method
+//						e.printStackTrace();
 					}
 				}
 				
