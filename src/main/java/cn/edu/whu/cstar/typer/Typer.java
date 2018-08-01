@@ -4,9 +4,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import cn.edu.whu.cstar.simulator.CrashIndex;
 import cn.edu.whu.cstar.simulator.RandomSimulator;
@@ -28,9 +36,10 @@ public class Typer {
 	public static void main(String[] args) {
 		
 		//// Finding the exception types that each operator generated in each project (average on 10 datasets)
-		for(int i=1;i<=7;i++){
+		for(int i=1;i<=8;i++){
 			try {
-				typerInOpeators(i);
+				List<HashMap<String, Integer>> lsOperatorTypes = typerInOpeators(i);
+				
 			} catch (Exception e) {
 				System.out.println("[Error]: exception is thrown when typing project [" + i  +"].");
 				e.printStackTrace();
@@ -56,49 +65,75 @@ public class Typer {
 //				e.printStackTrace();
 //			}
 //		}
-		
-		
+	
 	}
 	
-	public static void typerInOpeators(int projId) throws Exception{
+	/** Sorting the Map by elements' value */
+	public static void sortingMaps(HashMap<String, Integer> mapTest){
+		if(mapTest.isEmpty()){
+//			System.out.println("[ERROR]: No Elems in Map.");
+			System.out.println("--------------");
+			return;
+		}
+		
+		List<Map.Entry<String,Integer>> list = new ArrayList<Map.Entry<String,Integer>>(mapTest.entrySet());
+		    Collections.sort(list,new Comparator<Map.Entry<String,Integer>>() {
+				@Override
+				public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+					// TODO Auto-generated method stub
+					return o2.getValue().compareTo(o1.getValue());
+				}
+		    
+		});
+		
+		
+		for(Map.Entry<String,Integer> mapping:list){ 
+		       System.out.println("[EXP TYPES]:" + mapping.getKey()+" [COUNT]:"+mapping.getValue()); 
+		} 	
+		System.out.println("--------------");
+	}
+	
+	public static List<HashMap<String,Integer>> typerInOpeators(int projId) throws Exception{
 		String path = "";
 		String arff = "";
 		
 		switch(projId){
 		case 1:
 			path = "src/main/resources/crashrep/codec_mutants.txt";
-			arff = "src/main/resources/crasharff/generated/codec";
+
 			break;
 		case 2:
 			path = "src/main/resources/crashrep/collection_mutants.txt";
-			arff = "src/main/resources/crasharff/generated/collections";
+
 			break;
 		case 3:
 			path = "src/main/resources/crashrep/io_mutants.txt";
-			arff = "src/main/resources/crasharff/generated/io";
+
 			break;
 		case 4:
 			path = "src/main/resources/crashrep/jsoup_mutants.txt";
-			arff = "src/main/resources/crasharff/generated/jsoup";
+
 			break;
 		case 5:
 			path = "src/main/resources/crashrep/jsqlpraser_mutants.txt";
-			arff = "src/main/resources/crasharff/generated/jsqlparser";
+
 			break;
 		case 6:
 			path = "src/main/resources/crashrep/mango_mutants.txt";
-			arff = "src/main/resources/crasharff/generated/mango";
+
 			break;
 		case 7:
 			path = "src/main/resources/crashrep/ormlite_mutants.txt"; 
-			arff = "src/main/resources/crasharff/generated/ormlite";
+
 			break;
+		case 8:	
+			path = "src/main/resources/crashrep/total.txt";
 		default:
 			System.out.println("[ERROR]: No such project id <" + projId + ">");
 			break;
 		}
 		
-		System.out.println("[project]: " + path);
+		System.out.println("\n[project]: " + path);
 		
 		/** Read mutation line in MutationInfo.txt */
 		File file = new File("src/main/resources/MutationInfo.txt");
@@ -113,99 +148,49 @@ public class Typer {
 		
 		/** Crash Node list in stack trace */
 		List<CrashNode> lsCrash = RepsUtilier.getSingleCrash(path);
-		List<int[][]> lsOPEX = new ArrayList<int[][]>();
+		List<HashMap<String,Integer>> lsOperatorTypes = new ArrayList<HashMap<String, Integer>>();
 		
-		for(int i=1; i<=10; i++){ // 10 datasets for 1 project
-			/** simulate the generation to get crash indexes */
-			CrashIndex[] crashes = RandomSimulator.getDataset(path, 500, i);
-			RandomSimulator.RandomizeByRand(crashes, 1);
-			CrashIndex[] lsFinalCrashes = RandomSimulator.StratifyByFolds(crashes, 10);
+		for(int k=0;k<7;k++){
+			lsOperatorTypes.add(new HashMap<String, Integer>());
+		}
+		
+		for(int k=0; k<lsCrash.size(); k++){
+			CrashNode currentCrash = lsCrash.get(k);
+			String mutLine = currentCrash.MutationLine;
 			
-			/** lsOperatorCol can be in the following way, each sub-list(operator) holds its exception type
-			 * [0]: 12, 13, 11, 14 ,20, ...
-			 * [1]: 21, 19, 14, 11, ...
-			 * ...
-			 * [6]: 11, 14, 16, 17, ...
-			 */
-			List<ArrayList<Integer>> lsOperatorCol = new ArrayList<ArrayList<Integer>>();
-			for(int p=0; p<7; p++){
-				lsOperatorCol.add(new ArrayList<Integer>());
-			}
+			String stkClsName = getInformByStackTraceMutLine(mutLine)[0];
+			String stkMedName = getInformByStackTraceMutLine(mutLine)[1];
+			String stkLineNum = getInformByStackTraceMutLine(mutLine)[2];
 			
-			for(int k=0; k<lsFinalCrashes.length; k++){
-				CrashNode currentCrash = lsCrash.get(lsFinalCrashes[k].getCrashID());
-				String mutLine = currentCrash.MutationLine;
+			for(int j=0; j<lsContent.size(); j++){ // for each line in MutationInfo.txt
 				
-				String stkClsName = getInformByStackTraceMutLine(mutLine)[0];
-				String stkMedName = getInformByStackTraceMutLine(mutLine)[1];
-				String stkLineNum = getInformByStackTraceMutLine(mutLine)[2];
+				String mutClsName = OperatorCollector.getInformsByFileMutLine(lsContent.get(j))[0];
+				String mutMedName = OperatorCollector.getInformsByFileMutLine(lsContent.get(j))[1];
+				String mutLineNum = OperatorCollector.getInformsByFileMutLine(lsContent.get(j))[2];
 				
-				for(int j=0; j<lsContent.size(); j++){ // for each line in MutationInfo.txt
+				if( stkClsName.equals(mutClsName) && stkMedName.equals(mutMedName) && stkLineNum.equals(mutLineNum)){
+					int operator_id = OperatorCollector.getOperatorID(OperatorCollector.getInformsByFileMutLine(lsContent.get(j))[3]);
+					String expName = currentCrash.exceptionName;
 					
-					String mutClsName = OperatorCollector.getInformsByFileMutLine(lsContent.get(j))[0];
-					String mutMedName = OperatorCollector.getInformsByFileMutLine(lsContent.get(j))[1];
-					String mutLineNum = OperatorCollector.getInformsByFileMutLine(lsContent.get(j))[2];
-					
-					if( stkClsName.equals(mutClsName) && stkMedName.equals(mutMedName) && stkLineNum.equals(mutLineNum)){
-						int operator_id = OperatorCollector.getOperatorID(OperatorCollector.getInformsByFileMutLine(lsContent.get(j))[3]);
-						int expType = currentCrash.getType();
-						lsOperatorCol.get(operator_id).add(expType);
-						break;
+					if (lsOperatorTypes.get(operator_id).keySet().contains(expName)){ // already exist expName
+						int sizeBefore = lsOperatorTypes.get(operator_id).get(expName);
+						lsOperatorTypes.get(operator_id).put(expName, (sizeBefore+1));
+					}else{ // have no keys of expName
+						lsOperatorTypes.get(operator_id).put(expName, 1);
 					}
-				}
-				
-			}
-			int[][] lsCount = new int[7][22];
-			int[] aveCount = new int[22];
-			for(int m = 0; m<lsOperatorCol.size(); m++){
-				System.out.print("[" + m + "]: ");
-				for(int exp: lsOperatorCol.get(m)){
-					System.out.printf("%d ", exp);
-				}
-				System.out.println("");
-				int[] count = FindingTop3(lsOperatorCol.get(m));
-				for(int mm=0; mm<count.length; mm++){
-					lsCount[m][mm] = count[mm];
-					if(count[mm] > 0){
-						System.out.print(mm + ":" + count[mm] + ", ");
-					}	
-				}
-				System.out.println("");
-			}
-			for(int m=0; m<aveCount.length; m++){ // 0-22
-				for(int l=0; l<lsCount.length; l++){ // 0-6
-					aveCount[m] += lsCount[l][m];
+
+					break;
 				}
 			}
-			
-			System.out.println("");
-			for(int m=0; m<aveCount.length; m++){
-				if(aveCount[m]>0){
-					System.out.print(m + ":" + aveCount[m] + ", ");
-				}
-			}
-			
-			lsOPEX.add(lsCount);
-			
-			System.out.println("");
 			
 		}
 		
-		System.out.println("----------------------------------");
-		int[][] sum = new int[7][22];
-		for(int i=0; i<lsOPEX.size()-1; i++){
-			sum = ArrayListAdding(lsOPEX.get(i), sum);
+		for(int i=0; i<lsOperatorTypes.size(); i++){
+			System.out.println("[operator]:" + i);
+			sortingMaps(lsOperatorTypes.get(i));
 		}
 		
-		for(int i=0; i<sum.length; i++){
-			System.out.print("[" + i + "]:   ");
-			for(int j=0; j<sum[i].length; j++){
-				if(sum[i][j] > 0){
-					System.out.print(j + ":" + sum[i][j] + ", ");
-				}
-			}
-			System.out.println("");
-		}
+		return lsOperatorTypes;
 		
 	}
 	
@@ -467,6 +452,12 @@ public class Typer {
 		return count;
 	}
 	
+	/***
+	 * <p>adding two 2-dimension arrays</p>
+	 * @param array 1
+	 * @param array 2
+	 * @return the sum of two arrays
+	 */
 	public static int[][] ArrayListAdding(int[][] lst1, int[][] lst2){
 		
 		if(lst1 == null || lst2 == null ){
