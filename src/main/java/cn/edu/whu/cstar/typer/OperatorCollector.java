@@ -17,6 +17,15 @@ import java.util.regex.Pattern;
  * @author yongfeng
  */
 public class OperatorCollector {
+	
+	/** mutation operator names */
+	public static final String[] MUTATION_OPERATORS = {"Conditional boundary",
+													   "Increment",
+													   "Negatives invert",
+													   "Math",
+													   "Conditional negating",
+													   "Return value",
+													   "Void function call"};
 
 	public static void main(String[] args) throws Exception {
 		
@@ -54,8 +63,10 @@ public class OperatorCollector {
 		
 		br.close();
 		
+		
+		System.out.printf("| %-20s | %-6s |\n", "Mutators", "Number");
 		for(Integer keyy: mapCollects.keySet()){
-			System.out.printf("| %-1s | %-5d |\n",keyy, mapCollects.get(keyy));
+			System.out.printf("| %-20s | %-6d |\n",MUTATION_OPERATORS[(int)keyy], mapCollects.get(keyy));
 		}
 	}
 	

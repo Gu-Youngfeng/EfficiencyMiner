@@ -1,0 +1,599 @@
+
+[project]: src/main/resources/crashrep/codec_mutants.txt
+[operator]:0
+--------------
+[operator]:1
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:29
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:15
+[EXP TYPES]:DecoderException [COUNT]:4
+[EXP TYPES]:OutOfMemoryError [COUNT]:1
+--------------
+[operator]:2
+--------------
+[operator]:3
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:120
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:32
+[EXP TYPES]:IllegalStateException [COUNT]:7
+[EXP TYPES]:DecoderException [COUNT]:3
+[EXP TYPES]:IllegalArgumentException [COUNT]:2
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:1
+[EXP TYPES]:NegativeArraySizeException [COUNT]:1
+--------------
+[operator]:4
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:81
+[EXP TYPES]:IllegalArgumentException [COUNT]:37
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:30
+[EXP TYPES]:NullPointerException [COUNT]:29
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:20
+[EXP TYPES]:EncoderException [COUNT]:16
+[EXP TYPES]:DecoderException [COUNT]:16
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:14
+[EXP TYPES]:ClassCastException [COUNT]:7
+[EXP TYPES]:OutOfMemoryError [COUNT]:4
+[EXP TYPES]:NumberFormatException [COUNT]:1
+[EXP TYPES]:Exception [COUNT]:1
+[EXP TYPES]:ArithmeticException [COUNT]:1
+[EXP TYPES]:UnsupportedOperationException [COUNT]:1
+--------------
+[operator]:5
+[EXP TYPES]:NullPointerException [COUNT]:83
+[EXP TYPES]:RuntimeException [COUNT]:47
+[EXP TYPES]:IllegalArgumentException [COUNT]:4
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:1
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:1
+--------------
+[operator]:6
+[EXP TYPES]:IllegalArgumentException [COUNT]:1
+--------------
+
+[project]: src/main/resources/crashrep/collection_mutants.txt
+[operator]:0
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:129
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:37
+[EXP TYPES]:IllegalArgumentException [COUNT]:35
+[EXP TYPES]:NoSuchElementException [COUNT]:10
+[EXP TYPES]:OutOfMemoryError [COUNT]:5
+[EXP TYPES]:NullPointerException [COUNT]:4
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:3
+[EXP TYPES]:RuntimeException [COUNT]:2
+[EXP TYPES]:ClassCastException [COUNT]:2
+[EXP TYPES]:UnsupportedOperationException [COUNT]:2
+[EXP TYPES]:NegativeArraySizeException [COUNT]:1
+--------------
+[operator]:1
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:26
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:4
+--------------
+[operator]:2
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:5
+[EXP TYPES]:RuntimeException [COUNT]:1
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:1
+--------------
+[operator]:3
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:106
+[EXP TYPES]:RuntimeException [COUNT]:16
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:13
+[EXP TYPES]:IllegalArgumentException [COUNT]:10
+[EXP TYPES]:ConcurrentModificationException [COUNT]:7
+[EXP TYPES]:NullPointerException [COUNT]:7
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:7
+[EXP TYPES]:NoSuchElementException [COUNT]:2
+[EXP TYPES]:NegativeArraySizeException [COUNT]:2
+--------------
+[operator]:4
+[EXP TYPES]:NullPointerException [COUNT]:259
+[EXP TYPES]:NoSuchElementException [COUNT]:88
+[EXP TYPES]:ClassCastException [COUNT]:47
+[EXP TYPES]:IllegalArgumentException [COUNT]:43
+[EXP TYPES]:IllegalStateException [COUNT]:25
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:21
+[EXP TYPES]:UnsupportedOperationException [COUNT]:9
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:7
+[EXP TYPES]:RuntimeException [COUNT]:6
+[EXP TYPES]:FunctorException [COUNT]:6
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:1
+[EXP TYPES]:Exception [COUNT]:1
+--------------
+[operator]:5
+[EXP TYPES]:NullPointerException [COUNT]:217
+[EXP TYPES]:RuntimeException [COUNT]:124
+[EXP TYPES]:NoSuchElementException [COUNT]:12
+[EXP TYPES]:IllegalArgumentException [COUNT]:5
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:1
+[EXP TYPES]:Exception [COUNT]:1
+[EXP TYPES]:UnsupportedOperationException [COUNT]:1
+--------------
+[operator]:6
+[EXP TYPES]:NullPointerException [COUNT]:25
+[EXP TYPES]:NoSuchElementException [COUNT]:6
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:2
+[EXP TYPES]:ClassCastException [COUNT]:2
+[EXP TYPES]:UnsupportedOperationException [COUNT]:2
+[EXP TYPES]:ConcurrentModificationException [COUNT]:1
+[EXP TYPES]:IllegalArgumentException [COUNT]:1
+--------------
+
+[project]: src/main/resources/crashrep/io_mutants.txt
+[operator]:0
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:113
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:27
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:9
+[EXP TYPES]:IOException [COUNT]:9
+[EXP TYPES]:InvalidClassException [COUNT]:8
+[EXP TYPES]:IllegalArgumentException [COUNT]:8
+[EXP TYPES]:Exception [COUNT]:6
+[EXP TYPES]:EmptyStackException [COUNT]:2
+[EXP TYPES]:NullPointerException [COUNT]:2
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:2
+[EXP TYPES]:EOFException [COUNT]:2
+[EXP TYPES]:NoSuchElementException [COUNT]:1
+--------------
+[operator]:1
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:4
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:4
+[EXP TYPES]:OutOfMemoryError [COUNT]:1
+--------------
+[operator]:2
+--------------
+[operator]:3
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:54
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:12
+[EXP TYPES]:IOException [COUNT]:6
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:5
+[EXP TYPES]:NullPointerException [COUNT]:3
+[EXP TYPES]:InvalidClassException [COUNT]:3
+[EXP TYPES]:Exception [COUNT]:2
+[EXP TYPES]:IllegalStateException [COUNT]:1
+[EXP TYPES]:IllegalArgumentException [COUNT]:1
+--------------
+[operator]:4
+[EXP TYPES]:NullPointerException [COUNT]:78
+[EXP TYPES]:IOException [COUNT]:59
+[EXP TYPES]:IllegalArgumentException [COUNT]:55
+[EXP TYPES]:XmlStreamReaderException [COUNT]:22
+[EXP TYPES]:InvalidClassException [COUNT]:14
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:13
+[EXP TYPES]:FileNotFoundException [COUNT]:12
+[EXP TYPES]:IllegalStateException [COUNT]:4
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:3
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:2
+[EXP TYPES]:Exception [COUNT]:2
+[EXP TYPES]:ClassCastException [COUNT]:2
+[EXP TYPES]:BufferUnderflowException [COUNT]:2
+[EXP TYPES]:OutOfMemoryError [COUNT]:1
+[EXP TYPES]:EOFException [COUNT]:1
+[EXP TYPES]:BufferOverflowException [COUNT]:1
+[EXP TYPES]:NoSuchElementException [COUNT]:1
+[EXP TYPES]:UnsupportedOperationException [COUNT]:1
+--------------
+[operator]:5
+[EXP TYPES]:NullPointerException [COUNT]:29
+[EXP TYPES]:RuntimeException [COUNT]:27
+[EXP TYPES]:IllegalArgumentException [COUNT]:9
+[EXP TYPES]:IOException [COUNT]:6
+[EXP TYPES]:InvalidClassException [COUNT]:5
+[EXP TYPES]:Exception [COUNT]:4
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:3
+[EXP TYPES]:DirectoryWalker$CancelException [COUNT]:1
+[EXP TYPES]:NoSuchElementException [COUNT]:1
+--------------
+[operator]:6
+[EXP TYPES]:IOException [COUNT]:30
+[EXP TYPES]:NullPointerException [COUNT]:7
+[EXP TYPES]:FileNotFoundException [COUNT]:3
+[EXP TYPES]:InvalidClassException [COUNT]:1
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:1
+[EXP TYPES]:IllegalArgumentException [COUNT]:1
+--------------
+
+[project]: src/main/resources/crashrep/jsoup_mutants.txt
+[operator]:0
+--------------
+[operator]:1
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:3
+[EXP TYPES]:Selector$SelectorParseException [COUNT]:2
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:1
+[EXP TYPES]:NullPointerException [COUNT]:1
+--------------
+[operator]:2
+--------------
+[operator]:3
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:37
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:14
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:13
+[EXP TYPES]:IllegalArgumentException [COUNT]:6
+[EXP TYPES]:NullPointerException [COUNT]:4
+[EXP TYPES]:Selector$SelectorParseException [COUNT]:2
+[EXP TYPES]:ArithmeticException [COUNT]:1
+[EXP TYPES]:RuntimeException [COUNT]:1
+[EXP TYPES]:OutOfMemoryError [COUNT]:1
+--------------
+[operator]:4
+[EXP TYPES]:Selector$SelectorParseException [COUNT]:70
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:68
+[EXP TYPES]:IllegalArgumentException [COUNT]:56
+[EXP TYPES]:NullPointerException [COUNT]:43
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:27
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:20
+[EXP TYPES]:ClassCastException [COUNT]:19
+[EXP TYPES]:IllegalStateException [COUNT]:11
+[EXP TYPES]:RuntimeException [COUNT]:5
+[EXP TYPES]:IOException [COUNT]:5
+[EXP TYPES]:OutOfMemoryError [COUNT]:3
+[EXP TYPES]:UnsupportedOperationException [COUNT]:1
+--------------
+[operator]:5
+[EXP TYPES]:NullPointerException [COUNT]:89
+[EXP TYPES]:IllegalArgumentException [COUNT]:32
+[EXP TYPES]:RuntimeException [COUNT]:19
+[EXP TYPES]:Selector$SelectorParseException [COUNT]:11
+[EXP TYPES]:ClassCastException [COUNT]:1
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:1
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:1
+[EXP TYPES]:UnsupportedOperationException [COUNT]:1
+--------------
+[operator]:6
+[EXP TYPES]:NullPointerException [COUNT]:10
+[EXP TYPES]:Selector$SelectorParseException [COUNT]:10
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:3
+[EXP TYPES]:IllegalArgumentException [COUNT]:3
+[EXP TYPES]:OutOfMemoryError [COUNT]:3
+[EXP TYPES]:ClassCastException [COUNT]:1
+[EXP TYPES]:IOException [COUNT]:1
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:1
+--------------
+
+[project]: src/main/resources/crashrep/jsqlpraser_mutants.txt
+[operator]:0
+--------------
+[operator]:1
+[EXP TYPES]:JSQLParserException [COUNT]:3
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:1
+--------------
+[operator]:2
+--------------
+[operator]:3
+[EXP TYPES]:JSQLParserException [COUNT]:146
+[EXP TYPES]:TokenMgrError [COUNT]:42
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:5
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:1
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:1
+[EXP TYPES]:Exception [COUNT]:1
+--------------
+[operator]:4
+[EXP TYPES]:JSQLParserException [COUNT]:130
+[EXP TYPES]:NullPointerException [COUNT]:63
+[EXP TYPES]:Error [COUNT]:43
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:29
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:15
+[EXP TYPES]:TokenMgrError [COUNT]:6
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:2
+[EXP TYPES]:ParseException [COUNT]:1
+[EXP TYPES]:Exception [COUNT]:1
+[EXP TYPES]:NoSuchElementException [COUNT]:1
+[EXP TYPES]:UnsupportedOperationException [COUNT]:1
+--------------
+[operator]:5
+[EXP TYPES]:NullPointerException [COUNT]:52
+[EXP TYPES]:JSQLParserException [COUNT]:40
+[EXP TYPES]:RuntimeException [COUNT]:39
+[EXP TYPES]:TokenMgrError [COUNT]:3
+[EXP TYPES]:TestException [COUNT]:2
+--------------
+[operator]:6
+[EXP TYPES]:NullPointerException [COUNT]:11
+[EXP TYPES]:JSQLParserException [COUNT]:6
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:1
+[EXP TYPES]:TokenMgrError [COUNT]:1
+--------------
+
+[project]: src/main/resources/crashrep/mango_mutants.txt
+[operator]:0
+--------------
+[operator]:1
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:4
+[EXP TYPES]:InitializationException [COUNT]:3
+[EXP TYPES]:DescriptionException [COUNT]:2
+[EXP TYPES]:NegativeArraySizeException [COUNT]:2
+[EXP TYPES]:TransientDataAccessResourceException [COUNT]:1
+--------------
+[operator]:2
+--------------
+[operator]:3
+[EXP TYPES]:InitializationException [COUNT]:32
+[EXP TYPES]:TokenMgrError [COUNT]:12
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:9
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:5
+[EXP TYPES]:BadSqlGrammarException [COUNT]:2
+[EXP TYPES]:IllegalStateException [COUNT]:2
+[EXP TYPES]:TransientDataAccessResourceException [COUNT]:2
+[EXP TYPES]:NumberFormatException [COUNT]:2
+[EXP TYPES]:BindingException [COUNT]:2
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:1
+[EXP TYPES]:TypeException [COUNT]:1
+[EXP TYPES]:NegativeArraySizeException [COUNT]:1
+--------------
+[operator]:4
+[EXP TYPES]:InitializationException [COUNT]:116
+[EXP TYPES]:NullPointerException [COUNT]:50
+[EXP TYPES]:ClassCastException [COUNT]:30
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:30
+[EXP TYPES]:IllegalArgumentException [COUNT]:26
+[EXP TYPES]:TokenMgrError [COUNT]:22
+[EXP TYPES]:IllegalStateException [COUNT]:18
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:14
+[EXP TYPES]:BadSqlGrammarException [COUNT]:10
+[EXP TYPES]:BindingException [COUNT]:6
+[EXP TYPES]:UnreachablePropertyException [COUNT]:4
+[EXP TYPES]:IncorrectParameterTypeException [COUNT]:4
+[EXP TYPES]:MappingException [COUNT]:3
+[EXP TYPES]:DescriptionException [COUNT]:3
+[EXP TYPES]:ParseException [COUNT]:3
+[EXP TYPES]:TransientDataAccessResourceException [COUNT]:2
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:2
+[EXP TYPES]:TypeException [COUNT]:2
+[EXP TYPES]:TransactionSystemException [COUNT]:2
+[EXP TYPES]:UncheckedException [COUNT]:2
+[EXP TYPES]:CannotCreateTransactionException [COUNT]:1
+[EXP TYPES]:BeanInstantiationException [COUNT]:1
+[EXP TYPES]:CrudException [COUNT]:1
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:1
+--------------
+[operator]:5
+[EXP TYPES]:NullPointerException [COUNT]:83
+[EXP TYPES]:InitializationException [COUNT]:67
+[EXP TYPES]:RuntimeException [COUNT]:37
+[EXP TYPES]:IllegalArgumentException [COUNT]:11
+[EXP TYPES]:BadSqlGrammarException [COUNT]:10
+[EXP TYPES]:ClassCastException [COUNT]:4
+[EXP TYPES]:IllegalStateException [COUNT]:3
+[EXP TYPES]:BindingException [COUNT]:3
+[EXP TYPES]:TypeException [COUNT]:2
+[EXP TYPES]:CrudException [COUNT]:2
+[EXP TYPES]:NoSuchElementException [COUNT]:2
+[EXP TYPES]:TransientDataAccessResourceException [COUNT]:1
+[EXP TYPES]:TokenMgrError [COUNT]:1
+[EXP TYPES]:ArithmeticException [COUNT]:1
+[EXP TYPES]:UnreachablePropertyException [COUNT]:1
+--------------
+[operator]:6
+[EXP TYPES]:NullPointerException [COUNT]:17
+[EXP TYPES]:TokenMgrError [COUNT]:10
+[EXP TYPES]:InitializationException [COUNT]:10
+[EXP TYPES]:ClassCastException [COUNT]:8
+[EXP TYPES]:BadSqlGrammarException [COUNT]:6
+[EXP TYPES]:TransientDataAccessResourceException [COUNT]:6
+[EXP TYPES]:IllegalStateException [COUNT]:3
+[EXP TYPES]:BindingException [COUNT]:2
+[EXP TYPES]:UncheckedException [COUNT]:2
+[EXP TYPES]:ParseException [COUNT]:2
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:1
+[EXP TYPES]:TypeException [COUNT]:1
+[EXP TYPES]:NoSuchElementException [COUNT]:1
+--------------
+
+[project]: src/main/resources/crashrep/ormlite_mutants.txt
+[operator]:0
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:155
+[EXP TYPES]:IllegalArgumentException [COUNT]:20
+[EXP TYPES]:SQLException [COUNT]:16
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:10
+[EXP TYPES]:IllegalStateException [COUNT]:8
+[EXP TYPES]:NullPointerException [COUNT]:8
+[EXP TYPES]:NoClassDefFoundError [COUNT]:4
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:2
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:2
+--------------
+[operator]:1
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:10
+[EXP TYPES]:NegativeArraySizeException [COUNT]:5
+[EXP TYPES]:NullPointerException [COUNT]:1
+--------------
+[operator]:2
+--------------
+[operator]:3
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:11
+[EXP TYPES]:IllegalStateException [COUNT]:8
+[EXP TYPES]:NullPointerException [COUNT]:2
+[EXP TYPES]:NegativeArraySizeException [COUNT]:1
+--------------
+[operator]:4
+[EXP TYPES]:NullPointerException [COUNT]:203
+[EXP TYPES]:SQLException [COUNT]:165
+[EXP TYPES]:IllegalArgumentException [COUNT]:125
+[EXP TYPES]:IllegalStateException [COUNT]:24
+[EXP TYPES]:ClassCastException [COUNT]:21
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:8
+[EXP TYPES]:NoSuchElementException [COUNT]:5
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:4
+[EXP TYPES]:NumberFormatException [COUNT]:2
+--------------
+[operator]:5
+[EXP TYPES]:RuntimeException [COUNT]:168
+[EXP TYPES]:NullPointerException [COUNT]:123
+[EXP TYPES]:SQLException [COUNT]:56
+[EXP TYPES]:IllegalArgumentException [COUNT]:56
+[EXP TYPES]:IllegalStateException [COUNT]:11
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:4
+[EXP TYPES]:ClassCastException [COUNT]:2
+--------------
+[operator]:6
+[EXP TYPES]:IllegalStateException [COUNT]:34
+[EXP TYPES]:SQLException [COUNT]:15
+[EXP TYPES]:NullPointerException [COUNT]:10
+[EXP TYPES]:IllegalArgumentException [COUNT]:4
+--------------
+[ERROR]: No such project id <8>
+
+[project]: src/main/resources/crashrep/total.txt
+[operator]:0
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:395
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:66
+[EXP TYPES]:IllegalArgumentException [COUNT]:63
+[EXP TYPES]:SQLException [COUNT]:16
+[EXP TYPES]:NullPointerException [COUNT]:14
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:14
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:12
+[EXP TYPES]:NoSuchElementException [COUNT]:11
+[EXP TYPES]:IOException [COUNT]:9
+[EXP TYPES]:IllegalStateException [COUNT]:8
+[EXP TYPES]:InvalidClassException [COUNT]:8
+[EXP TYPES]:Exception [COUNT]:6
+[EXP TYPES]:OutOfMemoryError [COUNT]:5
+[EXP TYPES]:NoClassDefFoundError [COUNT]:4
+[EXP TYPES]:EmptyStackException [COUNT]:2
+[EXP TYPES]:RuntimeException [COUNT]:2
+[EXP TYPES]:ClassCastException [COUNT]:2
+[EXP TYPES]:EOFException [COUNT]:2
+[EXP TYPES]:UnsupportedOperationException [COUNT]:2
+[EXP TYPES]:NegativeArraySizeException [COUNT]:1
+--------------
+[operator]:1
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:62
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:34
+[EXP TYPES]:NegativeArraySizeException [COUNT]:7
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:5
+[EXP TYPES]:DecoderException [COUNT]:4
+[EXP TYPES]:JSQLParserException [COUNT]:3
+[EXP TYPES]:InitializationException [COUNT]:3
+[EXP TYPES]:DescriptionException [COUNT]:2
+[EXP TYPES]:NullPointerException [COUNT]:2
+[EXP TYPES]:Selector$SelectorParseException [COUNT]:2
+[EXP TYPES]:OutOfMemoryError [COUNT]:2
+[EXP TYPES]:TransientDataAccessResourceException [COUNT]:1
+--------------
+[operator]:2
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:5
+[EXP TYPES]:RuntimeException [COUNT]:1
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:1
+--------------
+[operator]:3
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:314
+[EXP TYPES]:JSQLParserException [COUNT]:146
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:68
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:64
+[EXP TYPES]:TokenMgrError [COUNT]:54
+[EXP TYPES]:InitializationException [COUNT]:32
+[EXP TYPES]:IllegalArgumentException [COUNT]:19
+[EXP TYPES]:IllegalStateException [COUNT]:18
+[EXP TYPES]:RuntimeException [COUNT]:17
+[EXP TYPES]:NullPointerException [COUNT]:16
+[EXP TYPES]:ConcurrentModificationException [COUNT]:7
+[EXP TYPES]:IOException [COUNT]:6
+[EXP TYPES]:NegativeArraySizeException [COUNT]:5
+[EXP TYPES]:InvalidClassException [COUNT]:3
+[EXP TYPES]:Exception [COUNT]:3
+[EXP TYPES]:DecoderException [COUNT]:3
+[EXP TYPES]:BadSqlGrammarException [COUNT]:2
+[EXP TYPES]:Selector$SelectorParseException [COUNT]:2
+[EXP TYPES]:TransientDataAccessResourceException [COUNT]:2
+[EXP TYPES]:NumberFormatException [COUNT]:2
+[EXP TYPES]:BindingException [COUNT]:2
+[EXP TYPES]:NoSuchElementException [COUNT]:2
+[EXP TYPES]:ArithmeticException [COUNT]:1
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:1
+[EXP TYPES]:TypeException [COUNT]:1
+[EXP TYPES]:OutOfMemoryError [COUNT]:1
+--------------
+[operator]:4
+[EXP TYPES]:NullPointerException [COUNT]:721
+[EXP TYPES]:IllegalArgumentException [COUNT]:342
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:240
+[EXP TYPES]:SQLException [COUNT]:165
+[EXP TYPES]:JSQLParserException [COUNT]:130
+[EXP TYPES]:ClassCastException [COUNT]:126
+[EXP TYPES]:InitializationException [COUNT]:116
+[EXP TYPES]:NoSuchElementException [COUNT]:94
+[EXP TYPES]:IllegalStateException [COUNT]:81
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:72
+[EXP TYPES]:Selector$SelectorParseException [COUNT]:70
+[EXP TYPES]:IOException [COUNT]:64
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:61
+[EXP TYPES]:Error [COUNT]:43
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:39
+[EXP TYPES]:TokenMgrError [COUNT]:28
+[EXP TYPES]:XmlStreamReaderException [COUNT]:22
+[EXP TYPES]:EncoderException [COUNT]:16
+[EXP TYPES]:DecoderException [COUNT]:16
+[EXP TYPES]:InvalidClassException [COUNT]:14
+[EXP TYPES]:UnsupportedOperationException [COUNT]:13
+[EXP TYPES]:FileNotFoundException [COUNT]:12
+[EXP TYPES]:RuntimeException [COUNT]:11
+[EXP TYPES]:BadSqlGrammarException [COUNT]:10
+[EXP TYPES]:OutOfMemoryError [COUNT]:8
+[EXP TYPES]:FunctorException [COUNT]:6
+[EXP TYPES]:BindingException [COUNT]:6
+[EXP TYPES]:Exception [COUNT]:5
+[EXP TYPES]:UnreachablePropertyException [COUNT]:4
+[EXP TYPES]:ParseException [COUNT]:4
+[EXP TYPES]:IncorrectParameterTypeException [COUNT]:4
+[EXP TYPES]:MappingException [COUNT]:3
+[EXP TYPES]:NumberFormatException [COUNT]:3
+[EXP TYPES]:DescriptionException [COUNT]:3
+[EXP TYPES]:TransactionSystemException [COUNT]:2
+[EXP TYPES]:BufferUnderflowException [COUNT]:2
+[EXP TYPES]:TransientDataAccessResourceException [COUNT]:2
+[EXP TYPES]:TypeException [COUNT]:2
+[EXP TYPES]:UncheckedException [COUNT]:2
+[EXP TYPES]:CrudException [COUNT]:1
+[EXP TYPES]:ArithmeticException [COUNT]:1
+[EXP TYPES]:EOFException [COUNT]:1
+[EXP TYPES]:BufferOverflowException [COUNT]:1
+[EXP TYPES]:CannotCreateTransactionException [COUNT]:1
+[EXP TYPES]:BeanInstantiationException [COUNT]:1
+--------------
+[operator]:5
+[EXP TYPES]:NullPointerException [COUNT]:675
+[EXP TYPES]:RuntimeException [COUNT]:461
+[EXP TYPES]:IllegalArgumentException [COUNT]:117
+[EXP TYPES]:InitializationException [COUNT]:67
+[EXP TYPES]:SQLException [COUNT]:56
+[EXP TYPES]:JSQLParserException [COUNT]:40
+[EXP TYPES]:IllegalStateException [COUNT]:14
+[EXP TYPES]:NoSuchElementException [COUNT]:14
+[EXP TYPES]:Selector$SelectorParseException [COUNT]:11
+[EXP TYPES]:BadSqlGrammarException [COUNT]:10
+[EXP TYPES]:ExceptionInInitializerError [COUNT]:8
+[EXP TYPES]:ClassCastException [COUNT]:7
+[EXP TYPES]:IOException [COUNT]:6
+[EXP TYPES]:InvalidClassException [COUNT]:5
+[EXP TYPES]:Exception [COUNT]:5
+[EXP TYPES]:TokenMgrError [COUNT]:4
+[EXP TYPES]:BindingException [COUNT]:3
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:3
+[EXP TYPES]:CrudException [COUNT]:2
+[EXP TYPES]:UnsupportedOperationException [COUNT]:2
+[EXP TYPES]:TestException [COUNT]:2
+[EXP TYPES]:TypeException [COUNT]:2
+[EXP TYPES]:ArithmeticException [COUNT]:1
+[EXP TYPES]:StringIndexOutOfBoundsException [COUNT]:1
+[EXP TYPES]:TransientDataAccessResourceException [COUNT]:1
+[EXP TYPES]:DirectoryWalker$CancelException [COUNT]:1
+[EXP TYPES]:UnreachablePropertyException [COUNT]:1
+--------------
+[operator]:6
+[EXP TYPES]:NullPointerException [COUNT]:80
+[EXP TYPES]:IllegalStateException [COUNT]:37
+[EXP TYPES]:IOException [COUNT]:31
+[EXP TYPES]:SQLException [COUNT]:15
+[EXP TYPES]:TokenMgrError [COUNT]:11
+[EXP TYPES]:ClassCastException [COUNT]:11
+[EXP TYPES]:Selector$SelectorParseException [COUNT]:10
+[EXP TYPES]:InitializationException [COUNT]:10
+[EXP TYPES]:IllegalArgumentException [COUNT]:10
+[EXP TYPES]:IndexOutOfBoundsException [COUNT]:7
+[EXP TYPES]:NoSuchElementException [COUNT]:7
+[EXP TYPES]:BadSqlGrammarException [COUNT]:6
+[EXP TYPES]:TransientDataAccessResourceException [COUNT]:6
+[EXP TYPES]:JSQLParserException [COUNT]:6
+[EXP TYPES]:FileNotFoundException [COUNT]:3
+[EXP TYPES]:OutOfMemoryError [COUNT]:3
+[EXP TYPES]:BindingException [COUNT]:2
+[EXP TYPES]:UncheckedException [COUNT]:2
+[EXP TYPES]:ParseException [COUNT]:2
+[EXP TYPES]:ArrayIndexOutOfBoundsException [COUNT]:2
+[EXP TYPES]:UnsupportedOperationException [COUNT]:2
+[EXP TYPES]:ConcurrentModificationException [COUNT]:1
+[EXP TYPES]:InvalidClassException [COUNT]:1
+[EXP TYPES]:TypeException [COUNT]:1
+--------------

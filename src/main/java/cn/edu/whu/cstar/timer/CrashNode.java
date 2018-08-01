@@ -19,6 +19,8 @@ public class CrashNode {
 	
 	/**exception type*/
 	private int exceptionType;
+	/**exception name*/
+	public String exceptionName;
 	/**stack trace size*/
 	private int loc;
 	/**number of classes in the stack trace*/
@@ -82,9 +84,9 @@ public class CrashNode {
 		bottom2MethodName = getMethodName(bottom2Line);
 		bottom2MethodLine = getMethodLine(bottom2Line);		
 		
-		String exceptName = getExceptionName(crash.get(1));
+		exceptionName = getExceptionName(crash.get(1));
 //		System.out.println("exception type: " + exceptName);
-		exceptionType = getExceptionType(exceptName);
+		exceptionType = getExceptionType(exceptionName);
 		loc = crash.size()-3;
 		classNum = getClassNum(crash);
 		methodNum = getMethodNum(crash);
